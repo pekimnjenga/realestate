@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h2 class="mb-4">Manage Blog Posts</h2>
+    <div class="row g-4">
+      {% for post in posts %}
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <img src="{{ url_for('static', filename='images/' ~ post.image) }}" class="card-img-top" alt="{{ post.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text text-muted">By {{ post.author }} on {{ post.date_posted.strftime('%B %d, %Y') }}</p>
+            <p class="card-text">{{ post.summary }}</p>
+            <div class="d-flex justify-content-between">
+              <a href="{{ url_for('main.edit_blog', id=post.id) }}" class="btn btn-outline-primary">Edit</a>
+              <form method="POST" action="{{ url_for('main.delete_blog', id=post.id) }}" onsubmit="return confirm('Are you sure you want to delete this blog post?');">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h2>Edit Listing</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="name" class="form-label">Property Name</label>
+        <input type="text" name="name" class="form-control" value="{{ listing.name }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="location" class="form-control" value="{{ listing.location }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="size" class="form-label">Size</label>
+        <input type="text" name="size" class="form-control" value="{{ listing.size }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" name="price" class="form-control" value="{{ listing.price }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="4">{{ listing.description }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="images" class="form-label">Add More Images (optional)</label>
+        <input type="file" name="images" multiple class="form-control">
+        <small class="text-muted">Current images: {{ listing.images }}</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Update Listing</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

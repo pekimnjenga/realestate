@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 bg-light-brown text-dark">
+  <div class="container">
+    <h2 class="mb-4 text-center">{{ listing.name }}</h2>
+
+    <!-- Image Carousel -->
+    <div id="carouselDetail{{ listing.id }}" class="carousel slide carousel-fade mb-4" data-bs-ride="carousel">
+      <div class="carousel-inner" style="height: 400px;">
+        {% for img in listing.get_image_list() %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+          <img src="{{ url_for('static', filename='uploads/' ~ img) }}"
+               class="carousel-img"
+               alt="{{ listing.name }}"
+               onerror="this.src='{{ url_for('static', filename='uploads/default.jpg') }}';">
+        </div>
+        {% endfor %}
+      </div>
+
+      {% if listing.get_image_list()|length > 1 %}
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetail{{ listing.id }}" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselDetail{{ listing.id }}" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+      {% endif %}
+    </div>
+
+    <!-- Listing Info -->
+    <div class="mb-4">
+      <p><i class="fas fa-map-marker-alt text-danger me-2"></i><strong>Location:</strong> {{ listing.location }}</p>
+      <p><i class="fas fa-ruler-combined text-secondary me-2"></i><strong>Size:</strong> {{ listing.size }}</p>
+      <p><i class="fas fa-tag text-success me-2"></i><strong>Price:</strong> {{ listing.price }}</p>
+      <p class="text-muted">{{ listing.description }}</p>
+    </div>
+
+    <!-- Contact Button -->
+    <div class="text-center mb-4">
+      <a href="https://wa.me/254720663769?text={{ 'Hello, I’m interested in the property: ' ~ listing.name ~ ' located at ' ~ listing.location ~ '. Could you please share more details?' | urlencode }}"
+         class="btn btn-greenish btn-lg" target="_blank">
+        Contact Us About This Property
+      </a>
+    </div>
+
+    <!-- Back to Listings -->
+    <div class="text-center">
+      <a href="{{ url_for('main.listings') }}" class="btn btn-outline-secondary mt-3">← Back to Listings</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

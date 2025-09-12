@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 bg-light-brown text-dark-brown">
+  <div class="container">
+    <h2 class="text-center mb-4">Featured Listings</h2>
+    <div class="row g-4 justify-content-center">
+
+      {% for listing in listings %}
+      <div class="col-md-4 col-sm-6">
+        <div class="card card-square shadow-sm">
+
+          <!-- Image Carousel -->
+          <div id="carousel{{ listing.id }}" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
+            <div class="carousel-inner h-100">
+              {% for img in listing.get_image_list() %}
+              <div class="carousel-item {% if loop.first %}active{% endif %} h-100">
+                <img src="{{ url_for('static', filename='uploads/' ~ img) }}"
+                     class="carousel-img"
+                     alt="{{ listing.name }}"
+                     onerror="this.src='{{ url_for('static', filename='uploads/default.jpg') }}';">
+              </div>
+              {% endfor %}
+            </div>
+
+            {% if listing.get_image_list()|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+          </div>
+
+          <!-- Listing Info -->
+          <div class="card-body p-3">
+            <h5 class="card-title">{{ listing.name }}</h5>
+            <p class="card-text small">
+              <i class="fas fa-map-marker-alt text-danger me-2"></i>{{ listing.location }}<br>
+              <i class="fas fa-ruler-combined text-secondary me-2"></i>{{ listing.size }}<br>
+              <i class="fas fa-tag text-success me-2"></i>{{ listing.price }}
+            </p>
+            <p class="text-muted small">{{ listing.description }}</p>
+            <a href="{{ url_for('main.listing_detail', listing_id=listing.id) }}" class="btn btn-outline-success btn-sm mt-2">Request Info</a>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}

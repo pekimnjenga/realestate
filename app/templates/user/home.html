@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<section class="bg-greenish text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-5 fw-bold animate__animated animate__fadeInDown">We are here to help you find your dream home</h1>
+    <p class="lead animate__animated animate__fadeInUp">We are more than just a real estate firm</p>
+  </div>
+</section>
+
+
+
+<!-- Services -->
+ <section class="py-5 bg-transparent text-white">
+  <div class="container text-center">
+    <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+      <div class="px-3 animate__animated animate__fadeInUp">
+        <h5 class="mb-0">Advisory</h5>
+      </div>
+      <div class="px-3 animate__animated animate__fadeInUp animate__delay-1s">
+        <h5 class="mb-0">Agency</h5>
+      </div>
+      <div class="px-3 animate__animated animate__fadeInUp animate__delay-2s">
+        <h5 class="mb-0">Conveyancing</h5>
+      </div>
+      <div class="px-3 animate__animated animate__fadeInUp animate__delay-3s">
+        <h5 class="mb-0">Letting and Leasing</h5>
+      </div>
+      <div class="px-3 animate__animated animate__fadeInUp animate__delay-4s">
+        <h5 class="mb-0">Estate Management</h5>
+      </div>
+    </div>
+    <div class="px-3 animate__animated animate__fadeInUp animate__delay-5s">
+      <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center mt-3">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light-brown text-dark text-center">
+  <div class="container">
+    <h2 class="animate__animated animate__fadeInDown ">Want to Know Us Better?</h2>
+    <p class="lead animate__animated animate__fadeInUp ">Discover our story, values, and vision for real estate</p>
+    <a href="{{ url_for('main.about') }}" class="btn btn-greenish mt-3 animate__animated animate__fadeInUp animate__delay-5s">Explore About Us</a>
+  </div>
+</section>
+
+
+
+<section class="py-5 bg-greenish text-white">
+  <div class="container text-center">
+    <blockquote class="blockquote animate__animated animate__fadeInUp fs-4">
+      Choose <strong>I Like It Properties</strong> <i class="fas fa-arrow-right mx-2"></i> where People <i class="fas fa-arrow-right mx-2"></i> Purpose <i class="fas fa-arrow-right mx-2"></i> Properties meet
+    </blockquote>
+  </div>
+</section>
+
+{% endblock %}

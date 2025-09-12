@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 bg-light text-dark">
+  <div class="container">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <p class="mb-4">Welcome back, Admin! What would you like to do today?</p>
+
+            <div class="d-grid gap-3">
+              <a href="{{ url_for('main.new_blog') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-pen"></i> Write a New Blog
+              </a>
+              <a href="{{ url_for('main.new_listing') }}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus-square"></i> Add a Listing
+              </a>
+              <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger btn-lg">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

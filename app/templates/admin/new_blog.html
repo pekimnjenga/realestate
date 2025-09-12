@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">Write a New Blog Post</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" class="form-control mb-3" placeholder="Title" required>
+    <input type="file" name="image" class="form-control mb-3" accept="image/*" required>
+    <textarea name="summary" class="form-control mb-3" placeholder="Short summary" rows="3" required></textarea>
+    <textarea name="content" class="form-control mb-3" placeholder="Full content" rows="6" required></textarea>
+    <button type="submit" class="btn btn-primary">Publish</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h2>Edit Blog Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" value="{{ post.title }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="summary" class="form-label">Summary</label>
+        <textarea name="summary" class="form-control" rows="3" required>{{ post.summary }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea name="content" class="form-control" rows="6" required>{{ post.content }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Replace Image (optional)</label>
+        <input type="file" name="image" class="form-control">
+        <small class="text-muted">Current image: {{ post.image }}</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Update Blog</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

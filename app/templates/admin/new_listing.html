@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 bg-light text-dark">
+  <div class="container">
+    <h2 class="text-center mb-4">Add a New Listing</h2>
+
+    <form method="POST" action="{{ url_for('main.new_listing') }}" enctype="multipart/form-data" class="mx-auto" style="max-width: 600px;">
+      <div class="mb-3">
+        <label for="name" class="form-label">Property Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" name="location" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="size" class="form-label">Size</label>
+        <input type="text" class="form-control" id="size" name="size" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+      </div>
+
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" class="form-control" id="price" name="price" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="images" class="form-label">Upload Images</label>
+        <input type="file" class="form-control" id="images" name="images" multiple required>
+        <small class="text-muted">You can select multiple images.</small>
+      </div>
+
+      <button type="submit" class="btn btn-success w-100">Add Listing</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

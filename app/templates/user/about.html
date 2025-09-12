@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Agent Info + Who We Are -->
+<section class="py-5 bg-light-brown text-dark-brown">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Agent Info -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
+        <img src="{{ url_for('static',filename='images/Jacob.jpg') }}" alt="Jacob Wainaina" class="rounded-circle mb-3" style="width: 300px; height: 300px; object-fit: cover;">
+        <h2 class="h4 mb-0">Jacob Wainaina</h2>
+        <p class="text-muted">Real Estate Agent</p>
+      </div>
+
+      <!-- Who We Are -->
+      <div class="col-md-6 animate__animated animate__fadeInRight">
+        <h2 class="mb-3">Who We Are</h2>
+        <p class="fs-5">At <strong>I Like It Properties</strong>, we believe deeply in People, Purpose and Properties.</p>
+        <p>Real estate for us isn't just about land and buildings—it's about empowering people to make informed decisions through trusted advice.</p>
+        <p>Whether you're acquiring, registering, administering, or transferring property, we're committed to walking with you every step of the way—simplifying complex processes while nurturing relationships built on trust.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="py-5 bg-greenish text-white animate__animated animate__fadeInUp">
+  <div class="container text-center">
+    <h2 class="mb-4">Real Estate Services</h2>
+    <p>Advisory · Agency · Conveyancing · Letting and Leasing · Estate Management</p>
+  </div>
+</section>
+
+<!-- Vision -->
+<section class="py-5 bg-light text-dark">
+  <div class="container">
+    <div class="row align-items-center flex-md-row-reverse">
+      <!-- Image Right -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
+        <img src="{{ url_for('static', filename='images/vision.png') }}" alt="Vision Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <!-- Text Left -->
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <h2 class="mb-4">Vision</h2>
+        <p class="fs-5">Empowered property owners and buyers making purposeful, progressive and profitable decisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="py-5 bg-light-brown text-dark">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image Left -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
+        <img src="{{ url_for('static', filename='images/mission.png') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <!-- Text Right -->
+      <div class="col-md-6 animate__animated animate__fadeInRight">
+        <h2 class="mb-4">Mission</h2>
+        <p class="fs-5">To educate, equip, and guide clients toward confident real estate decisions, by offering accessible, expert advice that transforms transactions into solid foundations for families and futures.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Values -->
+<section class="py-5 bg-greenish text-white">
+  <div class="container">
+    <div class="row align-items-center flex-md-row-reverse">
+      <!-- Image Right -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
+        <img src="{{ url_for('static', filename='images/corevalues.png') }}" alt="Core Values Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <!-- Text Left -->
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <h2 class="mb-4">Core Values</h2>
+        <ul class="list-group list-group-flush fs-5">
+          <li class="list-group-item bg-transparent text-white">🔒 Trust – Transparent communication and unwavering integrity.</li>
+          <li class="list-group-item bg-transparent text-white">🧘 Simplicity – No jargon, just clarity.</li>
+          <li class="list-group-item bg-transparent text-white">🤝 Relationships – You're a partner, not just a client.</li>
+          <li class="list-group-item bg-transparent text-white">📚 Education – Insights that empower.</li>
+          <li class="list-group-item bg-transparent text-white">🎯 Purpose – Every step aligned with your goals.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Your Journey with Us -->
+<section class="py-5 bg-light text-dark">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image Left -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
+        <img src="{{ url_for('static', filename='images/growth.png') }}" alt="Journey Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <!-- Text Right -->
+      <div class="col-md-6 animate__animated animate__fadeInRight">
+        <h2 class="mb-4">Your Journey with Us</h2>
+        <ul class="fs-5">
+          <li><strong>Connect</strong> – We begin by listening to your needs, purpose, and aspirations.</li>
+          <li><strong>Educate</strong> – We simplify the process with insights into the market, legal steps, and finances.</li>
+          <li><strong>Empower</strong> – You make the choice—backed by clarity and expert guidance.</li>
+          <li><strong>Deliver</strong> – Seamless acquisition, transfer, or registration—done right, done simply.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="py-5 bg-light-brown text-dark">
+  <div class="container">
+    <div class="row align-items-center flex-md-row-reverse">
+      <!-- Image Right -->
+      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
+        <img src="{{ url_for('static', filename='images/handshake.png') }}" alt="Core Values Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
+      <!-- Text Left -->
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <p class="fs-5">Partner with a team that champions informed choices, lasting relationships, and property that truly delivers</p>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

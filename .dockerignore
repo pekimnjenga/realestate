@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+# Database and config
+*.db
+*.sqlite3
+.env
+instance/
+
+# Migrations (optional)
+migrations/
+
+# Git and docs
+.git/
+.gitignore
+README.md
