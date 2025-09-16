@@ -157,3 +157,17 @@ a:hover i {
   object-fit: cover;
   display: block;
 }
+
+.carousel-container {
+  height: 300px; /* Adjust as needed */
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}

@@ -1,7 +1,4 @@
-from flask_ngrok import run_with_ngrok
-from app import main
-
-run_with_ngrok(main)
+from app import app
 
 if __name__ == "__main__":
-    main.run()
+    app.run(debug=True)

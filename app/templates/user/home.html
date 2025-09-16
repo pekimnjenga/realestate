@@ -5,39 +5,44 @@
 
 <section class="bg-greenish text-white text-center py-5">
   <div class="container">
-    <h1 class="display-5 fw-bold animate__animated animate__fadeInDown">We are here to help you find your dream home</h1>
+    <h1 class="display-5 fw-bold animate__animated animate__fadeInDown">We help you Source, See and Secure your dream property.</h1>
     <p class="lead animate__animated animate__fadeInUp">We are more than just a real estate firm</p>
   </div>
 </section>
 
 
-
 <!-- Services -->
- <section class="py-5 bg-transparent text-white">
+<section class="py-5 bg-transparent text-white">
   <div class="container text-center">
     <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-      <div class="px-3 animate__animated animate__fadeInUp">
+
+    <!-- Stacked Services -->
+    <div class="vstack gap-3 align-items-center">
+      <div class="animate__animated animate__fadeInUp">
         <h5 class="mb-0">Advisory</h5>
       </div>
-      <div class="px-3 animate__animated animate__fadeInUp animate__delay-1s">
+      <div class="animate__animated animate__fadeInUp animate__delay-1s">
         <h5 class="mb-0">Agency</h5>
       </div>
-      <div class="px-3 animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="animate__animated animate__fadeInUp animate__delay-2s">
         <h5 class="mb-0">Conveyancing</h5>
       </div>
-      <div class="px-3 animate__animated animate__fadeInUp animate__delay-3s">
+      <div class="animate__animated animate__fadeInUp animate__delay-3s">
         <h5 class="mb-0">Letting and Leasing</h5>
       </div>
-      <div class="px-3 animate__animated animate__fadeInUp animate__delay-4s">
-        <h5 class="mb-0">Estate Management</h5>
+      <div class="animate__animated animate__fadeInUp animate__delay-4s">
+        <h5 class="mb-0">Estate Agent</h5>
       </div>
     </div>
-    <div class="px-3 animate__animated animate__fadeInUp animate__delay-5s">
-      <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center mt-3">Contact Us</a>
+
+    <!-- Contact Button -->
+    <div class="animate__animated animate__fadeInUp animate__delay-5s mt-4">
+      <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center">Contact Us</a>
     </div>
   </div>
 </section>
+
+
 
 <section class="py-5 bg-light-brown text-dark text-center">
   <div class="container">

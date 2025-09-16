@@ -10,29 +10,31 @@
       <div class="col-md-4 col-sm-6">
         <div class="card card-square shadow-sm">
 
-          <!-- Image Carousel -->
-          <div id="carousel{{ listing.id }}" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
-            <div class="carousel-inner h-100">
-              {% for img in listing.get_image_list() %}
-              <div class="carousel-item {% if loop.first %}active{% endif %} h-100">
-                <img src="{{ url_for('static', filename='uploads/' ~ img) }}"
-                     class="carousel-img"
-                     alt="{{ listing.name }}"
-                     onerror="this.src='{{ url_for('static', filename='uploads/default.jpg') }}';">
+          <!-- Image Carousel Container -->
+          <div class="carousel-container">
+            <div id="carousel{{ listing.id }}" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
+              <div class="carousel-inner h-100">
+                {% for img in listing.get_image_list() %}
+                <div class="carousel-item {% if loop.first %}active{% endif %} h-100">
+                  <img src="{{ url_for('static', filename='uploads/' ~ img) }}"
+                       class="d-block w-100 h-100 object-fit-cover"
+                       alt="{{ listing.name }}"
+                       onerror="this.src='{{ url_for('static', filename='uploads/default.jpg') }}';">
+                </div>
+                {% endfor %}
               </div>
-              {% endfor %}
-            </div>
 
-            {% if listing.get_image_list()|length > 1 %}
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-            {% endif %}
+              {% if listing.get_image_list()|length > 1 %}
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ listing.id }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+              {% endif %}
+            </div>
           </div>
 
           <!-- Listing Info -->
