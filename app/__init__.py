@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 import secrets
 import os
 
+
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.register_blueprint(main)
 app.secret_key = secrets.token_hex(32) #Secret key for session management
@@ -23,6 +24,9 @@ def load_user(user_id):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Data scientist.@localhost:5432/realestate_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
   # or your preferred DB
 
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')
