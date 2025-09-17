@@ -249,3 +249,9 @@ def listing_detail(listing_id):
     listing = Listing.query.get_or_404(listing_id)
     return render_template('user/listing_detail.html', listing=listing)
 
+@main.route('/init-db')
+def init_db():
+    from flask_migrate import upgrade
+    upgrade()
+    return "Database initialized!"
+
