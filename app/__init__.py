@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import os
+from config import Config  # Import your config class
 import secrets
 
 db = SQLAlchemy()
@@ -12,11 +12,11 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
 
-    # Config
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = secrets.token_hex(32)
-    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static/uploads')
+    # Load configuration from Config class
+    app.config.from_object(Config)
+
+    # Optional: Override secret key dynamically if needed
+    app.config['SECRET_KEY'] = app.config.get('SECRET_KEY') or secrets.token_hex(32)
 
     # Init extensions
     db.init_app(app)
