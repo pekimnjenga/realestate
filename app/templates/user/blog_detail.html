@@ -1,29 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="py-5 bg-light-brown text-dark">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-
-        <!-- Blog Image -->
-        <img src="{{ url_for('static', filename='images/' ~ post.image) }}" class="img-fluid mb-4 rounded" alt="{{ post.title }}">
-
-        <!-- Blog Title -->
+        <img src="{{ post.image_url }}" class="card-img-top img-fluid" alt="{{ post.title }}">
+        
         <h2 class="mb-3">{{ post.title }}</h2>
-
-        <!-- Metadata -->
+        
         <p class="text-muted">
           <i class="fas fa-user me-1"></i> {{ post.author }} &nbsp; | &nbsp;
           <i class="fas fa-calendar-alt me-1"></i> {{ post.date_posted.strftime('%b %d, %Y') }}
         </p>
 
-        <!-- Blog Content -->
         <div class="mb-4">
           <p>{{ post.content }}</p>
         </div>
 
-        <!-- Back Button -->
         <a href="{{ url_for('main.blog') }}" class="btn btn-outline-secondary">
           <i class="fas fa-arrow-left me-2"></i> Back to Blog
         </a>

@@ -13,8 +13,8 @@ real-estate-website/
 │   ├── static/
 │   │   ├── css/
 │   │   │   └── styles.css
-│   │   ├── images/
-│   │   └── uploads/           #Listing images are manually uploaded to this folder
+│   │   └── images/
+│   │              
 │   └── templates/
 │        ├── base.html/
 │        ├── user/
@@ -36,6 +36,11 @@ real-estate-website/
 │            └── new_blog.html
 │          
 ├── migrations
+├── __pycache__
+├── .env
+├── .gitignore
+├── set_admin.py
+├── r2.log
 ├── venv
 ├── .dockerignore
 ├── Dockerfile

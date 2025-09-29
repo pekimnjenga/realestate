@@ -1,13 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask_migrate import Migrate
-from config import Config  # Import your config class
+from config import Config 
 import secrets
+from app.routes import main
+from app.extensions import db, login_manager, migrate
 
-db = SQLAlchemy()
-login_manager = LoginManager()
-migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -15,8 +12,14 @@ def create_app():
     # Load configuration from Config class
     app.config.from_object(Config)
 
-    # Optional: Override secret key dynamically if needed
+    # Override secret key dynamically if needed
     app.config['SECRET_KEY'] = app.config.get('SECRET_KEY') or secrets.token_hex(32)
+
+    # Add engine options here
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 1800
+    }
 
     # Init extensions
     db.init_app(app)
@@ -25,7 +28,6 @@ def create_app():
     login_manager.login_view = 'main.login'
 
     # Register blueprints
-    from app.routes import main
     app.register_blueprint(main)
 
     # User loader

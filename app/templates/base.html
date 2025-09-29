@@ -19,14 +19,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   <style>
     .bg-image {
-      background-image: url('/static/images/IMG-20250831-WA0024.jpg');
+      background-color: white;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
     .overlay {
-      background-color: transparent; /* Optional: improves text contrast */
+      background-color: transparent; /* improves text contrast */
       min-height: 100vh;
       width: 100%;
     }
@@ -56,7 +56,7 @@
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.about') }}">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.blog') }}">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.blog') }}">Blogs</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.listings') }}">Listings</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a></li>
             {% endif %}

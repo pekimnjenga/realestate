@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
-from app import db
+from app.extensions import db
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
 class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
-    image = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     summary = db.Column(db.Text, nullable=False)
@@ -27,11 +27,14 @@ class Listing(db.Model):
     location = db.Column(db.Text, nullable=False)
     size = db.Column(db.Text, nullable=False)
     price = db.Column(db.String(50), nullable=False)
-    images = db.Column(db.Text, nullable=False)  # Comma-separated filenames or JSON string
+    image_urls = db.Column(db.Text, nullable=False)  # Comma-separated filenames or JSON string
+    is_sold = db.Column(db.Boolean, default=False)
+    sold_at = db.Column(db.DateTime)
+
     
     #Helper method to easily loop through images in your templates.
     def get_image_list(self):
-        return [img.strip() for img in self.images.split(',') if img.strip()]
+        return [img.strip() for img in self.image_urls.split(',') if img.strip()]
 
 #If you need to check the tables created in the database, you can use the following code snippet:
 #from sqlalchemy import inspect

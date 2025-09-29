@@ -83,6 +83,10 @@ h1 {
 .bg-light-brown {
   background-color: #f5e6d3;
 }
+.btn-hover-green:hover {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
 
 .text-dark-brown {
   color: #5a3e2b;

@@ -1,0 +1,33 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# SQLite and database dumps
+*.db
+*.sqlite3
+realestate_db.sql
+
+# Logs and temp files
+*.log
+*.tmp
+
+
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Git metadata 
+.git/

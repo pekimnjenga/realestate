@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 
@@ -9,13 +8,9 @@
   </div>
 </section>
 
-
-<!-- Services -->
-<section class="py-5 bg-transparent text-white">
+<section class="py-5 bg-transparent text-dark">
   <div class="container text-center">
     <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
-
-    <!-- Stacked Services -->
     <div class="vstack gap-3 align-items-center">
       <div class="animate__animated animate__fadeInUp">
         <h5 class="mb-0">Advisory</h5>
@@ -34,10 +29,42 @@
       </div>
     </div>
 
-    <!-- Contact Button -->
     <div class="animate__animated animate__fadeInUp animate__delay-5s mt-4">
       <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center">Contact Us</a>
     </div>
+  </div>
+</section>
+<section class="container my-5">
+  <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Featured Listings</h2>
+  <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 460px;">
+    <div class="carousel-inner h-100">
+      {% for listing in featured_listings %}
+      <div class="carousel-item {% if loop.index == 1 %}active{% endif %} h-100">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="card shadow-sm" style="width: 18rem; height: 400px;">
+            <img src="{{ listing.get_image_list()[0] }}"
+                 class="card-img-top"
+                 alt="{{ listing.name }}"
+                 onerror="this.src='https://via.placeholder.com/600x400?text=No+Image';"
+                 style="height: 160px; object-fit: cover;">
+            <div class="card-body d-flex flex-column justify-content-between" style="height: 220px;">
+              <div>
+                <h5 class="card-title">{{ listing.name }}</h5>
+                <p class="card-text">{{ listing.description[:80] }}...</p>
+              </div>
+              <a href="{{ url_for('main.listing_detail', listing_id=listing.id)}}" class="btn btn-primary mt-2">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
   </div>
 </section>
 
@@ -53,8 +80,11 @@
 
 
 
-<section class="py-5 bg-greenish text-white">
+<section class="py-5 bg-transparent text-dark">
   <div class="container text-center">
+    <div class=" text-center animate__animated">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
+      </div>
     <blockquote class="blockquote animate__animated animate__fadeInUp fs-4">
       Choose <strong>I Like It Properties</strong> <i class="fas fa-arrow-right mx-2"></i> where People <i class="fas fa-arrow-right mx-2"></i> Purpose <i class="fas fa-arrow-right mx-2"></i> Properties meet
     </blockquote>
