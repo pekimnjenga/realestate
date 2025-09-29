@@ -52,7 +52,7 @@
                 <h5 class="card-title">{{ listing.name }}</h5>
                 <p class="card-text">{{ listing.description[:80] }}...</p>
               </div>
-              <a href="{{ url_for('main.listing_detail', listing_id=listing.id)}}" class="btn btn-primary mt-2">View</a>
+              <a href="{{ url_for('main.listing_detail', listing_id=listing.id)}}" class="btn btn-greenish mt-2">View</a>
             </div>
           </div>
         </div>
@@ -84,10 +84,17 @@
   <div class="container text-center">
     <div class=" text-center animate__animated">
         <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
+    </div>
+    <div class="animate__animated animate__fadeInUp fs-4 text-center">
+      <p class="mb-1">Choose <strong class="text-success">I Like It Properties</strong></p>
+      <div class="d-flex justify-content-center align-items-center flex-wrap mt-2">
+        <p class="mb-0 me-2">where People</p>
+        <i class="fas fa-arrow-right mx-2"></i>
+        <p class="mb-0 me-2">Purpose</p>
+        <i class="fas fa-arrow-right mx-2"></i>
+        <p class="mb-0">Properties Meet</p>
       </div>
-    <blockquote class="blockquote animate__animated animate__fadeInUp fs-4">
-      Choose <strong>I Like It Properties</strong> <i class="fas fa-arrow-right mx-2"></i> where People <i class="fas fa-arrow-right mx-2"></i> Purpose <i class="fas fa-arrow-right mx-2"></i> Properties meet
-    </blockquote>
+    </div>
   </div>
 </section>
 
