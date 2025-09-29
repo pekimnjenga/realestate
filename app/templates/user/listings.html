@@ -58,9 +58,9 @@
     </div>
 
     <!-- Sold Listings -->
-    <div class="row g-4 justify-content-center">
-      <h2 class="text-center mt-5 mb-4">Sold Listings</h2>
       {% if sold %}
+      <h2 class="text-center mt-5 mb-4">Sold Listings</h2>
+      <div class="row g-4 justify-content-center">
         {% for listing in sold %}
         <div class="col-md-4 col-sm-6">
           <div class="card card-square shadow-sm border-secondary">
@@ -105,8 +105,6 @@
           </div>
         </div>
         {% endfor %}
-      {% else %}
-        <p class="text-center">No sold listings available at the moment.</p>
       {% endif %}
     </div>
 

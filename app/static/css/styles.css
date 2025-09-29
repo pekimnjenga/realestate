@@ -40,8 +40,8 @@ h1 {
 .navbar-nav .nav-link:focus {
   background: rgba(53, 66, 74, 0.1);
   color: #35424a !important;
-  box-shadow: 0 0 8px 2px #7fd7ff;
-  text-shadow: 0 0 4px #7fd7ff;
+  box-shadow: 0 0 8px 2px #7fffb2;
+  text-shadow: 0 0 4px #7fffc5;
 }
 
 /* Property Cards */
