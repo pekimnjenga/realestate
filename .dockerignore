@@ -11,7 +11,9 @@ venv/
 *.db
 *.sqlite3
 .env
+.env.production
 instance/
+realestate_db.sql
 
 # Migrations (optional)
 migrations/
@@ -20,3 +22,8 @@ migrations/
 .git/
 .gitignore
 README.md
+
+set_admin.py
+confirm_images.py
+secret_key.py
+render.yml

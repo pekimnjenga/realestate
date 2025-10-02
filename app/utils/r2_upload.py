@@ -3,7 +3,7 @@ import logging
 from werkzeug.utils import secure_filename
 from urllib.parse import urlparse
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv('.env.production')
 
 #-- Setting up a logger for my Cloudfare'r r2 actions
 # What r2_logger Your  Tracks

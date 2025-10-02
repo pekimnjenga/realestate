@@ -9,6 +9,7 @@ venv/
 
 # Environment variables
 .env
+.env.production
 
 # SQLite and database dumps
 *.db
@@ -31,3 +32,12 @@ Thumbs.db
 
 # Git metadata 
 .git/
+
+
+Dockerfile
+.dockerignore
+render.yml
+set_admin.py
+confirm_images.py
+secret_key.py
+
