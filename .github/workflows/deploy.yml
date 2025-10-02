@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./ 
-          server-dir: /ilikeitproperties  # Truehost's web root
+          server-dir: /ilikeitproperties/  # Truehost's web root
           exclude: |
             secret_key.py
             confirm_images.py
