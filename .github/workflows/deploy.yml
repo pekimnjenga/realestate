@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./ 
-          server-dir: /home/imannvmq/ilikeitproperties
+          server-dir: /home/imannvmq/ilikeitproperties/
           exclude: |
             secret_key.py
             confirm_images.py
