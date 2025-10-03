@@ -273,12 +273,10 @@ def mark_listing_sold(id):
     return redirect(url_for('main.admin_listings'))
 
 
-
-
-
-@main.route('/init-db')
+@main.route("/init-db")
 def init_db():
-    from flask_migrate import upgrade
-    upgrade()
-    return "Database initialized!"
-
+    try:
+        db.create_all()
+        return "✅ Tables created successfully on cPanel DB."
+    except Exception as e:
+        return f"❌ Migration failed: {e}"
