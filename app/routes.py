@@ -273,10 +273,22 @@ def mark_listing_sold(id):
     return redirect(url_for('main.admin_listings'))
 
 
-@main.route("/init-db")
-def init_db():
+#@main.route("/init-db")
+#def init_db():
     try:
         db.create_all()
         return "✅ Tables created successfully on cPanel DB."
     except Exception as e:
         return f"❌ Migration failed: {e}"
+
+@main.route("/create-admin")
+def create_admin():
+    from werkzeug.security import generate_password_hash
+    admin = User(
+        username="Wainaina Jacob",
+        password=generate_password_hash("i_like_it_properties@2025"),
+        is_admin=True
+    )
+    db.session.add(admin)
+    db.session.commit()
+    return "✅ Admin created."
