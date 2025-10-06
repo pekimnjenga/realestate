@@ -1,46 +1,84 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="d-flex flex-column justify-content-center align-items-center bg-greenish text-center text-white"
- style="
-  min-height: calc(100vh - 56px - 80px);
+<section class="bg-greenish text-white py-5" style="
   background-image: url('{{ url_for('static', filename='images/contact-bg.jpg') }}');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-blend-mode: multiply;">
-  
-  <div class="container">
-    <h2 class="mb-4">Get in Touch</h2>
+  background-blend-mode: multiply;
+  min-height: calc(100vh - 56px - 80px);">
 
-    
-     <div class="vstack gap-3 mb-3">
-      <p class="fs-5 text-center">
-        <i class="fas fa-phone text-primary me-2"></i> +254 720663769
-      </p>
-      <p class="fs-5 text-center">
-        <i class="fas fa-envelope text-primary me-2"></i> mwainainabobo@gmail.com
-      </p>
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold">Get in Touch</h2>
+      <p class="lead">We’d love to hear from you — whether it’s about listings, partnerships, or general inquiries.</p>
     </div>
 
-    <p class="fs-5">
-      <i class="fas fa-map-marker-alt text-danger me-2"></i> Goshen Place, Mangu-Nakuru, Sobea-Kabarak Road
-    </p>
+    <div class="row justify-content-center">
+      <!-- Contact Form -->
+      <div class="col-md-6 mb-5">
+        <form method="POST" action="{{ url_for('main.contact') }}" class="bg-light text-dark p-4 rounded shadow">
+          <h4 class="mb-4 text-center">Send Us a Message</h4>
+          <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-greenish w-100">Send Message</button>
+        </form>
+      </div>
 
-    <div class="mt-4">
-      <p class="fs-5 mb-3">Or reach out to us through our social media platforms</p>
-      <div class="d-flex justify-content-center align-items-center gap-4">
-        <a href="https://facebook.com" target="_blank" class="text-primary fs-5">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://wa.me/254720663769" target="_blank" class="text-success fs-5">
-          <i class="fab fa-whatsapp fa-lg"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" class="text-danger fs-5">
-          <i class="fab fa-instagram"></i>
-        </a>
+      <!-- Contact Details -->
+      <div class="col-md-5">
+        <div class="bg-dark bg-opacity-50 p-4 rounded">
+          <h4 class="mb-4">Contact Details</h4>
+          <p class="fs-5 d-flex align-items-center mb-3">
+            <i class="fas fa-phone text-primary me-2"></i> +254 720 663 769
+          </p>
+          <p class="fs-5 d-flex align-items-center mb-3">
+            <i class="fas fa-envelope text-primary me-2"></i>
+            <a href="mailto:info@ilikeitproperties.co.ke" class="text-white text-decoration-none">
+              info@ilikeitproperties.co.ke
+            </a>
+          </p>
+
+
+
+          <p class="fs-5">
+            <i class="fas fa-map-marker-alt text-danger me-2"></i> Gibcon House, Kijabe Row, off Kenyatta Avenue, Nairobi City
+          </p>
+
+          <div class="mt-4">
+            <p class="fs-5 mb-3">Connect with us:</p>
+            <div class="d-flex gap-3">
+              <a href="https://facebook.com/ilikeitproperties" target="_blank" class="text-white fs-5">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://wa.me/254720663769" target="_blank" class="text-white fs-5">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="https://instagram.com/ilikeitproperties" target="_blank" class="text-white fs-5">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 {% endblock %}
+
+

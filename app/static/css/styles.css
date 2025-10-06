@@ -175,3 +175,8 @@ a:hover i {
 .carousel-item img {
   object-fit: cover;
 }
+
+.tagline-container h2,
+.tagline-container i {
+  animation-fill-mode: both;
+}
