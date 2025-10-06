@@ -5,10 +5,14 @@ from werkzeug.security import check_password_hash
 from app.utils.r2_upload import upload_to_r2, delete_from_r2
 from datetime import datetime
 from app.extensions import db
+import smtplib
+from email.message import EmailMessage
+import re
+import os
 
 main = Blueprint('main', __name__)
 
-# --- PUBLIC ROUTES ---
+# --- USER INTERFACE ---
 @main.route('/')
 def home():
     featured_listings = Listing.query.filter_by(is_sold=False).limit(4).all()
@@ -40,11 +44,92 @@ def listing_detail(listing_id):
 def about():
     return render_template('user/about.html')
 
-@main.route('/contact')
+#Contact page with email functionality
+def is_valid_email(email):
+    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
+
+def log_submission(name, email, subject, message):
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_entry = f"[{timestamp}] {name} <{email}> | Subject: {subject} | Message: {message}\n"
+    with open('contact_audit.log', 'a') as log_file:
+        log_file.write(log_entry)
+
+@main.route('/contact', methods=['POST'])
 def contact():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    subject = request.form.get('subject')
+    message = request.form.get('message')
+
+    if not all([name, email, subject, message]) or not is_valid_email(email):
+        flash("Please fill all fields correctly.", "danger")
+        return redirect(url_for('main.contact_page'))
+
+    try:
+        # Log the submission
+        log_submission(name, email, subject, message)
+
+        # Compose message to site admin
+        admin_msg = EmailMessage()
+        admin_msg['Subject'] = f"New Inquiry: {subject}"
+        admin_msg['From'] = 'info@ilikeitproperties.co.ke'
+        admin_msg['To'] = 'info@ilikeitproperties.co.ke'
+        admin_msg.set_content(
+            f"Hello,\n\n"
+            f"{name} ({email}) submitted a message via the contact form.\n\n"
+            f"Subject: {subject}\n"
+            f"Message:\n{message}\n\n"
+            f"Best,\nI Like It Properties"
+        )
+
+        # Compose auto-reply to sender
+        reply_msg = EmailMessage()
+        reply_msg['Subject'] = "We've received your message!"
+        reply_msg['From'] = 'I Like It Properties <info@ilikeitproperties.co.ke>'
+        reply_msg['To'] = email
+        reply_msg.set_content(
+            f"Hi {name},\n\n"
+            f"Thanks for reaching out to I Like It Properties. We’ve received your message and will get back to you shortly.\n\n"
+            f"Subject: {subject}\n"
+            f"Message:\n{message}\n\n"
+            f"Warm regards,\n"
+            f"I Like It Properties"
+            )
+        reply_msg.add_alternative(f"""\
+                                  <html>
+                                  <body style="font-family: Arial, sans-serif; color: #333;">
+                                    <p>Hi {name},</p>
+                                    <p>Thanks for reaching out to <strong>I Like It Properties</strong>. We've received your message and will get back to you shortly.</p>
+                                    <p><strong>Subject:</strong> {subject}<br>
+                                    <strong>Message:</strong><br>{message}</p>
+                                    <p>Warm regards,<br>
+                                    <strong>I Like It Properties</strong></p>
+                                    <img src="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/logo.jpg" alt="I Like It Properties Logo" style="margin-top:20px; height:80px;">
+                                  </body>
+                                  </html>
+                                  """, subtype='html')
+
+        with smtplib.SMTP_SSL('mail.ilikeitproperties.co.ke', 465) as smtp:
+            smtp.login('info@ilikeitproperties.co.ke', os.environ.get('EMAIL_PASSWORD'))
+            smtp.send_message(admin_msg, from_addr='info@ilikeitproperties.co.ke', to_addrs=['info@ilikeitproperties.co.ke'])
+            smtp.send_message(reply_msg, from_addr='info@ilikeitproperties.co.ke', to_addrs=[email])
+
+        flash("Thank you for reaching out! Your message has been received and our team will respond shortly.", "success")
+
+    except Exception as e:
+        flash("Oops — we couldn't send your message due to a technical issue. Please try again or contact us directly at info@ilikeitproperties.co.ke.", "danger")
+
+    return redirect(url_for('main.contact_page'))
+
+
+
+@main.route('/contact')
+def contact_page():
     return render_template('user/contact.html')
 
-# --- AUTH ---
+
+# --- ADMIN INTERFACE ---
+# AUTHENTICATION FOR THE ADMIN PAGE
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -68,7 +153,7 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('main.home'))
 
-# --- ADMIN DASHBOARD ---
+# ADMIN DASHBOARD
 @main.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
@@ -94,7 +179,7 @@ def admin_listings():
     return render_template('admin/admin_listings.html', featured=featured, sold=sold)
 
 
-# --- CREATE BLOG ---
+# CREATE BLOG 
 @main.route('/admin/blog/new', methods=['GET', 'POST'])
 @login_required
 def new_blog():
@@ -123,7 +208,7 @@ def new_blog():
 
     return render_template('admin/new_blog.html')
 
-# --- CREATE LISTING ---
+# CREATE LISTING
 @main.route('/admin/listing/new', methods=['GET', 'POST'])
 @login_required
 def new_listing():
@@ -166,7 +251,7 @@ def new_listing():
 
     return render_template('admin/new_listing.html')
 
-# --- DELETE BLOG ---
+# DELETE BLOG 
 @main.route('/admin/blog/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_blog(id):
@@ -183,7 +268,7 @@ def delete_blog(id):
     flash('Blog post deleted.', 'info')
     return redirect(url_for('main.admin_blogs'))
 
-# --- DELETE LISTING ---
+# DELETE LISTING 
 @main.route('/admin/listing/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_listing(id):
@@ -201,7 +286,7 @@ def delete_listing(id):
     flash('Listing deleted.', 'info')
     return redirect(url_for('main.admin_listings'))
 
-# --- EDIT BLOG ---
+# EDIT BLOG 
 @main.route('/admin/blog/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_blog(id):
@@ -226,7 +311,7 @@ def edit_blog(id):
 
     return render_template('admin/edit_blog.html', post=post)
 
-# --- EDIT LISTING ---
+# EDIT LISTING 
 @main.route('/admin/listing/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_listing(id):
@@ -257,7 +342,7 @@ def edit_listing(id):
     return render_template('admin/edit_listing.html', listing=listing)
 
 
-# --- MARK LISTING AS SOLD ---
+# MARK LISTING AS SOLD 
 @main.route('/admin/listing/<int:id>/mark_sold', methods=['POST'])
 @login_required
 def mark_listing_sold(id):
@@ -281,14 +366,3 @@ def mark_listing_sold(id):
     except Exception as e:
         return f"❌ Migration failed: {e}"
 
-@main.route("/create-admin")
-def create_admin():
-    from werkzeug.security import generate_password_hash
-    admin = User(
-        username="Wainaina Jacob",
-        password=generate_password_hash("i_like_it_properties@2025"),
-        is_admin=True
-    )
-    db.session.add(admin)
-    db.session.commit()
-    return "✅ Admin created."

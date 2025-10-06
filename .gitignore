@@ -18,8 +18,7 @@ realestate_db.sql
 # Logs and temp files
 *.log
 *.tmp
-
-
+r2.log
 
 # IDE/editor files
 .vscode/
@@ -36,7 +35,5 @@ Thumbs.db
 Dockerfile
 .dockerignore
 render.yml
-set_admin.py
-confirm_images.py
 secret_key.py
 
