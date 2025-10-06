@@ -78,22 +78,9 @@ real-estate-website/
 
 
 ### DEPLOYMENT STRATEGY
-Used Render's auto-deploy each time I make a push to github
-
-### Setup
-1. Created a web service on render
-  - Selected a Python environment
-  - Linked my service to the staging branch of my Github repo
-  - Added environment variables
-  - Defined Build and Start commands
-2. Created a render.yml file(contains instructions on how my code will be deployed on render)
-3. Pushed my code to the master's branch(staging branch) of my github repository
-4. Render auto-deploys the code
-
-🚀 Deployment Strategy (Staging)
 This staging branch uses Render’s auto-deploy feature to automatically build and deploy the website whenever code is pushed to GitHub.
 
-🔧 Setup Steps
+### Setup Steps
 1.Created a Web Service on Render
   - Selected the Python environment
   - Linked the service to the master branch of your GitHub repository (used as your staging branch)
