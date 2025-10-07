@@ -24,6 +24,9 @@ realestate_db.sql
 # IDE/editor files
 .vscode/
 .idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
 
 # OS-specific files
 .DS_Store
@@ -31,3 +34,10 @@ Thumbs.db
 
 # Git metadata 
 .git/
+
+# Python build artifacts
+*.egg
+*.egg-info/
+dist/
+build/
+

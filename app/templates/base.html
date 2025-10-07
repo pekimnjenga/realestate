@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% block title %}{% endblock %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>I Like It Properties</title>
+  <meta property="og:title" content="I Like It Properties - Trusted Real Estate Agents in Nakuru, Kenya" />
+  <meta property="og:description" content="Licensed estate agents offering advisory, conveyancing, letting, and leasing services in Nakuru City." />
+  <meta property="og:image" content="https://ilikeitproperties.co.ke/static/images/logo.jpg" />
+  <meta property="og:url" content="https://ilikeitproperties.co.ke" />
+  <meta property="og:type" content="website" />
+
   <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
 
   <!-- Bootstrap & Font Awesome -->

@@ -35,6 +35,14 @@ class Listing(db.Model):
     #Helper method to easily loop through images in your templates.
     def get_image_list(self):
         return [img.strip() for img in self.image_urls.split(',') if img.strip()]
+    
+class RequestSubmission(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    subject = db.Column(db.String(150), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 #If you need to check the tables created in the database, you can use the following code snippet:
 #from sqlalchemy import inspect
