@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, abort, flash, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, abort, flash, current_app, send_from_directory
 from flask_login import login_required, current_user, login_user, logout_user
-from app.models import Blog, Listing, User
+from app.models import Blog, Listing, User, RequestSubmission
 from werkzeug.security import check_password_hash
 from app.utils.r2_upload import upload_to_r2, delete_from_r2
 from datetime import datetime
@@ -68,6 +68,15 @@ def contact():
     try:
         # Log the submission
         log_submission(name, email, subject, message)
+        new_submission = RequestSubmission(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+            )
+        db.session.add(new_submission)
+        db.session.commit()
+
 
         # Compose message to site admin
         admin_msg = EmailMessage()
@@ -357,12 +366,10 @@ def mark_listing_sold(id):
     flash('Listing marked as sold.', 'success')
     return redirect(url_for('main.admin_listings'))
 
+# SERVE SITEMAP
+@main.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
 
-#@main.route("/init-db")
-#def init_db():
-    try:
-        db.create_all()
-        return "✅ Tables created successfully on cPanel DB."
-    except Exception as e:
-        return f"❌ Migration failed: {e}"
+
 
