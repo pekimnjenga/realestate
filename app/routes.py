@@ -25,7 +25,7 @@ def listings():
     sold = Listing.query.filter_by(is_sold=True).order_by(Listing.sold_at.desc()).all()
     return render_template('user/listings.html', featured=featured, sold=sold)
 
-@main.route('/blog')
+@main.route('/blogs')
 def blog():
     posts = Blog.query.order_by(Blog.date_posted.desc()).all()
     return render_template('user/blogs.html', posts=posts, no_background=True)
