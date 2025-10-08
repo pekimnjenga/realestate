@@ -3,7 +3,7 @@ ilikeitproperties
 ### BRANCH 
 Production
 ### PROJECT'S BRIEF DESCRIPTION
-A dynamic real estate website built with Flask, HTML, Bootstrap 5 classes and CSS, designed to showcase property listings and blog posts and also for users to make inquiries about the listings. The site is divided into two main interfaces:
+A dynamic, SEO-optimized real estate website built with Flask, HTML, Bootstrap 5 classes and CSS, designed to showcase property listings and blog posts and also for users to make inquiries about the listings. The site is divided into two main interfaces:
 
 -User Interface – Public-facing pages for browsing listings, making inquiries about the listings or any other matter, reading blogs, and learning about the company
 
@@ -37,6 +37,7 @@ real-estate-website/
 │   ├── models.py
 │   ├── routes.py
 │   ├── static/
+│   │   ├── sitemap.xml
 │   │   ├── css/
 │   │   │   └── styles.css
 │   │   └── images/
@@ -103,6 +104,27 @@ Unlike the staging branch (which uses Render’s auto-deploy), I manually config
 - Code is deployed to Truehost via FTP
 - Dependencies installed via cPanel terminal
 - App runs live on production domain
+
+### Search Optimisation Engine
+The site is optimized for search engine visibility and brand authority through indexization of my home route.
+### Strategy
+-Selective Indexing Strategy – Only homepage is indexed; other routes are crawlable but excluded from search results (noindex, follow)
+-Canonical Tag Logic – Prevents duplicate content and reinforces page identity
+-Structured Data (Schema Markup) – JSON-LD for RealEstateAgent with logo, address, and contact info
+-Open Graph & Twitter Cards – Enhanced previews for social sharing
+-Favicon – Branded tab and mobile bookmark visibility
+-Sitemap Management – Clean sitemap.xml submitted to Google Search Console(has only the home route)
+
+### Search Engine Optimization (SEO)
+The site is strategically optimized for search engine visibility and brand authority, with a focus on indexing only the homepage for clean, branded search results.
+
+### Strategy Overview
+-Selective Indexing – Only the homepage is indexed; all other routes (/about, /listings, /blogs, /contact) are crawlable but excluded from search results using noindex, follow directives
+-Canonical Tag Logic – Each route declares its own canonical URL to prevent duplicate content and reinforce page identity
+-Structured Data (Schema Markup) – JSON-LD schema for RealEstateAgent includes logo, address, contact info, and business description for rich search previews
+-Open Graph & Twitter Cards – Social media previews are enhanced with custom titles, descriptions, and branded imagery
+-Favicon & Apple Touch Icon – Branded tab icon and mobile bookmark visibility for consistent identity across platforms
+-Sitemap Management – A clean sitemap.xml submitted to Google Search Console includes only the homepage, reinforcing the selective indexing strategy
 
 
 ## 👨‍💻 Developer Contact
