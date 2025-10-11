@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 load_dotenv()
 
-#-- Setting up a logger for my Cloudfare'r r2 actions
+#-- Setting up a logger for my Cloudfare's r2 /any other S3-compatible platform actions
 # What r2_logger Your  Tracks
 # • 	When a file is uploaded to R2
 # • 	When a file is deleted from R2
@@ -47,14 +47,14 @@ def upload_to_r2(file):
 
         s3 = boto3.client(
             's3',
-            endpoint_url=os.getenv('R2_ENDPOINT'),
-            aws_access_key_id=os.getenv('R2_ACCESS_KEY'),
-            aws_secret_access_key=os.getenv('R2_SECRET_KEY')
+            endpoint_url=os.environ.get('R2_ENDPOINT'),
+            aws_access_key_id=os.environ.get('R2_ACCESS_KEY'),
+            aws_secret_access_key=os.environ.get('R2_SECRET_KEY')
         )
 
-        s3.upload_fileobj(file, os.getenv('R2_BUCKET'), object_key)
+        s3.upload_fileobj(file, os.environ.get('R2_BUCKET'), object_key)
 
-        public_base_url = 'https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev'
+        public_base_url = os.environ.get('PUBLIC_BASE_URL')
         public_url = f'{public_base_url}/ilikeitproperties/{filename}'  # Match actual path
         logger.info(f"Uploaded to R2: {public_url}")
         return public_url
@@ -80,12 +80,12 @@ def delete_from_r2(public_url):
 
         s3 = boto3.client(
             's3',
-            endpoint_url=os.getenv('R2_ENDPOINT'),
-            aws_access_key_id=os.getenv('R2_ACCESS_KEY'),
-            aws_secret_access_key=os.getenv('R2_SECRET_KEY')
+            endpoint_url=os.environ.get('R2_ENDPOINT'),
+            aws_access_key_id=os.environ.get('R2_ACCESS_KEY'),
+            aws_secret_access_key=os.environ.get('R2_SECRET_KEY')
         )
 
-        s3.delete_object(Bucket=os.getenv('R2_BUCKET'), Key=key)
+        s3.delete_object(Bucket=os.environ.get('R2_BUCKET'), Key=key)
         logger.info(f"Deleted from R2: {key}")
         return True
 

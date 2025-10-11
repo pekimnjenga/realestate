@@ -121,7 +121,7 @@ def contact():
                                   """, subtype='html')
 
         with smtplib.SMTP_SSL('mail.ilikeitproperties.co.ke', 465) as smtp:
-            smtp.login('info@ilikeitproperties.co.ke', os.getenv('EMAIL_PASSWORD'))
+            smtp.login('info@ilikeitproperties.co.ke', os.environ.get('EMAIL_PASSWORD'))
             smtp.send_message(admin_msg, from_addr='info@ilikeitproperties.co.ke', to_addrs=['info@ilikeitproperties.co.ke'])
             smtp.send_message(reply_msg, from_addr='info@ilikeitproperties.co.ke', to_addrs=[email])
 
