@@ -95,33 +95,33 @@ real-estate-website/
 ### INSTALLATION AND RUN INSTRUCTIONS
 #### (a) If you are running the project locally, follow the instructions below;
 ##### 1. Clone the repo
-'''bash
+```bash
 git clone https://github.com/pekimnjenga/realestate.git
 cd realestate
 git checkout master
-'''
+```
 
 ##### 2. Create and activate the virtual environment
 # Linux/macOS
-'''bash
+```bash
 python3 -m venv venv
 source venv/bin/activate
-'''
+```
 
 # Windows(Powershell or CMD)
-'''bash
+```bash
 python -m venv venv
 source venv\Scripts\activate
-'''
+```
 
 ##### 3. Install dependencies
-'''bash
+```bash
 pip install -r requirements.txt
-'''
+```
 
 ##### 4. Create a .env file at the root directory
 Note : Make sure .env is listed in .gitignore and .dockerignore to avoid exposing secrets.
-'''env
+```env
 DATABASE_URL=your-local-db-url
 SECRET_KEY=your-secret-key
 R2_ACCESS_KEY=your-access-key
@@ -130,28 +130,28 @@ R2_ENDPOINT=https://your-r2-endpoint
 R2_BUCKET=your-bucket-name
 PUBLIC_BASE_URL=https://your-public-r2-url
 EMAIL_PASSWORD=your-email-password #For SMTP email sending
-'''
+```
 
 ##### 5. Run the application
 # Linux/macOS
-'''bash
+```bash
 python3 run.py
-'''
+```
 
 # Windows (PowerShell or CMD)
-'''bash
+```bash
 python run.py
-'''
+```
 
 #### (b) Docker-based setup
 ##### 1. Clone the Repository
-'''bash
+```bash
 git clone https://github.com/pekimnjenga/realestate.git
 cd realestate
-'''
+```
 
 ##### 2. Create a .env File at the Project Root
-'''env
+```env
 DATABASE_URL=your-local-db-url
 SECRET_KEY=your-secret-key
 R2_ACCESS_KEY=your-access-key
@@ -160,19 +160,19 @@ R2_ENDPOINT=https://your-r2-endpoint
 R2_BUCKET=your-bucket-name
 PUBLIC_BASE_URL=https://your-public-r2-url
 EMAIL_PASSWORD=your-email-password  # For SMTP email sending
-'''
+```
 
 Ensure .env is listed in .gitignore and .dockerignore to avoid leaking secrets.
 
 ##### 3. Build the Docker Image
-'''bash
+```bash
 docker build -t app .
-'''
+```
 
 ##### 5. Run the Docker Container
-'''bash
+```bash
 docker run -p 8080:8080 --env-file .env app
-'''
+```
 
 
 ### DEPLOYMENT STRATEGY
@@ -195,21 +195,21 @@ This staging branch uses Render’s auto-deploy feature to automatically build a
   - Deploy the service
 
 #### Note: If you choose Docker as your runtime environment
-- Create a render.yaml file 
-'''yaml
+- Create a render.yaml file
+```yaml
 services:
   - type: web
     name: app
     env: docker
     plan: free
     autoDeploy: true
-'''
+```
 5. Push Code to GitHub
-  - Code is pushed to your branch
-  - Render detects the change and automatically:
-    - Installs dependencies by running the build command
-    - Runs the start command
-    - Deploys the app
+   Code is pushed to your branch
+   Render detects the change and automatically:
+   - Installs dependencies by running the build command
+   - Runs the start command
+   - Deploys the app
 
 
 ###  Developer Contact
