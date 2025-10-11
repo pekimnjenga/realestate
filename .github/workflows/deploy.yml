@@ -3,7 +3,7 @@ name: Deploy to Truehost
 on:
   push:
     branches:
-      - main  # Only deploy from the production branch
+      - main  
 
 jobs:
   ftp-deploy:

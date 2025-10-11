@@ -3,7 +3,7 @@ import logging
 from werkzeug.utils import secure_filename
 from urllib.parse import urlparse
 
-#-- Setting up a logger for my Cloudfare'r r2 actions
+#-- Setting up a logger for my Cloudfare's r2 actions
 # What r2_logger Your  Tracks
 # • 	When a file is uploaded to R2
 # • 	When a file is deleted from R2
@@ -52,8 +52,8 @@ def upload_to_r2(file):
 
         s3.upload_fileobj(file, os.environ.get('R2_BUCKET'), object_key)
 
-        public_base_url = 'https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev'
-        public_url = f'{public_base_url}/ilikeitproperties/{filename}'  # Match actual path
+        public_base_url = os.environ.get('PUBLIC_BASE_URL')
+        public_url = f'{public_base_url}/ilikeitproperties/{filename}' 
         logger.info(f"Uploaded to R2: {public_url}")
         return public_url
 
