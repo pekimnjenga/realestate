@@ -102,13 +102,13 @@ git checkout master
 ```
 
 ##### 2. Create and activate the virtual environment
-# Linux/macOS
+##### Linux/macOS
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-# Windows(Powershell or CMD)
+##### Windows(Powershell or CMD)
 ```bash
 python -m venv venv
 source venv\Scripts\activate
@@ -133,12 +133,12 @@ EMAIL_PASSWORD=your-email-password #For SMTP email sending
 ```
 
 ##### 5. Run the application
-# Linux/macOS
+##### Linux/macOS
 ```bash
 python3 run.py
 ```
 
-# Windows (PowerShell or CMD)
+##### Windows (PowerShell or CMD)
 ```bash
 python run.py
 ```
