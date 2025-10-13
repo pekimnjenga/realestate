@@ -45,40 +45,31 @@
 </section>
 
 
-
-
-<section class="py-5 bg-transparent text-dark">
-  <div class="container text-center">
-    <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
-    <div class="vstack gap-3 align-items-center">
-      <div class="animate__animated animate__fadeInUp">
-        <h5 class="mb-0">Advisory</h5>
+<section class="py-5 bg-transparent text-white real-estate-bg">
+  <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <!-- Center Content -->
+      <div class="mx-auto text-center" style="max-width: 500px;">
+        <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
+        <div class="vstack gap-3 align-items-center">
+          <div class="animate__animated animate__fadeInUp"><h5 class="mb-0">Advisory</h5></div>
+          <div class="animate__animated animate__fadeInUp animate__delay-1s"><h5 class="mb-0">Agency</h5></div>
+          <div class="animate__animated animate__fadeInUp animate__delay-2s"><h5 class="mb-0">Conveyancing</h5></div>
+          <div class="animate__animated animate__fadeInUp animate__delay-3s"><h5 class="mb-0">Letting and Leasing</h5></div>
+          <div class="animate__animated animate__fadeInUp animate__delay-4s"><h5 class="mb-0">Property/Estate Management</h5></div>
+        </div>
+        <div class="animate__animated animate__fadeInUp animate__delay-5s mt-4">
+          <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center">Contact Us</a>
+        </div>
       </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-1s">
-        <h5 class="mb-0">Agency</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-2s">
-        <h5 class="mb-0">Conveyancing</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-3s">
-        <h5 class="mb-0">Letting and Leasing</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-4s">
-        <h5 class="mb-0">Property/Estate Management</h5>
-      </div>
-    </div>
-
-
-
-    <div class="animate__animated animate__fadeInUp animate__delay-5s mt-4">
-      <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center">Contact Us</a>
     </div>
   </div>
 </section>
 
 
+
 <section class="py-5 bg-light-brown text-dark text-center">
-  <div class="container">
+  <div class="container" data-aos="fade-up" data-aos-delay="200">
     <h2 class="animate__animated animate__fadeInDown ">Want to Know Us Better?</h2>
     <p class="lead animate__animated animate__fadeInUp ">Discover our story, values, and vision for real estate</p>
     <a href="{{ url_for('main.about') }}" class="btn btn-greenish mt-3 animate__animated animate__fadeInUp animate__delay-5s">Explore About Us</a>
@@ -88,12 +79,12 @@
 
 
 <section class="py-5 bg-transparent text-dark">
-  <div class="container text-center">
+  <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
     <div class="text-center animate__animated animate__fadeInUp">
       <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
     </div>
 
-    <div class="fs-4 text-center mt-4">
+    <div class="fs-4 text-center mt-4" >
       <p class="mb-1">Choose <strong class="text-success">I Like It Properties</strong></p>
 
       <div class="tagline-container text-black mt-4">
@@ -110,7 +101,5 @@
     </div>
   </div>
 </section>
-
-
 
 {% endblock %}

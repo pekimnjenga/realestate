@@ -180,3 +180,11 @@ a:hover i {
 .tagline-container i {
   animation-fill-mode: both;
 }
+.real-estate-bg {
+  background-image: url('/static/images/IMG-20250831-WA0024.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 1;
+}
