@@ -7,3 +7,8 @@ gunicorn
 psycopg2-binary
 boto3
 requests
+flake8
+isort
+black
+pytest
+pre-commit

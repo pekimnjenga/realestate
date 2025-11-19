@@ -7,7 +7,9 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
+        {% if post.image_url %}
         <img src="{{ post.image_url }}" class="card-img-top img-fluid" alt="{{ post.title }}">
+        {% endif %}
         
         <h2 class="mb-3">{{ post.title }}</h2>
         
@@ -17,7 +19,7 @@
         </p>
 
         <div class="mb-4">
-          <p>{{ post.content }}</p>
+          <p>{{ post.content|safe }}</p>
         </div>
 
         <a href="{{ url_for('main.blog') }}" class="btn btn-outline-secondary">

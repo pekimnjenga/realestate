@@ -1,32 +1,35 @@
 {% extends "base.html" %}
 {% block title %}<title> Blog & Real Estate Insights | I Like It Properties</title>{% endblock %}
 {% block content %}
-<section class="py-5 bg-light-brown text-dark-brown">
-  <div class="container">
-    <h2 class="text-center mb-5">Latest Insights</h2>
-    <div class="row g-4">
-      {% if posts %}
-      {% for post in posts %}
-      <div class="col-md-6">
-        <div class="card h-100 shadow-sm">
-          <img src="{{ post.image_url }}" class="card-img-top img-fluid" alt="{{ post.title }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text text-muted">
-              <i class="fas fa-user me-1"></i> {{ post.author }} &nbsp; | &nbsp;
-              <i class="fas fa-calendar-alt me-1"></i> {{ post.date_posted.strftime('%b %d, %Y') }}
-            </p>
-            <p class="card-text">{{ post.summary }}</p>
-            <a href="{{ url_for('main.blog_detail', id=post.id) }}" class="btn btn-outline-primary">Read More</a>
+<div class="bg-light-brown text-dark-brown min-vh-100 d-flex flex-column justify-content-between">
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Latest Insights</h2>
+      <div class="row g-4">
+        {% if posts %}
+        {% for post in posts %}
+        <div class="col-md-6">
+          <div class="card h-100 shadow-sm">
+            {% if post.image_url %}
+            <img src="{{ post.image_url }}" class="card-img-top img-fluid" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text text-muted">
+                <i class="fas fa-user me-1"></i> {{ post.author }} &nbsp; | &nbsp;
+                <i class="fas fa-calendar-alt me-1"></i> {{ post.date_posted.strftime('%b %d, %Y') }}
+              </p>
+              <p class="card-text">{{ post.summary }}</p>
+              <a href="{{ url_for('main.blog_detail', id=post.id) }}" class="btn btn-outline-secondary btn-hover-green mt-2">Read More</a>
+            </div>
           </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-center">No blog posts available at the moment.</p>
+        {% endif %}
       </div>
-      {% endfor %}
-      {% else %}
-      <p class="text-center">No blog posts available at the moment.</p>
-      {% endif %}
-
     </div>
-  </div>
-</section>
+  </section>
+</div>
 {% endblock %}
