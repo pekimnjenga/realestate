@@ -11,4 +11,5 @@ flake8
 isort
 black
 pytest
+pytest-mock
 pre-commit

@@ -106,6 +106,10 @@ pyflakes==3.4.0
 pygments==2.19.2
     # via pytest
 pytest==9.0.1
+    # via
+    #   -r requirements.in
+    #   pytest-mock
+pytest-mock==3.15.1
     # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via botocore

@@ -33,25 +33,26 @@ ilikeitproperties
 
 ### Project Status
 ![Staging Status](https://img.shields.io/badge/Status-Staging-yellow)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/pekimnjenga/realestate/ci.yml?branch=master)](https://github.com/pekimnjenga/realestate/actions)
-![Pre-commit Hooks](https://img.shields.io/badge/Pre--commit-Hooks-brightgreen)
-![CI/CD Pipeline](https://img.shields.io/badge/CI/CD-GitHub_Actions-blue)
+[![CI Checks (master)](https://github.com/pekimnjenga/realestate/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/pekimnjenga/realestate/actions/workflows/ci.yml)
+![Pre-commit Hook Enabled](https://img.shields.io/badge/Pre--commit-Hooks-brightgreen)
 
 ### Tech Stack
 ![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Flask Framework](https://img.shields.io/badge/Framework-Flask-lightgrey)
-![Bootstrap UI](https://img.shields.io/badge/UI-Bootstrap%205-purple)
-![Quill.js Editor](https://img.shields.io/badge/Editor-Quill.js-1f8f2f?logo=quill)
-![Docker Ready](https://img.shields.io/badge/Docker-Ready-blue)
+![Flask Framework](https://img.shields.io/badge/framework-Flask-blue)
+![Bootstrap 5](https://img.shields.io/badge/UI-Bootstrap_5-purple)
+![Quill.js Editor](https://img.shields.io/badge/editor-Quill.js-1f8f2f?logo=quill)
+![Docker Ready](https://img.shields.io/badge/docker-ready-blue)
 
 ### Infrastructure
-![Neon PostgreSQL](https://img.shields.io/badge/Database-Neon%20PostgreSQL-lightgrey)
+![Supabase PostgreSQL](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-green)
 ![Cloudflare R2 Storage](https://img.shields.io/badge/Storage-Cloudflare%20R2-orange)
 ![Email Service](https://img.shields.io/badge/Email-SMTP%20Enabled-green)
 ![Deployed to Render](https://img.shields.io/badge/Deployed%20to-Render-blue)
+![CI/CD Pipeline](https://img.shields.io/badge/CI/CD-GitHub_Actions-blue)
+
 
 ### License
-![License](https://img.shields.io/github/license/pekimnjenga/realestate)
+![ MIT License](https://img.shields.io/github/license/pekimnjenga/realestate)
 
 
 
@@ -80,7 +81,7 @@ Secure backend for:
 ### Tech Stack
 #### Backend
 - **Framework** - Flask — lightweight Python framework powering the core logic and routing
-- **Database** — Neon — managed PostgreSQL database for listings, blogs, and admin data
+- **Database** — Supabase — managed PostgreSQL database for listings, blogs, and admin data
 
 #### Frontend
 - HTML, CSS, and Bootstrap 5 — responsive layout and UI styling

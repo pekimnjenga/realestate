@@ -2,9 +2,9 @@ name: Code Quality and Security Checks
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   lint-test-security:
@@ -23,7 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install flake8 black isort 
+          pip install flake8 black isort pytest pytest-mock
 
       - name: Run black check
         run: black --check .
