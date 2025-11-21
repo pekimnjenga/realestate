@@ -56,6 +56,8 @@ identify==2.6.15
     # via pre-commit
 idna==3.10
     # via requests
+iniconfig==2.3.0
+    # via pytest
 isort==7.0.0
     # via -r requirements.in
 itsdangerous==2.2.0
@@ -84,12 +86,15 @@ packaging==25.0
     # via
     #   black
     #   gunicorn
+    #   pytest
 pathspec==0.12.1
     # via black
 platformdirs==4.5.0
     # via
     #   black
     #   virtualenv
+pluggy==1.6.0
+    # via pytest
 pre-commit==4.4.0
     # via -r requirements.in
 psycopg2-binary==2.9.10
@@ -98,6 +103,14 @@ pycodestyle==2.14.0
     # via flake8
 pyflakes==3.4.0
     # via flake8
+pygments==2.19.2
+    # via pytest
+pytest==9.0.1
+    # via
+    #   -r requirements.in
+    #   pytest-mock
+pytest-mock==3.15.1
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via botocore
 python-dotenv==1.1.1
