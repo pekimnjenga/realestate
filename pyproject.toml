@@ -1,0 +1,19 @@
+[tool.black]
+line-length = 88
+target-version = ['py39']
+skip-string-normalization = false
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = [
+    "E203",  # whitespace before ':', conflicts with Black
+    "W503",  # line break before binary operator, conflicts with Black
+]

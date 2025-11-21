@@ -28,7 +28,7 @@ main = Blueprint("main", __name__)
 # --- USER INTERFACE ---
 @main.route("/")
 def home():
-    featured_listings = Listing.query.filter_by(is_sold=False).limit(4).all()
+    featured_listings = Listing.query.filter_by(is_sold=False).all()
     return render_template("user/home.html", featured_listings=featured_listings)
 
 

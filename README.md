@@ -40,6 +40,7 @@ ilikeitproperties
 ![Pre-commit Hook Enabled](https://img.shields.io/badge/pre--commit-enabled-brightgreen)
 
 ### Tech Stack
+![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Flask Framework](https://img.shields.io/badge/framework-Flask-blue)
 ![Bootstrap 5](https://img.shields.io/badge/UI-Bootstrap_5-purple)
 ![Quill.js Editor](https://img.shields.io/badge/editor-Quill.js-1f8f2f?logo=quill)
