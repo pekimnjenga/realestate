@@ -9,10 +9,24 @@
   <form method="POST" enctype="multipart/form-data">
     <input type="text" name="title" class="form-control mb-3" placeholder="Title" required>
     <input type="file" name="image" class="form-control mb-3" accept="image/*">
-    <textarea name="summary" class="form-control mb-3" placeholder="Short summary" rows="3" required></textarea>
-    <div id="editor" style="height: 300px;" class="mb-3"></div>
-    <input type="hidden" name="content" id="content">
+    
+    <div class="mb-3">
+      <label for="summary-editor" class="form-label">Summary</label>
+      <div id="summary-editor" style="height: 150px; border: 1px solid #ced4da; border-radius: 0.25rem;"></div>
+      <input type="hidden" name="summary" id="summary-content">
+    </div>
+    <div class="mb-3">
+      <label for="editor" class="form-label">Content</label>
+      <div id="editor" style="height: 300px; border: 1px solid #ced4da; border-radius: 0.25rem;"></div>
+      <input type="hidden" name="content" id="content">
+    </div>
     <button type="submit" class="btn btn-primary">Publish</button>
   </form>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    initializeQuill('#summary-editor', '#summary-content');
+    initializeQuill('#editor', '#content');
+  });
+</script>
 {% endblock %}

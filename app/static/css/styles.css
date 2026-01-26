@@ -7,7 +7,7 @@ body {
 }
 
 header {
-  background: #35424a;
+  background: linear-gradient(135deg, #2e7d32, #8d6e63); /* green → brown gradient */
   color: #ffffff;
   padding: 10px 0;
   text-align: center;
@@ -39,9 +39,9 @@ h1 {
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
   background: rgba(53, 66, 74, 0.1);
-  color: #35424a !important;
-  box-shadow: 0 0 8px 2px #7fffb2;
-  text-shadow: 0 0 4px #7fffc5;
+  color: #2e7d32 !important; /* green hover */
+  box-shadow: 0 0 8px 2px #8d6e63; /* brown glow */
+  text-shadow: none;
 }
 
 /* Property Cards */
@@ -51,26 +51,107 @@ h1 {
   margin: 20px 0;
   padding: 20px;
   border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.property:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
 .property img {
   max-width: 100%;
   border-radius: 5px;
 }
-
 .property h2 {
-  color: #35424a;
+  color: #2e7d32; /* green headings */
 }
 
-/* Footer */
 .footer {
-  background: #35424a;
+  background: linear-gradient(135deg, #2e7d32, #5d4037); /* green → brown gradient */
   color: #ffffff;
   text-align: center;
-  padding: 10px 0;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* allow wrapping if space is too small */
+}
+
+.footer-column {
+  flex: 1 1 200px; /* flexible: grows, shrinks, min 200px */
+  box-sizing: border-box;
+  padding: 10px;   /* spacing so content doesn’t touch edges */
+}
+
+.footer-column h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #f5f5f5;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  padding-bottom: 8px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+  color: #dcdcdc;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+  color: #ffffff;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column; /* stack neatly on small screens */
+    align-items: center;
+  }
+  .footer-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #dcdcdc;
+  font-size: 18px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+.footer p {
+  flex-basis: 100%;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #ccc;
 }
 
 /* Utility Classes */
@@ -81,11 +162,13 @@ h1 {
 }
 
 .bg-light-brown {
-  background-color: #f5e6d3;
+  background: linear-gradient(135deg, #f5e6d3, #8d6e63); /* beige → earthy brown */
+  color: #5d4037;
 }
+
 .btn-hover-green:hover {
-    background-color: #28a745 !important;
-    border-color: #28a745 !important;
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
 }
 
 .text-dark-brown {
@@ -93,19 +176,22 @@ h1 {
 }
 
 .bg-greenish {
-  background-color: #2f4f2f;
-  color: #2f4f2f;
+  background: linear-gradient(135deg, #2e7d32, #43a047); /* deep → vibrant green */
+  color: #fff;
 }
 
 .btn-greenish {
-  background-color: #198754;
+  background-color: #2e7d32;
   color: #fff;
   border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
 }
-
 .btn-greenish:hover {
-  background-color: #157347;
+  background-color: #8d6e63; /* brown hover */
   color: #fff;
+  transform: scale(1.05);
 }
 
 a:hover i {
@@ -155,6 +241,7 @@ a:hover i {
 .carousel-control-next-icon {
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 }
+
 .carousel-img {
   width: 100%;
   height: 100%;
@@ -175,15 +262,90 @@ a:hover i {
 .carousel-item img {
   object-fit: cover;
 }
-.real-estate-bg {
-  background-image: url('/static/images/IMG-20250831-WA0024.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-  z-index: 1;
+
+.tagline-container h2,
+.tagline-container i {
+  animation-fill-mode: both;
 }
+
+/* Services Section Background */
+.real-estate-bg {
+  background: linear-gradient(135deg, rgba(46,125,50,0.85), rgba(141,110,99,0.85)),
+              url('/static/images/IMG-20250831-WA0024.jpg') center/cover no-repeat;
+  background-blend-mode: multiply;
+  color: #fff;
+}
+
+/* Editors */
 #editor .ql-editor {
   color: #212529; /* Bootstrap's default text color */
   background-color: #fff; /* Ensure white background */
+}
+#summary-editor .ql-editor {
+  color: #212529;
+  background-color: #fff;
+}
+#content-editor .ql-editor {
+  color: #212529;
+}
+.form-label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+#summary-editor, #content-editor {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+#contact-section {
+  background: #2e7d32 !important; /* force green */
+  color: #fff;
+}
+/* WhatsApp Floating Button */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366; /* WhatsApp green */
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  z-index: 100;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float i {
+  line-height: 60px;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Notification badge */
+.whatsapp-float .badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 4px 6px;
+}
+
+.footer-logo {
+  height: 24px;       /* slightly smaller */
+  width: auto;        /* keep aspect ratio */
+  margin-right: 4px;  /* very small spacing */
+  vertical-align: middle;
 }

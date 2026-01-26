@@ -13,12 +13,14 @@
         <input type="text" name="title" class="form-control" value="{{ post.title }}" required>
       </div>
       <div class="mb-3">
-        <label for="summary" class="form-label">Summary</label>
-        <textarea name="summary" class="form-control" rows="3" required>{{ post.summary }}</textarea>
+        <label for="summary-editor" class="form-label" style="font-weight: bold;">Summary</label>
+        <div id="summary-editor" style="height: 150px; border: 1px solid #ced4da; border-radius: 0.25rem; background-color: #fff;" class="mb-3"></div>
+        <input type="hidden" name="summary" id="summary-content">
       </div>
       <div class="mb-3">
-        <label for="content" class="form-label">Content</label>
-        <textarea name="content" class="form-control" rows="6" required>{{ post.content }}</textarea>
+        <label for="content-editor" class="form-label" style="font-weight: bold;">Content</label>
+        <div id="content-editor" style="height: 300px; border: 1px solid #ced4da; border-radius: 0.25rem; background-color: #fff;" class="mb-3"></div>
+        <input type="hidden" name="content" id="content-hidden">
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Replace Image (optional)</label>
@@ -29,4 +31,14 @@
     </form>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    initializeQuill('#summary-editor', '#summary-content');
+    initializeQuill('#content-editor', '#content-hidden');
+
+    // Prepopulate Quill editors with existing data
+    document.querySelector('#summary-editor .ql-editor').innerHTML = `{{ post.summary|safe }}`;
+    document.querySelector('#content-editor .ql-editor').innerHTML = `{{ post.content|safe }}`;
+  });
+</script>
 {% endblock %}

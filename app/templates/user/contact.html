@@ -13,7 +13,7 @@
 
 
 {% block content %}
-<section class="bg-greenish text-white py-5" style="
+<section id="contact-section" class="bg-greenish text-white py-5" style="
   background-image: url('{{ url_for('static', filename='images/contact-bg.jpg') }}');
   background-size: cover;
   background-position: center;
@@ -23,9 +23,12 @@
   min-height: calc(100vh - 56px - 80px);">
 
   <div class="container">
-    <div class="text-center mb-5">
+    <div class="text-center mb-6">
       <h2 class="display-5 fw-bold">Get in Touch</h2>
-      <p class="lead">We’d love to hear from you — whether it’s about listings, partnerships, or general inquiries.</p>
+      <p class="lead">
+        We’d love to hear from you — whether it's about listings, partnerships, or general inquiries.
+      </p>
+     
     </div>
 
     <div class="row justify-content-center">
@@ -57,33 +60,54 @@
       <div class="col-md-5">
         <div class="bg-dark bg-opacity-50 p-4 rounded">
           <h4 class="mb-4">Contact Details</h4>
-          <p class="fs-5 d-flex align-items-center mb-3">
-            <i class="fas fa-phone text-primary me-2"></i> +254 720 663 769
+          <p class="fs-6 d-flex align-items-center mb-3">
+            <i class="fas fa-phone text-primary me-2"></i> 
+            <a href="tel:+254720663769" class="text-white text-decoration-none">+254 720 663 769</a>
           </p>
-          <p class="fs-5 d-flex align-items-center mb-3">
+          <p class="fs-6 d-flex align-items-center mb-3">
             <i class="fas fa-envelope text-primary me-2"></i>
             <a href="mailto:info@ilikeitproperties.co.ke" class="text-white text-decoration-none">
               info@ilikeitproperties.co.ke
             </a>
           </p>
-
-
-
-          <p class="fs-5">
+          <p class="fs-6">
             <i class="fas fa-map-marker-alt text-danger me-2"></i> Gibcon House, Kijabe Row, off Kenyatta Avenue, Nakuru City
           </p>
+           <div class="mt-4">
+            <!-- Availability Message -->
+             <div class="alert alert-success shadow-sm rounded d-flex align-items-center">
+              <i class="fas fa-headset me-3 fs-5 text-white bg-success p-2 rounded-circle"></i>
+              <p class="mb-0 fs-6">
+                <strong>We are online 24/7</strong> — once you send us a message via WhatsApp, email or through this form, 
+                we’ll get in touch with you shortly.
+              </p>
+            </div>
+            <!-- Office Hours -->
+             <div class="alert alert-light border-start border-4 border-success shadow-sm mt-3">
+              <h5 class="fw-bold mb-2"><i class="fas fa-clock text-success me-2"></i> Office Hours</h5>
+              <ul class="list-unstyled mb-0 fs-6">
+                <li><strong>Monday – Friday:</strong> 9:00 AM – 5:00 PM</li>
+                <li><strong>Saturday:</strong> 9:00 AM – 12:00 PM</li>
+                <li><strong>Sunday:</strong> Closed</li>
+              </ul>
+            </div>
+          </div>
 
           <div class="mt-4">
-            <p class="fs-5 mb-3">Connect with us:</p>
+            <p class="fs-6 mb-3">You can connect with us via our social media platforms:</p>
             <div class="d-flex gap-3">
               <a href="https://facebook.com/ilikeitproperties" target="_blank" class="text-white fs-5">
                 <i class="fab fa-facebook-f"></i>
               </a>
-              <a href="https://wa.me/254720663769" target="_blank" class="text-white fs-5">
+              <a href="https://wa.me/254720663769" 
+                 target="_blank" class="text-white fs-5">
                 <i class="fab fa-whatsapp"></i>
               </a>
               <a href="https://instagram.com/ilikeitproperties" target="_blank" class="text-white fs-5">
                 <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/Jacobmburuwainaina" class="text-white fs-5">
+                <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
           </div>

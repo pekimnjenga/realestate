@@ -352,7 +352,7 @@ def edit_blog(id):
 
         image_file = request.files["image"]
         if image_file and image_file.filename:
-            delete_from_r2(post.image)
+            delete_from_r2(post.image_url)
             post.image_url = upload_to_r2(image_file)
 
         db.session.commit()

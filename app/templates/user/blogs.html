@@ -25,7 +25,7 @@
                 <i class="fas fa-user me-1"></i> {{ post.author }} &nbsp; | &nbsp;
                 <i class="fas fa-calendar-alt me-1"></i> {{ post.date_posted.strftime('%b %d, %Y') }}
               </p>
-              <p class="card-text">{{ post.summary }}</p>
+              <p class="card-text">{{ post.summary|safe }}</p>
               <a href="{{ url_for('main.blog_detail', id=post.id) }}" class="btn btn-outline-secondary btn-hover-green mt-2">Read More</a>
             </div>
           </div>
