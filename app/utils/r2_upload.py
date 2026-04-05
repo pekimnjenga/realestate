@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 from urllib.parse import urlparse
 
 import boto3
@@ -21,29 +22,54 @@ from werkzeug.utils import secure_filename
 logger = logging.getLogger("r2_logger")
 logger.setLevel(logging.INFO)
 
-# Console handler
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-
-# File handler
-file_handler = logging.FileHandler("r2.log")
-file_handler.setLevel(logging.INFO)
-
 # Formatter
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
 
 # Attach handlers (avoid duplicates)
 if not logger.handlers:
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    # Console handler
+    try:
+        if sys.stderr and not getattr(sys.stderr, "closed", False):
+            console_handler = logging.StreamHandler(sys.stderr)
+            console_handler.setLevel(logging.INFO)
+            console_handler.setFormatter(formatter)
+            logger.addHandler(console_handler)
+    except Exception:
+        pass
+
+    # File handler
+    try:
+        base_dir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        file_handler = logging.FileHandler(os.path.join(base_dir, "r2.log"))
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+    except Exception:
+        pass
 
 
 # --- Upload Function ---
 def upload_to_r2(file):
+    # Validate required environment and input before attempting upload
+    required = [
+        "R2_ENDPOINT",
+        "R2_ACCESS_KEY",
+        "R2_SECRET_KEY",
+        "R2_BUCKET",
+        "PUBLIC_BASE_URL",
+    ]
+    missing = [k for k in required if not os.environ.get(k)]
+    filename = secure_filename(os.path.basename(getattr(file, "filename", "")))
+
+    if not filename:
+        logger.error("R2 upload error: empty filename provided")
+        return None
+
+    if missing:
+        logger.error(f"R2 upload error: missing environment variables: {', '.join(missing)}")
+        return None
+
     try:
-        filename = secure_filename(os.path.basename(file.filename))
         object_key = filename  # Let Cloudflare apply its prefix
 
         s3 = boto3.client(
@@ -61,7 +87,7 @@ def upload_to_r2(file):
         return public_url
 
     except Exception as e:
-        logger.error(f"R2 upload error for {file.filename}: {e}")
+        logger.error(f"R2 upload error for {getattr(file, 'filename', filename)}: {e}")
         return None
 
 

@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-{% block title %}
-  <title>About Us | I Like It Properties - Licensed Estate Agents in Kenya</title>
-{% endblock %}
-
+{% block title %}<title>About Us | Real Estate Agency in Nakuru | I Like It Properties</title>{% endblock %}
 {% block meta_description %}
   <meta name="robots" content="noindex, follow">
 {% endblock %}
@@ -11,128 +8,198 @@
 {% endblock %}
 
 
+
 {% block content %}
-<!-- Agent Info + Who We Are -->
-<section class="py-5 bg-light-brown text-dark-brown">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center">
-      <!-- Agent Info -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
-        <img src="{{ url_for('static',filename='images/Jacob.jpg') }}" alt="Jacob Wainaina" class="rounded-circle mb-3" style="width: 300px; height: 300px; object-fit: cover;">
-        <h2 class="h4 mb-0">Jacob Wainaina</h2>
-        <p class="text-muted">Lead Real Estate Agent</p>
-      </div>
-
-      <!-- Who We Are -->
-      <div class="col-md-6 animate__animated animate__fadeInRight">
-        <h2 class="mb-3">Who We Are</h2>
-        <p class="fs-5">At <strong>I Like It Properties</strong>, we believe deeply in People, Purpose and Properties.</p>
-        <p>Real estate for us isn't just about land and buildings—it's about empowering people to make informed decisions through trusted advice.</p>
-        <p>Whether you're acquiring, registering, administering, or transferring property, we're committed to walking with you every step of the way—simplifying complex processes while nurturing relationships built on trust.</p>
-      </div>
+{% cache 3600, 'about_page_content' %}
+<section class="relative py-32 md:py-48 overflow-hidden bg-black text-white">
+    <div class="absolute inset-0 z-0">
+            <img src="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_3.jpg"
+                fetchpriority="high" decoding="async"
+                alt="About I Like It Properties"
+                class="w-full h-full object-cover object-center opacity-50 grayscale-[0.3]">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
     </div>
-  </div>
-</section>
 
-<!-- Services -->
-<section class="py-5 bg-greenish text-white animate__animated animate__fadeInUp">
-  <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
-    <h2 class="mb-4">Real Estate Services</h2>
-    <p>Advisory · Agency · Conveyancing · Letting and Leasing · Property/Estate Management</p>
-  </div>
-</section>
+    <div class="container mx-auto px-6 lg:px-8 max-w-7xl relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="max-w-2xl reveal reveal-left">
+                <div class="inline-block mb-10">
+                    <p class="text-[#7cbd1e] font-black tracking-[8px] uppercase text-[10px] md:text-xs mb-4">Our Foundation</p>
+                    <h2 class="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.85] mb-8">
+                        ABOUT THE <br> <span class="text-[#7cbd1e]">AGENCY</span>
+                    </h2>
+                    <div class="h-2 w-24 bg-[#7cbd1e]"></div>
+                </div>
 
-<!-- Vision -->
-<section class="py-5 bg-light text-dark">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center flex-md-row-reverse">
-      <!-- Image Right -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
-        <img src="{{ url_for('static', filename='images/vision.png') }}" alt="Vision Icon" class="img-fluid" style="max-height: 200px;">
-      </div>
-      <!-- Text Left -->
-      <div class="col-md-6 animate__animated animate__fadeInLeft">
-        <h2 class="mb-4">Vision</h2>
-        <p class="fs-5">Empowered property owners and buyers making purposeful, progressive and profitable decisions.</p>
-      </div>
+                <div class="space-y-8 reveal reveal-up delay-300">
+                    <p class="text-gray-200 text-xl lg:text-2xl font-medium leading-relaxed italic border-l-4 border-[#7cbd1e] pl-6">
+                        "At I Like It Properties, real estate isn't just about land and buildings—it's about empowering people to make informed decisions through trusted advice."
+                    </p>
+                    <p class="text-gray-400 text-lg leading-relaxed font-medium">
+                        Whether you're acquiring, registering, administering, or transferring property, we're committed to walking with you every step of the way—simplifying complex processes while nurturing relationships built on deep trust.
+                    </p>
+                </div>
+            </div>
+            <div class="hidden lg:block"></div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- Mission -->
-<section class="py-5 bg-light-brown text-dark">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center">
-      <!-- Image Left -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
-        <img src="{{ url_for('static', filename='images/mission.png') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
-      </div>
-      <!-- Text Right -->
-      <div class="col-md-6 animate__animated animate__fadeInRight">
-        <h2 class="mb-4">Mission</h2>
-        <p class="fs-5">To educate, equip, and guide clients toward confident real estate decisions, by offering accessible, expert advice that transforms transactions into solid foundations for families and futures.</p>
-      </div>
+<section id="services-home" class="py-24 bg-gray-50 text-gray-600 overflow-hidden">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-8 text-center">
+        <div class="reveal reveal-up">
+            <p class="text-[#7cbd1e] uppercase tracking-[4px] font-black text-[10px] mb-3">What We Do</p>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-20 uppercase tracking-tighter leading-tight">
+                Our Professional <span class="text-[#7cbd1e]">Services</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-comments-dollar text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Advisory</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Expert strategic guidance for real estate investments, market analysis, and portfolio optimization to ensure your capital works harder for you.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-handshake text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Agency</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Dedicated representation for buyers and sellers, leveraging deep market connections to close deals at the best possible price point.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-file-signature text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Conveyancing</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Seamless legal transfer of property ownership, ensuring all documentation and statutory requirements are handled with absolute precision.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-key text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Letting & Leasing</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Comprehensive solutions for landlords and tenants, matching the right occupants with the perfect residential or commercial spaces.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-building-user text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Estate Management</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">End-to-end oversight of your assets, from maintenance and rent collection to tenant relations and value enhancement.</p>
+            </div>
+
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- Core Values -->
-<section class="py-5 bg-greenish text-white">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center flex-md-row-reverse">
-      <!-- Image Right -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
-        <img src="{{ url_for('static', filename='images/corevalues.png') }}" alt="Core Values Icon" class="img-fluid" style="max-height: 200px;">
-      </div>
-      <!-- Text Left -->
-      <div class="col-md-6 animate__animated animate__fadeInLeft">
-        <h2 class="mb-4">Core Values</h2>
-        <ul class="list-group list-group-flush fs-5">
-          <li class="list-group-item bg-transparent text-white">🤝 Relationships – You're a partner, not just a client.</li>
-          <li class="list-group-item bg-transparent text-white">📚 Education – Insights that empower.</li>
-          <li class="list-group-item bg-transparent text-white">🧘 Simplicity – No jargon, just clarity.</li>
-          <li class="list-group-item bg-transparent text-white">🔒 Trust – Transparent communication and unwavering integrity.</li>
-          <li class="list-group-item bg-transparent text-white">🎯 Purpose – Every step aligned with your goals.</li>
-        </ul>
-      </div>
+
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16 reveal reveal-up">
+            <p class="text-[#7cbd1e] font-bold tracking-[3px] uppercase text-sm mb-3">Meet The Team</p>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tighter">OUR EXPERT AGENTS</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="group reveal reveal-scale relative overflow-hidden bg-white border-b-4 border-[#7cbd1e] shadow-lg">
+                <img src="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/Jacob.jpg" alt="Jacob Wainaina" class="w-full h-[450px] object-cover group-hover:scale-105 transition-all duration-700">
+                <div class="absolute bottom-0 w-full bg-white/95 backdrop-blur-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-900 uppercase">Jacob Wainaina</h3>
+                    <p class="text-[#7cbd1e] text-xs font-bold tracking-widest uppercase mt-1">Lead Real Estate Agent</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- Your Journey with Us -->
-<section class="py-5 bg-light text-dark">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center">
-      <!-- Image Left -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInLeft">
-        <img src="{{ url_for('static', filename='images/growth.png') }}" alt="Journey Icon" class="img-fluid" style="max-height: 200px;">
-      </div>
-      <!-- Text Right -->
-      <div class="col-md-6 animate__animated animate__fadeInRight">
-        <h2 class="mb-4">Your Journey with Us</h2>
-        <ul class="fs-5">
-          <li><strong>Connect</strong> – We begin by listening to your needs, purpose, and aspirations.</li>
-          <li><strong>Educate</strong> – We simplify the process with insights into the market, legal steps, and finances.</li>
-          <li><strong>Empower</strong> – You make the choice—backed by clarity and expert guidance.</li>
-          <li><strong>Deliver</strong> – Seamless acquisition, transfer, or registration—done right, done simply.</li>
-        </ul>
-      </div>
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="bg-white reveal reveal-up p-12 text-center border-t-4 border-gray-100 hover:border-[#7cbd1e] shadow-sm group">
+                <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 mb-8 group-hover:border-[#7cbd1e]">
+                    <i class="fas fa-eye text-3xl text-gray-400 group-hover:text-[#7cbd1e]"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900 mb-4 uppercase tracking-wider">Vision</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">
+                    "Empowered property owners and buyers making purposeful, progressive and profitable decisions."
+                </p>
+            </div>
+
+            <div class="bg-white reveal reveal-up delay-200 p-12 text-center border-t-4 border-[#7cbd1e] transform lg:-translate-y-6 shadow-2xl relative z-10">
+                <div class="w-20 h-20 mx-auto bg-[#7cbd1e] rounded-full flex items-center justify-center mb-8 shadow-[0_10px_20px_rgba(124,189,30,0.3)]">
+                    <i class="fas fa-bullseye text-3xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900 mb-4 uppercase tracking-wider">Mission</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    To educate, equip, and guide clients toward confident real estate decisions, by offering expert advice that transforms transactions into solid foundations.
+                </p>
+            </div>
+
+            <div class="bg-white reveal reveal-up delay-400 p-12 text-center border-t-4 border-gray-100 hover:border-[#7cbd1e] shadow-sm group">
+                <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 mb-8 group-hover:border-[#7cbd1e]">
+                    <i class="fas fa-gem text-3xl text-gray-400 group-hover:text-[#7cbd1e]"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900 mb-4 uppercase tracking-wider">Core Values</h3>
+                <ul class="text-gray-500 text-xs space-y-4 text-left">
+                    <li class="flex items-center"><i class="fas fa-check text-[#7cbd1e] mr-3"></i> Relationships – Partner, not just client.</li>
+                    <li class="flex items-center"><i class="fas fa-check text-[#7cbd1e] mr-3"></i> Education – Insights that empower.</li>
+                    <li class="flex items-center"><i class="fas fa-check text-[#7cbd1e] mr-3"></i> Simplicity – Clarity over jargon.</li>
+                    <li class="flex items-center"><i class="fas fa-check text-[#7cbd1e] mr-3"></i> Trust – Unwavering integrity.</li>
+                </ul>
+            </div>
+
+        </div>
     </div>
-  </div>
 </section>
-<section class="py-5 bg-light-brown text-dark">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <div class="row align-items-center flex-md-row-reverse">
-      <!-- Image Right -->
-      <div class="col-md-6 text-center animate__animated animate__fadeInRight">
-        <img src="{{ url_for('static', filename='images/handshake.png') }}" alt="Core Values Icon" class="img-fluid" style="max-height: 200px;">
-      </div>
-      <!-- Text Left -->
-      <div class="col-md-6 animate__animated animate__fadeInLeft">
-        <p class="fs-5">Partner with a team that champions informed choices, lasting relationships, and property that truly delivers.</p>
+
+<section class="py-24 bg-white border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-black text-gray-900 mb-16 tracking-tighter reveal reveal-up">JOURNEY WITH <span class="text-[#7cbd1e]">US</span></h2>
         
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+            <div class="reveal reveal-up p-8 bg-gray-50 border border-gray-100">
+                <span class="text-5xl font-black text-gray-200 block mb-4">01</span>
+                <h4 class="text-gray-900 font-bold uppercase mb-2">Connect</h4>
+                <p class="text-xs text-gray-500">Listening to your needs and aspirations.</p>
+            </div>
+            <div class="reveal reveal-up delay-150 p-8 bg-gray-50 border border-gray-100">
+                <span class="text-5xl font-black text-gray-200 block mb-4">02</span>
+                <h4 class="text-gray-900 font-bold uppercase mb-2">Educate</h4>
+                <p class="text-xs text-gray-500">Insights into market and legal steps.</p>
+            </div>
+            <div class="reveal reveal-up delay-300 p-8 bg-gray-50 border border-gray-100">
+                <span class="text-5xl font-black text-gray-200 block mb-4">03</span>
+                <h4 class="text-gray-900 font-bold uppercase mb-2">Empower</h4>
+                <p class="text-xs text-gray-500">Choice backed by expert guidance.</p>
+            </div>
+            <div class="reveal reveal-up delay-450 p-8 bg-[#7cbd1e] border border-[#7cbd1e] shadow-lg">
+                <span class="text-5xl font-black text-white/40 block mb-4">04</span>
+                <h4 class="text-white font-bold uppercase mb-2">Deliver</h4>
+                <p class="text-xs text-white/80">Seamless acquisition & registration.</p>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
+
+<section class="bg-white py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="h-[500px] w-full border border-gray-200 relative shadow-2xl overflow-hidden rounded-lg">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7584144675!2d36.0699031!3d-0.2865487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18298d966953047d%3A0xc3f5a9e38e1a6c4b!2sGibcon%20House!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                width="100%"
+                height="100%"
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                class="grayscale-[0.2] contrast-[1.1]">
+            </iframe>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-gray-400 text-[10px] font-black uppercase tracking-[5px]">
+                Gibcon House, Kijabe Row, Nakuru City
+            </p>
+        </div>
+    </div>
+</section>
+{% endcache %}
+
 {% endblock %}

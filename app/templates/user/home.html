@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+
 {% block title %}
-  <title> Trusted and Registered Real Estate Agents in Nakuru, Kenya | I Like It Properties</title>
+  <title>Trusted Real Estate Agents in Nakuru, Kenya | I Like It Properties</title>
 {% endblock %}
 
 {% block meta_description %}
-  <meta name="description" content="Trusted estate agents in Nakuru, Kenya. We offer advisory, agency, conveyancing, letting, leasing and estate management services with professionalism and integrity.">
+  <meta name="description" content="Find your dream property in Nakuru, Kenya. We offer expert advisory, agency, and management services to help you source, see, and secure your ideal home or investment.">
 {% endblock %}
 
 {% block canonical %}
@@ -12,102 +13,312 @@
 {% endblock %}
 
 {% block content %}
-<section class="bg-greenish text-white text-center py-5">
-  <div class="container">
-    <h1 class="display-5 fw-bold animate__animated animate__fadeInDown">We help you Source, See and Secure your dream property.</h1>
-  </div>
-</section>
-
-<section class="container my-5">
-  <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Featured Listings</h2>
-  <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 460px;">
-    <div class="carousel-inner h-100">
-      {% for listing in featured_listings %}
-      <div class="carousel-item {% if loop.index == 1 %}active{% endif %} h-100">
-        <div class="d-flex justify-content-center align-items-center h-100">
-          <div class="card shadow-sm" style="width: 18rem; height: 400px;">
-            <img src="{{ listing.get_image_list()[0] }}"
-                 class="card-img-top"
-                 alt="{{ listing.name }}"
-                 onerror="this.src='https://via.placeholder.com/600x400?text=No+Image';"
-                 style="height: 160px; object-fit: cover;">
-            <div class="card-body d-flex flex-column justify-content-between" style="height: 220px;">
-              <div>
-                <h5 class="card-title">{{ listing.name }}</h5>
-                <p class="card-text text-muted small">{{ listing.description[:80] }}...</p>
-              </div>
-              <a href="{{ url_for('main.listing_detail', listing_id=listing.id)}}" class="btn btn-greenish mt-2">View</a>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- Hero Section -->
+<section class="hero-section relative h-[65vh] min-h-[480px] md:min-h-[560px] overflow-hidden">
+    <div id="hero-slider" class="absolute inset-0 w-full h-full">
+        {% for slide in slides %}
+        <div class="slide absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out {% if loop.first %}opacity-100{% else %}opacity-0{% endif %}"
+             style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ slide.image }}') center/cover no-repeat;">
+            <div class="hero-text flex flex-col items-center justify-start pt-[40px] md:pt-[60px] lg:pt-[80px] h-full text-center text-white px-4">
+                <h1 class="text-4xl md:text-7xl font-black mb-3 max-w-4xl leading-[1.1] tracking-tighter uppercase">
+                    {{ slide.title }}
+                </h1>
+                <p class="text-base md:text-lg max-w-2xl font-light tracking-wide opacity-95 leading-relaxed mt-1">
+                    {{ slide.sub }}
+                </p>
             </div>
-          </div>
         </div>
-      </div>
-      {% endfor %}
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>
-</section>
-
-<section id="services" class="py-5 bg-transparent text-white real-estate-bg">
-  <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
-    <h2 class="mb-5 animate__animated animate__fadeIn">Real Estate Services</h2>
-    <div class="vstack gap-3 align-items-center">
-      <div class="animate__animated animate__fadeInUp">
-        <h5 class="mb-0">Advisory</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-1s">
-        <h5 class="mb-0">Agency</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-2s">
-        <h5 class="mb-0">Conveyancing</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-3s">
-        <h5 class="mb-0">Letting and Leasing</h5>
-      </div>
-      <div class="animate__animated animate__fadeInUp animate__delay-4s">
-        <h5 class="mb-0">Property/Estate Management</h5>
-      </div>
+        {% endfor %}
     </div>
 
-    <div class="animate__animated animate__fadeInUp animate__delay-5s mt-4">
-      <a href="{{ url_for('main.contact') }}" class="btn btn-greenish text-center">Contact Us</a>
-    </div>
-  </div>
-</section>
+    <div class="absolute hero-search left-0 w-full flex justify-center pb-6 md:pb-12 z-20">
+        <div class="w-full max-w-5xl px-4">
+            <div class="flex">
+                <button type="button" onclick="setHomeStatus('For Rent')" id="tab-rent" class="status-tab px-4 sm:px-8 py-3 bg-[#7cbd1e] text-white font-bold transition-all">Rent Properties</button>
+                <button type="button" onclick="setHomeStatus('For Sale')" id="tab-buy" class="status-tab px-4 sm:px-8 py-3 bg-white text-gray-700 font-bold transition-all">Buy Properties</button>
+            </div>
 
+            <form action="{{ url_for('main.listings') }}" method="GET" class="bg-white shadow-2xl flex flex-wrap lg:flex-nowrap items-stretch rounded-tr-lg rounded-b-lg overflow-hidden">
+                <input type="hidden" name="status" id="search-status" value="For Rent">
 
-<section class="py-5 bg-light-brown text-dark text-center">
-  <div class="container" data-aos="fade-up" data-aos-delay="200">
-    <h2 class="animate__animated animate__fadeInDown ">Want to Know Us Better?</h2>
-    <p class="lead animate__animated animate__fadeInUp ">Discover our story, values, and vision for real estate</p>
-    <a href="{{ url_for('main.about') }}" class="btn btn-greenish mt-3 animate__animated animate__fadeInUp animate__delay-5s">Explore About Us</a>
-  </div>
-</section>
+                <div class="flex-1 min-w-[200px] border-r border-gray-100 p-3 md:p-5">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-900 mb-1">Location / Landmark</label>
+                    <div class="flex items-center text-gray-400">
+                        <i class="fas fa-map-marker-alt mr-2 text-xs text-[#7cbd1e]"></i>
+                        <input type="text" name="location" placeholder="e.g., Kiamunyi, Ngata..." class="w-full outline-none text-sm text-gray-700 placeholder-gray-300 bg-transparent">
+                    </div>
+                </div>
 
+                <div class="flex-1 min-w-[200px] border-r border-gray-100 p-3 md:p-5">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-900 mb-1">Property Type</label>
+                    <div class="relative">
+                        <select name="property_type" class="w-full appearance-none bg-transparent outline-none text-sm text-gray-500 cursor-pointer">
+                            <option value="">All Types</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Land">Land / Plots</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-0 top-1 text-[10px] text-[#7cbd1e] pointer-events-none"></i>
+                    </div>
+                </div>
 
-<section class="py-5 bg-transparent text-dark">
-  <div class="container text-center" data-aos="fade-up" data-aos-delay="200">
-    <div class="text-center animate__animated animate__fadeInUp">
-      <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Mission Icon" class="img-fluid" style="max-height: 200px;">
-    </div>
-    <div class="fs-4 text-center mt-4">
-      <p class="mb-1">Choose <strong class="text-success">I Like It Properties</strong></p>
-      <div class="tagline-container text-black mt-4">
-        <h2 class="animate__animated animate__fadeInDown animate__delay-1s">Where People</h2>
-        <div class="animate__animated animate__fadeInDown animate__delay-2s">
-          <i class="fa-solid fa-arrow-down text-black"></i>
+                <div class="flex-1 min-w-[200px] p-3 md:p-5">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-900 mb-1">Price Range (Ksh)</label>
+                    <div class="relative">
+                        <select name="price_range" id="home-price-select" class="w-full appearance-none bg-transparent outline-none text-sm text-gray-500 cursor-pointer">
+                            </select>
+                        <i class="fas fa-chevron-down absolute right-0 top-1 text-[10px] text-[#7cbd1e] pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold uppercase tracking-widest px-8 md:px-12 transition-all flex items-center justify-center min-h-full">
+                    Search
+                </button>
+            </form>
         </div>
-        <h2 class="animate__animated animate__fadeInDown animate__delay-3s">Purpose</h2>
-        <div class="animate__animated animate__fadeInDown animate__delay-4s">
-          <i class="fa-solid fa-arrow-down text-black"></i>
-        </div>
-        <h2 class="animate__animated animate__fadeInDown animate__delay-5s">Properties Meet</h2>
-      </div>
     </div>
-  </div>
 </section>
+
+
+<!-- Featured Listings Section -->
+<section class="py-24 bg-white overflow-hidden">
+    {% cache 300, 'home_listings_grid' %}
+    <div class="text-center mb-16 reveal reveal-up">
+        <p class="text-[#7cbd1e] font-black tracking-[4px] uppercase text-xs mb-3">Featured Collection</p>
+        <h2 class="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter leading-none">
+            LATEST <span class="text-[#7cbd1e]">PROPERTIES</span>
+        </h2>
+        <div class="h-2 w-20 bg-[#7cbd1e] mt-6 mx-auto"></div>
+    </div>
+    <div class="container mx-auto px-6 max-w-[1600px]"> <div class="mb-12 flex items-end justify-between">
+            <div class="hidden md:flex gap-2">
+                <div class="main-prev cursor-pointer w-12 h-12 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                    <i class="fas fa-chevron-left text-xs"></i>
+                </div>
+                <div class="main-next cursor-pointer w-12 h-12 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper homepage-listings-swiper !pb-12">
+            <div class="swiper-wrapper">
+                {% for listing in listings %}
+                <div class="swiper-slide h-auto">
+                    <div class="group bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-2xl hover:border-[#7cbd1e]/30 transition-all duration-500">
+                        <div class="w-full h-[220px] relative swiper mySwiper bg-gray-100">
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="px-2.5 py-1 {{ 'bg-white text-black' if listing.listing_status == 'For Rent' else 'bg-[#7cbd1e] text-white' }} text-[8px] font-black uppercase tracking-[0.2em] shadow-lg">
+                                    {{ listing.listing_status }}
+                                </span>
+                            </div>
+                            <div class="swiper-wrapper">
+                                {% set images = listing.get_image_list() %}
+                                {% if images %}
+                                {% for img in images %}
+                                    <div class="swiper-slide">
+                                        <img src="{{ img }}" decoding="async" class="w-full h-full object-cover" alt="{{ listing.name }}">
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                    <div class="swiper-slide flex items-center justify-center">
+                                        <i class="fas fa-home text-4xl text-gray-200"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="swiper-button-next !text-white after:!text-[8px] !bg-black/20 !w-6 !h-6 rounded-full"></div>
+                            <div class="swiper-button-prev !text-white after:!text-[8px] !bg-black/20 !w-6 !h-6 rounded-full"></div>
+                        </div>
+
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <div class="mb-2">
+                                    <p class="text-xl font-black text-[#7cbd1e] tracking-tighter">
+                                        KSh {{ "{:,.0f}".format(listing.numeric_price) }}{% if listing.listing_status == 'For Rent' %}<span class="text-[9px] text-gray-400 font-normal uppercase tracking-widest ml-1">/ MONTH</span>{% endif %}
+                                    </p>
+                                </div>
+                                <a href="{{ url_for('main.listing_detail', listing_id=listing.id) }}" class="text-lg font-black text-gray-900 uppercase tracking-tighter hover:text-[#7cbd1e] transition-colors line-clamp-1">
+                                    {{ listing.name }}
+                                </a>
+                                <p class="text-[10px] text-gray-400 mt-1 flex items-center font-bold uppercase tracking-widest">
+                                    <i class="fas fa-map-marker-alt text-[#7cbd1e] mr-2"></i> {{ listing.location }}
+                                </p>
+
+                                {% if listing.features %}
+                                <div class="mt-4">
+                                    <p class="text-[8px] text-gray-900 font-bold uppercase font-black tracking-[2px] mb-1">Key Features</p>
+                                    <p class="text-[11px] text-gray-600 italic line-clamp-1">
+                                        {{ listing.features|map(attribute='name')|join(', ') }}
+                                    </p>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                                <div class="flex gap-4">
+                                    {% if listing.bedrooms %}
+                                    <div class="flex items-center gap-1.5">
+                                        <i class="fas fa-bed text-[#7cbd1e] text-[10px]"></i>
+                                        <span class="text-[10px] font-black text-gray-700">{{ listing.bedrooms }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if listing.bathrooms %}
+                                    <div class="flex items-center gap-1.5">
+                                        <i class="fas fa-bath text-[#7cbd1e] text-[10px]"></i>
+                                        <span class="text-[10px] font-black text-gray-700">{{ listing.bathrooms }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if listing.size %}
+                                    <div class="flex items-center gap-1.5">
+                                        <i class="fas fa-expand text-[#7cbd1e] text-[10px]"></i>
+                                        <span class="text-[10px] font-black text-gray-700 uppercase tracking-tighter">
+                                            {{ listing.size.split(' ')[0] }}<small class="font-normal text-[8px] ml-0.5">{{ listing.size.split(' ')[1] if ' ' in listing.size else '' }}</small>
+                                        </span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ url_for('main.listing_detail', listing_id=listing.id) }}" class="text-[9px] font-black uppercase tracking-widest text-black hover:text-[#7cbd1e]">
+                                    Details <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination !-bottom-2"></div>
+        </div>
+    </div>
+    {% endcache %}
+</section>
+
+
+<!-- Services Section -->
+{% cache 3600, 'services_section' %}
+<section id="services-home" class="py-24 bg-gray-50 text-gray-600 overflow-hidden">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-8 text-center">
+        <div class="reveal reveal-up">
+            <p class="text-[#7cbd1e] uppercase tracking-[4px] font-black text-[10px] mb-3">What We Do</p>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-20 uppercase tracking-tighter leading-tight">
+                Our Professional <span class="text-[#7cbd1e]">Services</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-comments-dollar text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Advisory</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Expert strategic guidance for real estate investments, market analysis, and portfolio optimization to ensure your capital works harder for you.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-handshake text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Agency</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Dedicated representation for buyers and sellers, leveraging deep market connections to close deals at the best possible price point.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-file-signature text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Conveyancing</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Seamless legal transfer of property ownership, ensuring all documentation and statutory requirements are handled with absolute precision.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-key text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Letting & Leasing</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">Comprehensive solutions for landlords and tenants, matching the right occupants with the perfect residential or commercial spaces.</p>
+            </div>
+
+            <div class="service-card reveal reveal-up bg-white p-8 hover:-translate-y-3 transition-all duration-700 border border-gray-100 hover:border-[#7cbd1e] shadow-sm group cursor-default">
+                <i class="fas fa-building-user text-4xl text-[#7cbd1e] mb-6 group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-lg font-black text-gray-900 mb-4 uppercase tracking-tighter">Estate Management</h3>
+                <p class="text-[12px] leading-relaxed font-medium text-gray-600">End-to-end oversight of your assets, from maintenance and rent collection to tenant relations and value enhancement.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endcache %}
+
+<!-- About Us Section -->
+{% cache 3600, 'home_about_teaser' %}
+<section id="about-section-container" class="relative py-32 bg-fixed bg-center bg-cover overflow-hidden"
+         data-turbo="false" style="background-image: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_5.jpg');">
+    <div class="container mx-auto px-4 relative z-10">
+        <div id="about-content-wrapper" class="max-w-4xl mx-auto text-center reveal reveal-up">
+            <h4 class="text-[#7cbd1e] uppercase tracking-[0.3em] font-black text-xs mb-6">Our Story</h4>
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-8">
+                Want to Know Us Better?
+            </h2>
+            
+            <p class="text-gray-600 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
+                Discover our story, our values, and our unwavering commitment to providing exceptional real estate services in Nakuru. We don't just find properties; we build lasting relationships based on trust and local expertise.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-10 mb-12">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check-circle text-[#7cbd1e] text-xl"></i>
+                    <span class="text-sm font-black text-gray-800 uppercase tracking-widest">Local Experts</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check-circle text-[#7cbd1e] text-xl"></i>
+                    <span class="text-sm font-black text-gray-800 uppercase tracking-widest">Trusted Agency</span>
+                </div>
+            </div>
+
+            <a href="{{ url_for('main.about') }}" 
+               class="inline-block bg-[#7cbd1e] hover:bg-[#6aa31a] text-white px-12 py-5 font-bold uppercase tracking-widest text-sm transition-all shadow-2xl hover:-translate-y-1 rounded-sm">
+                Explore About Us →
+            </a>
+        </div>
+    </div>
+</section>
+{% endcache %}
+
+<!-- Subscription -->
+<section class="bg-[#0f1113] py-16">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-7/12 reveal reveal-left">
+                <div class="border-l-4 border-[#7cbd1e] pl-6 mb-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white uppercase tracking-tight">
+                        Subscribe to our Newsletter
+                    </h2>
+                    <p class="text-gray-400 mt-2 text-lg">Get the latest offers and property updates</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('main.subscribe') }}" class="flex flex-col sm:flex-row items-stretch mt-10 shadow-2xl">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input name="email" id="subscribe-email" type="email" required
+                           placeholder="Your email here" 
+                           class="flex-1 bg-[#2d3136] text-white px-6 py-5 outline-none focus:ring-1 focus:ring-[#7cbd1e] transition-all placeholder-gray-500" aria-label="Email address">
+                    <button type="submit"
+                            class="bg-[#7cbd1e] hover:bg-[#6aa31a] text-white px-8 py-5 sm:py-3 font-bold uppercase tracking-widest transition-all">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:w-3/12 relative group self-center px-4 mt-12 lg:mt-0 reveal reveal-up delay-300">
+                <div class="relative overflow-hidden rounded-sm h-48 shadow-lg">
+                    <div class="absolute top-0 left-0 z-10 flex">
+                        <div class="bg-[#7cbd1e] p-2 flex items-center justify-center">
+                            <i class="fas fa-award text-white text-sm"></i>
+                        </div>
+                        <div class="bg-[#1a1d21] px-3 py-2">
+                            <span class="text-white font-black uppercase tracking-widest text-[8px]">Weekly Offer</span>
+                        </div>
+                    </div>
+
+                    <img src="{{ url_for('static', filename='images/hero_2.jpg') }}"
+                         alt="Weekly Offer"
+                         class="w-full h-auto object-cover transform group-hover:scale-105 transition-all duration-700">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

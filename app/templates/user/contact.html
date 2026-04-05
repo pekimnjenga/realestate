@@ -11,111 +11,164 @@
   <link rel="canonical" href="https://ilikeitproperties.co.ke/contact" />
 {% endblock %}
 
-
 {% block content %}
-<section id="contact-section" class="bg-greenish text-white py-5" style="
-  background-image: url('{{ url_for('static', filename='images/contact-bg.jpg') }}');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-blend-mode: multiply;
-  min-height: calc(100vh - 56px - 80px);">
-
-  <div class="container">
-    <div class="text-center mb-6">
-      <h2 class="display-5 fw-bold">Get in Touch</h2>
-      <p class="lead">
-        We’d love to hear from you — whether it's about listings, partnerships, or general inquiries.
-      </p>
-     
+   <section class="relative h-[45vh] min-h-[400px] flex items-center overflow-hidden bg-black text-white">
+    
+    <div class="absolute inset-0 z-0">
+               <img src="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_5.jpg"
+                 fetchpriority="high" decoding="async"
+                 class="w-full h-full object-cover opacity-50 grayscale-[0.3]" alt="Contact Us">
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
     </div>
 
-    <div class="row justify-content-center">
-      <!-- Contact Form -->
-      <div class="col-md-6 mb-5">
-        <form method="POST" action="{{ url_for('main.contact') }}" class="bg-light text-dark p-4 rounded shadow">
-          <h4 class="mb-4 text-center">Send Us a Message</h4>
-          <div class="mb-3">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+    <div class="container mx-auto px-6 lg:px-8 max-w-7xl relative z-10">
+        <div class="max-w-3xl">
+            <p class="text-[#7cbd1e] font-black tracking-[6px] uppercase text-xs mb-4">Contact Sanctuary</p>
+            <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9]">
+                CONNECT <br> <span class="text-[#7cbd1e]">WITH US</span>
+            </h1>
+            <div class="h-2 w-24 bg-[#7cbd1e] mt-8"></div>
+        </div>
+    </div>
+</section>
+
+<section id="contact-section" class="bg-white py-24 min-h-screen relative">
+  <div class="container mx-auto px-6 lg:px-8 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      <div class="lg:col-span-7">
+        <form method="POST" action="{{ url_for('main.contact') }}"
+              class="bg-white p-8 md:p-10 border-2 border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-sm">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-8 flex items-center">
+            <span class="w-8 h-[2px] bg-[#7cbd1e] mr-4"></span> Send Us a Message
+          </h4>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="name" class="block text-[10px] font-black uppercase tracking-widest text-black mb-2 ml-1">Your Name</label>
+              <input type="text" id="name" placeholder="Your Name" required
+                class="w-full px-5 py-4 bg-white border-2 border-gray-200 focus:border-[#7cbd1e] outline-none transition-all rounded-sm text-sm font-bold text-black">
+            </div>
+            <div>
+              <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-black mb-2 ml-1">Your Email</label>
+              <input type="email" id="email" placeholder="Your Email" name="email" required
+                     class="w-full px-5 py-4 bg-white border-2 border-gray-200 focus:border-[#7cbd1e] outline-none transition-all rounded-sm text-sm font-bold text-black">
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Your Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+
+          <div class="mb-6">
+            <label for="subject" class="block text-[10px] font-black uppercase tracking-widest text-black mb-2 ml-1">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Subject" required
+              class="w-full px-5 py-4 bg-white border-2 border-gray-200 focus:border-[#7cbd1e] outline-none transition-all rounded-sm text-sm font-bold text-black">
           </div>
-          <div class="mb-3">
-            <label for="subject" class="form-label">Subject</label>
-            <input type="text" class="form-control" id="subject" name="subject" required>
+
+          <div class="mb-8">
+            <label for="message" class="block text-[10px] font-black uppercase tracking-widest text-black mb-2 ml-1">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your Message" required
+              class="w-full px-5 py-4 bg-white border-2 border-gray-200 focus:border-[#7cbd1e] outline-none transition-all rounded-sm text-sm font-bold text-black resize-none"></textarea>
           </div>
-          <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-greenish w-100">Send Message</button>
+
+          <button type="submit"
+                  class="w-full bg-[#7cbd1e] text-white font-black py-5 rounded-sm uppercase tracking-[0.2em] text-[11px] shadow-[0_8px_20px_-6px_rgba(124,189,30,0.5)] hover:bg-black hover:shadow-none transition-all duration-300">
+            Send Message
+          </button>
         </form>
       </div>
 
-      <!-- Contact Details -->
-      <div class="col-md-5">
-        <div class="bg-dark bg-opacity-50 p-4 rounded">
-          <h4 class="mb-4">Contact Details</h4>
-          <p class="fs-6 d-flex align-items-center mb-3">
-            <i class="fas fa-phone text-primary me-2"></i> 
-            <a href="tel:+254720663769" class="text-white text-decoration-none">+254 720 663 769</a>
-          </p>
-          <p class="fs-6 d-flex align-items-center mb-3">
-            <i class="fas fa-envelope text-primary me-2"></i>
-            <a href="mailto:info@ilikeitproperties.co.ke" class="text-white text-decoration-none">
-              info@ilikeitproperties.co.ke
-            </a>
-          </p>
-          <p class="fs-6">
-            <i class="fas fa-map-marker-alt text-danger me-2"></i> Gibcon House, Kijabe Row, off Kenyatta Avenue, Nakuru City
-          </p>
-           <div class="mt-4">
-            <!-- Availability Message -->
-             <div class="alert alert-success shadow-sm rounded d-flex align-items-center">
-              <i class="fas fa-headset me-3 fs-5 text-white bg-success p-2 rounded-circle"></i>
-              <p class="mb-0 fs-6">
-                <strong>We are online 24/7</strong> — once you send us a message via WhatsApp, email or through this form, 
-                we’ll get in touch with you shortly.
-              </p>
+      <div class="lg:col-span-5 space-y-12">
+        {% cache 3600, 'contact_info_sidebar' %}
+        <div>
+          <h4 class="text-2xl font-black text-black uppercase tracking-tighter mb-8 border-b-2 border-gray-100 pb-4">Contact Information</h4>
+          
+          <div class="space-y-8">
+            <div class="flex items-start group">
+              <div class="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mr-6 group-hover:bg-[#7cbd1e] group-hover:border-[#7cbd1e] transition-all duration-300">
+                <i class="fas fa-phone text-[#7cbd1e] group-hover:text-white text-lg"></i>
+              </div>
+              <div class="pt-1">
+                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Phone</p>
+                <a href="tel:+254720663769" class="text-black text-lg font-black hover:text-[#7cbd1e] transition-colors">+254 720 663 769</a>
+              </div>
             </div>
-            <!-- Office Hours -->
-             <div class="alert alert-light border-start border-4 border-success shadow-sm mt-3">
-              <h5 class="fw-bold mb-2"><i class="fas fa-clock text-success me-2"></i> Office Hours</h5>
-              <ul class="list-unstyled mb-0 fs-6">
-                <li><strong>Monday – Friday:</strong> 9:00 AM – 5:00 PM</li>
-                <li><strong>Saturday:</strong> 9:00 AM – 12:00 PM</li>
-                <li><strong>Sunday:</strong> Closed</li>
-              </ul>
-            </div>
-          </div>
 
-          <div class="mt-4">
-            <p class="fs-6 mb-3">You can connect with us via our social media platforms:</p>
-            <div class="d-flex gap-3">
-              <a href="https://facebook.com/ilikeitproperties" target="_blank" class="text-white fs-5">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="https://wa.me/254720663769" 
-                 target="_blank" class="text-white fs-5">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-              <a href="https://instagram.com/ilikeitproperties" target="_blank" class="text-white fs-5">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="https://www.linkedin.com/in/Jacobmburuwainaina" class="text-white fs-5">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
+            <div class="flex items-start group">
+              <div class="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mr-6 group-hover:bg-[#7cbd1e] group-hover:border-[#7cbd1e] transition-all duration-300">
+                <i class="fas fa-envelope text-[#7cbd1e] group-hover:text-white text-lg"></i>
+              </div>
+              <div class="pt-1">
+                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Email</p>
+                <a href="mailto:info@ilikeitproperties.co.ke" class="text-black text-lg font-black hover:text-[#7cbd1e] transition-colors">info@ilikeitproperties.co.ke</a>
+              </div>
+            </div>
+
+            <div class="flex items-start group">
+              <div class="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mr-6 group-hover:bg-[#7cbd1e] group-hover:border-[#7cbd1e] transition-all duration-300">
+                <i class="fas fa-map-marker-alt text-[#7cbd1e] group-hover:text-white text-lg"></i>
+              </div>
+              <div class="pt-1">
+                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Office Location</p>
+                <p class="text-black text-lg font-black leading-tight">Gibcon House, Kijabe Row, <br>Nakuru City</p>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="bg-white p-8 border-2 border-gray-100 border-l-4 border-l-[#7cbd1e] shadow-sm">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-headset text-2xl text-[#7cbd1e] mr-4"></i>
+            <h5 class="text-sm font-black uppercase tracking-widest text-black">Online 24/7 Support</h5>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed font-medium">
+            Reach out via WhatsApp, email, or our form. We ensure expert guidance is always just a message away.
+          </p>
+        </div>
+
+        <div class="pt-4">
+          <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-6">Follow Our Journey</p>
+          <div class="flex space-x-4">
+            <a href="https://facebook.com/ilikeitproperties" target="_blank" class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-[#7cbd1e] hover:-translate-y-1 transition-all duration-300 shadow-md">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+            <a href="https://wa.me/254720663769" target="_blank" class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-[#7cbd1e] hover:-translate-y-1 transition-all duration-300 shadow-md">
+              <i class="fab fa-whatsapp text-sm"></i>
+            </a>
+            <a href="https://instagram.com/ilikeitproperties" target="_blank" class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-[#7cbd1e] hover:-translate-y-1 transition-all duration-300 shadow-md">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/Jacobmburuwainaina" class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-[#7cbd1e] hover:-translate-y-1 transition-all duration-300 shadow-md">
+              <i class="fab fa-linkedin-in text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        {% endcache %}
       </div>
     </div>
   </div>
 </section>
+
+<section class="bg-white py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="h-[500px] w-full border border-gray-200 relative shadow-2xl overflow-hidden rounded-lg">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7584144675!2d36.0699031!3d-0.2865487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18298d966953047d%3A0xc3f5a9e38e1a6c4b!2sGibcon%20House!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                class="grayscale-[0.2] contrast-[1.1]">
+            </iframe>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-gray-400 text-[10px] font-black uppercase tracking-[5px]">
+                Gibcon House, Kijabe Row, Nakuru City
+            </p>
+        </div>
+    </div>
+</section>
 {% endblock %}
-
-

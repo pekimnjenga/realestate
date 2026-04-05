@@ -1,0 +1,16 @@
+# The production dependencies
+-r requirements.in
+
+# Quality Assurance & Type Checking
+ruff
+mypy
+types-requests
+types-bleach
+types-itsdangerous
+
+# Testing
+pytest-flask
+pytest-cov
+
+# Workflow Automation
+pre-commit

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-8">
+    <h2 class="text-2xl font-black uppercase tracking-tighter mb-8">Pending <span class="text-[#7cbd1e]">Comments</span></h2>
+
+    <div class="overflow-x-auto bg-white shadow-sm border border-gray-100">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-50 border-b border-gray-100">
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Author</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Comment Content</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Blog Post</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-2">
+                            <p class="font-bold text-sm">{{ comment.author_name }}</p>
+                            {% if comment.is_flagged %}
+                            <span class="text-xs bg-amber-200 text-amber-800 px-2 py-1 rounded-sm font-black uppercase">Flagged</span>
+                            {% endif %}
+                            {% if not comment.email_verified %}
+                            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-sm font-black uppercase">Unverified</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-[10px] text-gray-400">{{ comment.author_email }}</p>
+                    </td>
+                    <td class="p-4 text-xs text-gray-600 italic">"{{ comment.content|truncate(100) }}"</td>
+                    <td class="p-4 text-[10px] font-black uppercase">{{ comment.blog.title|truncate(30) }}</td>
+                    <td class="p-4 text-right space-x-2">
+                        <a href="{{ url_for('main.approve_comment', comment_id=comment.id) }}" 
+                           class="inline-block bg-[#7cbd1e] text-white px-4 py-2 text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
+                           Approve
+                        </a>
+                        <a href="{{ url_for('main.delete_comment', comment_id=comment.id) }}" 
+                           class="inline-block border border-red-500 text-red-500 px-4 py-2 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">
+                           Decline
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="p-10 text-center text-gray-400 text-xs font-bold uppercase tracking-widest">
+                        Clean Inbox! No pending comments.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,34 +1,89 @@
 {% extends "base.html" %}
+
 {% block title %}<title>Admin Dashboard | I Like It Properties</title>{% endblock %}
+
 {% block meta_description %}
   <meta name="robots" content="noindex, nofollow">
 {% endblock %}
+
 {% block content %}
-<section class="py-5 bg-light text-dark">
-  <div class="container">
-    <h2 class="text-center mb-4">Admin Dashboard</h2>
-
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body text-center">
-            <p class="mb-4">Welcome back, Admin! What would you like to do today?</p>
-
-            <div class="d-grid gap-3">
-              <a href="{{ url_for('main.new_blog') }}" class="btn btn-primary btn-lg">
-                <i class="fas fa-pen"></i> Write a New Blog
-              </a>
-              <a href="{{ url_for('main.new_listing') }}" class="btn btn-success btn-lg">
-                <i class="fas fa-plus-square"></i> Add a Listing
-              </a>
-              <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger btn-lg">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
+<div class="bg-gray-50 min-h-screen py-12">
+    <div class="container mx-auto px-4 max-w-6xl">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+            <div>
+                <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight uppercase">Dashboard</h1>
+                <p class="text-gray-500 font-medium">Welcome back, Admin. Here’s what’s happening with <span class="text-[#7cbd1e]">I Like It Properties</span> today.</p>
             </div>
-          </div>
+
         </div>
-      </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-[#7cbd1e]">
+                <div class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Active Listings</div>
+                <div class="text-3xl font-black text-gray-800">{{ active_count if active_count else '0' }}</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-orange-400">
+                <div class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Properties Sold</div>
+                <div class="text-3xl font-black text-gray-800">{{ sold_count if sold_count else '0' }}</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
+                <div class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Total Blog Posts</div>
+                <div class="text-3xl font-black text-gray-800">{{ blog_count if blog_count else '0' }}</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                <div class="p-8">
+                    <div class="h-12 w-12 bg-green-100 text-[#7cbd1e] rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-home fa-lg"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Property Listings</h3>
+                    <p class="text-gray-500 mb-8">Add new inventory, update pricing, or mark properties as sold to keep your clients informed.</p>
+                    
+                    <div class="space-y-3 mt-auto">
+                        <a href="{{ url_for('main.new_listing') }}" class="flex items-center justify-between w-full p-4 bg-[#7cbd1e] hover:bg-[#6aa31a] text-white rounded-sm font-bold uppercase tracking-widest transition-all">
+                            Create New Listing
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="{{ url_for('main.admin_listings') }}" class="flex items-center justify-between w-full p-4 bg-gray-800 hover:bg-black text-white rounded-sm font-bold uppercase tracking-widest transition-all">
+                            Manage Inventory
+                            <i class="fas fa-list"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                <div class="p-8">
+                    <div class="h-12 w-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-pen-nib fa-lg"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Real Estate Blog</h3>
+                    <p class="text-gray-500 mb-8">Share market insights, investment tips, and company news to build trust with your audience.</p>
+                    
+                    <div class="space-y-3 mt-auto">
+                        <a href="{{ url_for('main.new_blog') }}" class="flex items-center justify-between w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-sm font-bold uppercase tracking-widest transition-all">
+                            Write New Article
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('main.admin_blogs') }}" class="flex items-center justify-between w-full p-4 bg-gray-800 hover:bg-black text-white rounded-sm font-bold uppercase tracking-widest transition-all">
+                            Edit Existing Posts
+                            <i class="fas fa-folder-open"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-gray-400 text-xs uppercase tracking-widest font-semibold">
+                &copy; 2026 I Like It Properties Administrative Portal
+            </p>
+        </div>
     </div>
-  </div>
-</section>
+</div>
 {% endblock %}

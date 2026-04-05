@@ -15,11 +15,12 @@ app = create_app()
 with app.app_context():
     username = os.getenv("ADMIN_USERNAME")
     password = os.getenv("ADMIN_PASSWORD")
+    if not username or not password:
+        raise SystemExit("ADMIN_USERNAME and ADMIN_PASSWORD must be set in the environment")
+
     # Check if admin user already exists
-    if not User.query.filter_by(username="username").first():
-        admin = User(
-            username=username, password=generate_password_hash(password), is_admin=True
-        )
+    if not User.query.filter_by(username=username).first():
+        admin = User(username=username, password=generate_password_hash(password), is_admin=True)
         db.session.add(admin)
         db.session.commit()
         print("Admin user created.")

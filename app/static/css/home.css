@@ -1,0 +1,102 @@
+.status-tab {
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); /* Slight slant if desired */
+    cursor: pointer;
+}
+
+/* Hide scrollbar for search bar on mobile while keeping it functional */
+form {
+    scrollbar-width: none;
+}
+form::-webkit-scrollbar {
+    display: none;
+}
+
+/* Card Hover Effect */
+.service-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Icon Pulse on Hover */
+.service-card:hover i {
+    animation: pulseIcon 1.5s infinite;
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Performance optimization for background transitions */
+#about-content-wrapper {
+    will-change: transform, opacity;
+}
+
+/* Refine hero typography for larger sizes */
+.slide h1 {
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+.slide p {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+    .status-tab {
+        font-size: 12px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    /* Ensure the search button has enough height when stacked */
+    button[type="submit"] {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+}
+
+/* Ensure hero headline sits above the search overlay and keep a small gap */
+.hero-text {
+    position: relative;
+    z-index: 30; /* higher than search overlay z-20 */
+}
+
+/* Push hero headline upward using top padding so it sits above the search */
+@media (max-width: 639px) {
+    .hero-text { padding-top: 3.5rem !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .hero-text { padding-top: 5.5rem !important; }
+}
+
+@media (min-width: 1024px) {
+    .hero-text { padding-top: 7rem !important; }
+}
+
+/* Position the search area slightly lower so it doesn't overlap the hero text */
+.hero-search {
+    /* element is absolutely positioned in the template; set a safe default */
+    bottom: -0.5rem; /* slight overlap into the next area but less on larger screens */
+    z-index: 60; /* ensure it stays above following sections */
+    mix-blend-mode: normal;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* Reserve a bit more bottom space on the hero so the search can sit over the
+   next section without being submerged. Small increase but not excessive. */
+.hero-section { padding-bottom: 3.75rem; }
+
+@media (max-width: 639px) {
+    .hero-search { bottom: -0.25rem; }
+    .hero-section { padding-bottom: 7rem; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .hero-search { bottom: -0.75rem; }
+    .hero-section { padding-bottom: 6rem; }
+}
+
+@media (min-width: 1024px) {
+    .hero-search { bottom: -0.5rem; }
+    .hero-section { padding-bottom: 4.5rem; }
+}

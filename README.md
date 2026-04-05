@@ -9,12 +9,15 @@
 - [Tech stack](#tech-stack)
   - [Backend](#backend)
   - [Frontend](#frontend)
+  - [JavaScript / Client libraries](#javascript-client-libraries)
   - [Email Service](#email-service)
   - [Text Editor](#text-editor)
   - [Cloud Storage](#cloud-storage)
   - [Database](#database)
   - [Deployment](#deployment)
   - [CI/CD Automation](#cicd-automation)
+  - [Caching & Performance](#caching-performance)
+  - [Security & Moderation](#security-moderation)
   - [Version Control](#version-control)
 - [SETUP AND INSTALLATION INSTRUCTIONS](#setup-and-installation-instructions)
 - [DEPLOYMENT STRATEGY](#deployment-strategy)
@@ -22,6 +25,7 @@
     - [Setup](#setup)
     - [Python App Configuration on Truehost](#python-app-configuration-on-truehost)
     - [Deployment Flow](#deployment-flow)
+- [Tailwind (binary) — build instructions](#tailwind-binary-build-instructions)
 - [Search Engine Optimization (SEO)](#search-engine-optimization-seo)
   - [Strategy Overview](#strategy-overview)
 - [Future improvements](#future-improvements)
@@ -39,10 +43,15 @@ ilikeitproperties
 [![Deploy to Truehost (main)](https://github.com/pekimnjenga/realestate/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/pekimnjenga/realestate/actions/workflows/deploy.yml)
 ![Pre-commit Hook Enabled](https://img.shields.io/badge/pre--commit-enabled-brightgreen)
 
+<!-- Tooling badges -->
+![Tests](https://img.shields.io/badge/tests-pytest-5A43D6?logo=pytest)
+![Type checking](https://img.shields.io/badge/type--check-mypy-4B8BBE)
+![Linter](https://img.shields.io/badge/lint-ruff-black)
+
 ### Tech Stack
 ![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Flask Framework](https://img.shields.io/badge/framework-Flask-blue)
-![Bootstrap 5](https://img.shields.io/badge/UI-Bootstrap_5-purple)
+![Tailwind CSS](https://img.shields.io/badge/CSS-Tailwind-06B6D4?logo=tailwindcss&logoColor=white)
 ![Quill.js Editor](https://img.shields.io/badge/editor-Quill.js-1f8f2f?logo=quill)
 ![Docker Ready](https://img.shields.io/badge/docker-ready-blue)
 
@@ -61,7 +70,7 @@ ilikeitproperties
 main(Production)
 
 ### PROJECT'S BRIEF DESCRIPTION
-A dynamic, SEO-optimized real estate website built with Flask, HTML, Bootstrap 5 classes and CSS, designed to showcase property listings and blog posts and also for users to make inquiries about the listings, while enabling users to make inquiries directly via WhatsApp or a contact form.
+A dynamic, SEO-optimized real estate website built with Flask, Javascript, HTML, CSS, and Tailwind CSS, designed to showcase property listings and blog posts and also for users to make inquiries about the listings, while enabling users to make inquiries directly via WhatsApp or a contact form.
 
 Upon submitting an inquiry through the contact form, users automatically receive a confirmation email — ensuring a seamless and professional communication experience.
 
@@ -72,7 +81,7 @@ Upon submitting an inquiry through the contact form, users automatically receive
 ##### User Interface
 Public-facing pages for:
   - Browsing property listings
-  - Reading blog posts
+  - Reading blog posts and adding comments
   - Learning about the company
   - Making inquiries via WhatsApp or contact form
 
@@ -87,7 +96,14 @@ Secure backend for:
 - Flask — lightweight Python framework powering routing, logic, and server-side rendering
 
 #### Frontend
-- HTML, CSS, and Bootstrap 5 — responsive layout, UI components, and styling
+- HTML and Tailwind CSS — responsive layout and utility-first styling
+
+#### JavaScript / Client libraries
+- Quill.js — rich-text editor used in admin for blog creation and editing
+- Swiper — carousel/slider used on the homepage and listing previews
+- AOS — scroll reveal animations used across the site
+- Turbo (Hotwire) — fast navigation for in-page transitions
+- instant.page — link prefetching on hover to speed up navigations
 
 #### Email Service
 - SMTP integration using Python’s smtplib and email libraries — handles automated inquiry responses via the contact form
@@ -97,6 +113,8 @@ Secure backend for:
 
 #### Cloud Storage
 - Cloudflare R2 — hosts public assets including images and static files
+  
+- `boto3` is used in `app/utils/r2_upload.py` to upload and delete objects from R2.
 
 #### Database
 - PostgreSQL hosted on Truehost — stores listings, blog content, and admin data
@@ -106,11 +124,23 @@ Secure backend for:
 
 #### CI/CD Automation
 - **CI Automation**: GitHub Actions for automated tests and code quality checks. On every push or pull request, the following checks run automatically via `.github/workflows/ci.yml`:
-  - `black` — ensures consistent code formatting
-  - `isort` — enforces import order
-  - `flake8` — flags style and syntax issues
+
+  - `Ruff` — high-performance linter and formatter (replaces Black, Isort, and Flake8)
+  - `Mypy` — static type checking for Python
   - `pytest` — runs automated tests to verify the functionality of routes, models, utility functions (like upload_to_r2 function), and the contact form.
 - **CD Automation**: The project gets automatically deployed to Truehost after passing all testing and quality checks through Github actions.
+
+### Caching & Performance
+- Template fragment caching is used via Flask-Caching and the `@cache.cached` decorator for anonymous users to improve response times.
+- Development uses `SimpleCache` (configured via `CACHE_TYPE=SimpleCache` in `config.py`) which is in-memory and suitable for single-process development only.
+- For production, configure a shared cache backend (Redis or Memcached) and update `CACHE_TYPE` accordingly to ensure cache is shared across worker processes.
+- Performance improvements implemented in the templates include preconnecting to Cloudflare R2, `rel="preload"` for hero images, `fetchpriority="high"`, and `decoding="async"` on critical images to improve LCP.
+
+### Security & Moderation
+- CSRF protection is enabled via Flask's CSRF extension (`csrf` in `app/extensions.py`).
+- Rate limiting is enforced with `Flask-Limiter` to protect high-risk endpoints (e.g., comment submission) — limits are applied using decorator rules.
+- Comment moderation uses `better_profanity` to filter disallowed words before saving or displaying comments.
+- Server-side validation is performed on form inputs and emails; email verification tokens are implemented for comment verification endpoints.
 
 #### Version Control
 - GitHub — source code management and collaboration
@@ -152,6 +182,68 @@ Unlike the staging branch (which uses Render’s auto-deploy), I manually config
 - Restart the application
 - The app now runs live on production domain
 
+## Tailwind (binary) — build instructions
+
+This project uses the standalone `tailwindcss` CLI binary. Two common local workflows are supported:
+
+- Windows PowerShell (when `tailwindcss.exe` is present in repo root):
+
+```powershell
+# from repo root
+.\tailwindcss.exe -i .\app\static\css\input.css -o .\app\static\css\output.css --content "./app/templates/**/*.html" "./app/**/*.py" "./app/static/js/**/*.js" --minify
+```
+
+- macOS / Linux (when `tailwindcss` binary is available):
+
+```bash
+# from repo root
+./tailwindcss -i ./app/static/css/input.css -o ./app/static/css/output.css --content "./app/templates/**/*.html" "./app/**/*.py" "./app/static/js/**/*.js" --minify
+```
+
+CI builds: The included `.github/workflows/build-tailwind.yml` will use a bundled `tailwindcss` binary if present in the repository root; otherwise it downloads the appropriate binary for the runner and builds `app/static/css/output.css`.
+
+Notes:
+- To avoid committing the binary, add `tailwindcss` / `tailwindcss.exe` to `.gitignore` and rely on CI downloads.
+- If you need PostCSS plugins (autoprefixer, cssnano), switch to an npm/PostCSS workflow.
+
+If you plan to commit the `tailwindcss` binary to this repository (recommended only if you want deterministic local builds):
+
+- Add the binary to the repository root (e.g. `tailwindcss` or `tailwindcss.exe`).
+- On macOS / Linux set the executable bit before committing:
+
+```bash
+chmod +x ./tailwindcss
+git add ./tailwindcss
+git commit -m "Add Tailwind CLI binary"
+```
+
+- CI will automatically use the bundled binary if present; no additional changes are required.
+
+- To later stop committing the binary, add `tailwindcss` and `tailwindcss.exe` to `.gitignore` and remove the file from the repo (`git rm --cached tailwindcss`).
+
+## Local dev & common commands
+
+- Create and activate a virtual environment and install dependencies:
+
+```bash
+python -m venv .venv
+# macOS / Linux
+source .venv/bin/activate
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+- Run tests and static checks:
+
+```bash
+pytest -q
+mypy .
+ruff check . --fix
+pre-commit run --all-files
+```
+
+
 ### Search Engine Optimization (SEO)
 The site is strategically optimized for search engine visibility and brand authority, with a focus on indexing only the homepage for clean, branded search results.
 
@@ -171,16 +263,25 @@ The site is strategically optimized for search engine visibility and brand autho
 
 ### Acknowledgements
 - [Flask Documentation](https://flask.palletsprojects.com/)
-- [Bootstrap 5](https://getbootstrap.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Truehost](https://truehost.co.ke)
 - [pre-commit](https://pre-commit.com/)
 - [Github](https://github.com)
 - [Quill.js](https://quilljs.com)
+ - [boto3 (Cloud SDK)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+ - [Flask-Limiter](https://flask-limiter.readthedocs.io/)
+ - [better_profanity](https://pypi.org/project/better-profanity/)
+ - [Swiper](https://swiperjs.com/)
+ - [AOS](https://michalsnik.github.io/aos/)
+ - [Turbo (Hotwire)](https://turbo.hotwired.dev/)
+ - [instant.page](https://instant.page/)
 
 ### Developer Contact
 Developed and maintained by Pekim
  - Email: njengapekim@gmail.com 
  - Phone: +254 797933409
  - GitHub: [github.com/pekimnjenga](https://github.com/pekimnjenga)
+
+
 
 

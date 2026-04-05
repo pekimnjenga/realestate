@@ -1,65 +1,198 @@
 {% extends "base.html" %}
 {% block title %}
-  <title>{{ listing.name }} | I Like It Properties - Property in {{ listing.location }}</title>
-{% endblock %}
-{% block meta_description %}
-  <meta name="robots" content="noindex, follow">
+  <title>{{ listing.name }} | I Like It Properties</title>
 {% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light-brown text-dark">
-  <div class="container d-flex justify-content-center">
-    <div class="card shadow-lg" style="width: 32rem;">
-      <div class="card-header bg-transparent text-center">
-        <h2 class="mb-0">{{ listing.name }}</h2>
+{% set _images = listing.get_image_list() %}
+{% if _images %}
+    <link rel="preload" href="{{ _images[0] }}" as="image">
+{% endif %}
+<style>
+    /* Fixes the blue dots in pagination to match your brand green */
+    .swiper-pagination-bullet-active {
+        background: #7cbd1e !important;
+        width: 24px !important;
+        border-radius: 5px !important;
+    }
+    /* Removes the default blue color from the arrows just in case */
+    .swiper-button-next::after, .swiper-button-prev::after {
+        color: inherit !important;
+    }
+</style>
+<section class="bg-gray-50 min-h-screen py-12 md:py-20">
+  <div class="container mx-auto px-4 max-w-7xl">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+      
+      <div class="lg:col-span-2 flex flex-col gap-8">
+        
+        <div>
+            <div class="mb-4">
+                {% if listing.is_sold %}
+                    <span class="px-3 py-1.5 bg-red-50 text-red-600 border border-red-100 text-[10px] font-black uppercase tracking-[0.2em] rounded">
+                        Sold Out
+                    </span>
+                {% else %}
+                    <span class="px-3 py-1.5 {{ 'bg-orange-50 text-orange-600 border-orange-100' if listing.listing_status == 'For Rent' else 'bg-teal-50 text-teal-600 border-teal-100' }} text-[10px] font-black uppercase tracking-[0.2em] rounded border">
+                        {{ listing.listing_status|default('For Sale') }}
+                    </span>
+                {% endif %}
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 uppercase tracking-tighter leading-tight mb-3">
+                {{ listing.name }}
+            </h1>
+            <p class="text-sm text-gray-500 flex items-center font-bold uppercase tracking-widest">
+                <i class="fas fa-map-marker-alt text-[#7cbd1e] mr-2 text-lg"></i> {{ listing.location }}
+            </p>
+        </div>
+
+        <div class="w-full h-[400px] md:h-[500px] relative swiper mySwiper rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100 group">
+             <div class="swiper-wrapper">
+                {% set images = listing.get_image_list() %}
+                {% if images %}
+                      {% for img in images %}
+                      <div class="swiper-slide">
+                          <img src="{{ img }}" decoding="async" class="w-full h-full object-cover" alt="{{ listing.name }} Image {{ loop.index }}">
+                      </div>
+                      {% endfor %}
+                {% else %}
+                    <div class="swiper-slide flex items-center justify-center">
+                        <i class="fas fa-home text-6xl text-gray-300"></i>
+                    </div>
+                {% endif %}
+              </div>
+              <div class="swiper-button-next !text-gray-900 !w-12 !h-12 bg-white/90 hover:bg-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 after:!text-sm right-4"></div>
+              <div class="swiper-button-prev !text-gray-900 !w-12 !h-12 bg-white/90 hover:bg-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 after:!text-sm left-4"></div>
+              <div class="swiper-pagination !bottom-4"></div>
+        </div>
+
+
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            
+            <div class="flex-shrink-0">
+                <p class="text-[10px] text-gray-400 uppercase font-black tracking-[0.2em] mb-1">Asking Price</p>
+                <p class="text-3xl md:text-4xl font-black text-[#7cbd1e] tracking-tighter">
+                    KSh {{ "{:,.0f}".format(listing.numeric_price) if listing.numeric_price > 0 else "On Request" }}
+                </p>
+            </div>
+
+            {% if listing.size or listing.bedrooms or listing.bathrooms %}
+            <div class="hidden md:block w-px h-16 bg-gray-100"></div>
+            <div class="md:hidden w-full h-px bg-gray-100"></div>
+
+            <div class="flex flex-wrap items-center gap-6 md:gap-10 w-full justify-start md:justify-end">
+                {% if listing.size %}
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <i class="fas fa-expand-arrows-alt text-[#7cbd1e]"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Area</span>
+                        <span class="text-lg font-black text-gray-900 tracking-tighter">{{ listing.size|default('-') }}</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% if listing.bedrooms %}
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <i class="fas fa-bed text-[#7cbd1e]"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Beds</span>
+                        <span class="text-lg font-black text-gray-900 tracking-tighter">{{ listing.bedrooms|default('0') }}</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% if listing.bathrooms %}
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <i class="fas fa-bath text-[#7cbd1e]"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Baths</span>
+                        <span class="text-lg font-black text-gray-900 tracking-tighter">{{ listing.bathrooms|default('0') }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="font-black uppercase tracking-[0.2em] text-[12px] text-gray-900 mb-6 flex items-center">
+                Property Overview
+                <div class="ml-4 h-px flex-grow bg-gray-100"></div>
+            </h3>
+            <div class="text-sm text-gray-600 leading-loose font-medium prose max-w-none">
+                {{ listing.description | safe }}
+            </div>
+
+            {% if listing.features %}
+            <div class="mt-8 pt-8 border-t border-gray-50">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-900 mb-4">Amenities & Features</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6">
+                    {% for feature in listing.features %}
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-[#7cbd1e]"></div>
+                        <span class="text-xs text-gray-600 font-bold uppercase tracking-wider">{{ feature.name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="pt-2">
+            <a href="{{ url_for('main.listings') }}" class="inline-flex items-center text-[10px] text-gray-500 font-black uppercase tracking-widest hover:text-[#7cbd1e] transition-colors group">
+                <i class="fas fa-arrow-left mr-3 transform group-hover:-translate-x-1 transition-transform"></i> Back to search results
+            </a>
+        </div>
       </div>
 
-      <div id="carouselDetail{{ listing.id }}" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          {% for img in listing.get_image_list() %}
-          <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-            <img src="{{ img }}"
-                 class="d-block w-100"
-                 alt="{{ listing.name }}"
-                 onerror="this.src='https://via.placeholder.com/600x400?text=No+Image';"
-                 style="height: 260px; object-fit: cover;">
+
+      <div class="lg:col-span-1">
+        <div class="sticky top-32 space-y-6">
+          
+          <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            <h4 class="text-xl font-bold text-gray-900 mb-6">Interested in this property?</h4>
+            
+            <form method="POST" action="{{ url_for('main.listing_detail', listing_id=listing.id) }}" class="space-y-4 mb-6">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input name="name" type="text" required placeholder="Your Name" class="w-full p-4 bg-gray-50 rounded-xl outline-none border border-transparent focus:border-[#7cbd1e] transition-all">
+                <input name="email" type="email" required placeholder="Email Address" class="w-full p-4 bg-gray-50 rounded-xl outline-none border border-transparent focus:border-[#7cbd1e] transition-all">
+                <textarea name="message" placeholder="I'm interested in..." rows="3" class="w-full p-4 bg-gray-50 rounded-xl outline-none border border-transparent focus:border-[#7cbd1e] transition-all"></textarea>
+                <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-all shadow-lg">Send Inquiry</button>
+            </form>
+
+            <div class="relative flex py-4 items-center">
+                <div class="flex-grow border-t border-gray-100"></div>
+                <span class="flex-shrink mx-4 text-gray-300 text-xs font-bold uppercase">OR</span>
+                <div class="flex-grow border-t border-gray-100"></div>
+            </div>
+
+            {% if not listing.is_sold %}
+            <a href="https://wa.me/254720663769?text=Hello, I'm interested in {{ listing.name }} at {{ listing.location }}. View it here: {{ request.url }}" 
+               target="_blank"
+               class="w-full bg-[#25d366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-[#25d366]/40">
+               <i class="fab fa-whatsapp text-2xl"></i> Chat on WhatsApp
+            </a>
+            {% endif %}
           </div>
-          {% endfor %}
-        </div>
-        {% if listing.get_image_list()|length > 1 %}
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetail{{ listing.id }}" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselDetail{{ listing.id }}" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-        {% endif %}
-      </div>
 
-      <div class="card-body">
-        <p><i class="fas fa-map-marker-alt text-danger me-2"></i><strong>Location:</strong> {{ listing.location }}</p>
-        <p><i class="fas fa-ruler-combined text-secondary me-2"></i><strong>Size:</strong> {{ listing.size }}</p>
-        <p><i class="fas fa-tag text-success me-2"></i><strong>Price:</strong> {{ listing.price }}</p>
-        <p class="text-muted">{{ listing.description }}</p>
+          <div class="p-6 bg-[#7cbd1e]/5 rounded-2xl border border-[#7cbd1e]/10 flex items-center gap-4">
+            <div class="bg-[#7cbd1e] text-white p-3 rounded-full">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <p class="text-sm text-gray-600"><span class="font-bold text-gray-900 block">Verified Listing</span> All documents for this property have been pre-screened.</p>
+          </div>
 
-        <div class="d-grid gap-3 mt-4">
-          {% if not listing.is_sold %}
-          <a href="https://wa.me/254720663769?text={{ 'Hello, I’m interested in the property: ' ~ listing.name ~ ' located at ' ~ listing.location ~ '. Could you please share more details?' | urlencode }}"
-             class="btn btn-success btn-lg" target="_blank">
-            Contact Us About This Property
-          </a>
-          {% else %}
-          <span class="badge bg-secondary fs-6 px-4 py-2 text-center">This property has been sold</span>
-          {% endif %}
-
-          <a href="{{ url_for('main.listings') }}" class="btn btn-outline-secondary btn-lg">
-            ← Back to Listings
-          </a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
+
+
 {% endblock %}

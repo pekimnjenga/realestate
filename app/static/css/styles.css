@@ -1,48 +1,8 @@
 /* Base Layout */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
-}
+/* Body font and background are best handled by Tailwind classes (e.g., font-sans bg-white) on the body tag itself */
 
-header {
-  background: linear-gradient(135deg, #2e7d32, #8d6e63); /* green → brown gradient */
-  color: #ffffff;
-  padding: 10px 0;
-  text-align: center;
-}
 
-h1 {
-  margin: 0;
-}
-
-.container {
-  width: 80%;
-  margin: auto;
-  overflow: hidden;
-}
-
-/* Navbar */
-.navbar {
-  background: transparent !important;
-  box-shadow: none;
-}
-
-.navbar-nav .nav-link {
-  margin: 0 18px;
-  padding: 8px 18px;
-  border-radius: 6px;
-  transition: box-shadow 0.3s, background 0.3s, color 0.3s;
-}
-
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
-  background: rgba(53, 66, 74, 0.1);
-  color: #2e7d32 !important; /* green hover */
-  box-shadow: 0 0 8px 2px #8d6e63; /* brown glow */
-  text-shadow: none;
-}
+/* .container is now handled by Tailwind CSS */
 
 /* Property Cards */
 .property {
@@ -65,101 +25,7 @@ h1 {
   color: #2e7d32; /* green headings */
 }
 
-.footer {
-  background: linear-gradient(135deg, #2e7d32, #5d4037); /* green → brown gradient */
-  color: #ffffff;
-  text-align: center;
-  padding: 40px 20px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap; /* allow wrapping if space is too small */
-}
-
-.footer-column {
-  flex: 1 1 200px; /* flexible: grows, shrinks, min 200px */
-  box-sizing: border-box;
-  padding: 10px;   /* spacing so content doesn’t touch edges */
-}
-
-.footer-column h4 {
-  font-size: 18px;
-  margin-bottom: 15px;
-  color: #f5f5f5;
-  font-weight: 600;
-  border-bottom: 2px solid rgba(255,255,255,0.2);
-  padding-bottom: 8px;
-}
-
-.footer-column ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-column ul li {
-  margin-bottom: 10px;
-}
-
-.footer-column ul li a {
-  color: #dcdcdc;
-  text-decoration: none;
-  font-size: 15px;
-  transition: color 0.3s ease;
-}
-
-.footer-column ul li a:hover {
-  color: #ffffff;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column; /* stack neatly on small screens */
-    align-items: center;
-  }
-  .footer-column {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-}
-
-
-.social-icons {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.social-icons a {
-  color: #dcdcdc;
-  font-size: 18px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.social-icons a:hover {
-  color: #fff;
-  transform: scale(1.2);
-}
-
-.footer p {
-  flex-basis: 100%;
-  text-align: center;
-  margin-top: 30px;
-  font-size: 14px;
-  color: #ccc;
-}
-
 /* Utility Classes */
-.overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-  min-height: 100vh;
-}
 
 .bg-light-brown {
   background: linear-gradient(135deg, #f5e6d3, #8d6e63); /* beige → earthy brown */
@@ -268,13 +134,6 @@ a:hover i {
   animation-fill-mode: both;
 }
 
-/* Services Section Background */
-.real-estate-bg {
-  background: linear-gradient(135deg, rgba(46,125,50,0.85), rgba(141,110,99,0.85)),
-              url('/static/images/IMG-20250831-WA0024.jpg') center/cover no-repeat;
-  background-blend-mode: multiply;
-  color: #fff;
-}
 
 /* Editors */
 #editor .ql-editor {
@@ -300,48 +159,6 @@ a:hover i {
   border-radius: 0.25rem;
   padding: 0.5rem;
 }
-#contact-section {
-  background: #2e7d32 !important; /* force green */
-  color: #fff;
-}
-/* WhatsApp Floating Button */
-.whatsapp-float {
-  position: fixed;
-  width: 60px;
-  height: 60px;
-  bottom: 20px;
-  right: 20px;
-  background-color: #25d366; /* WhatsApp green */
-  color: #fff;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 30px;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-  z-index: 100;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.whatsapp-float i {
-  line-height: 60px;
-}
-
-.whatsapp-float:hover {
-  transform: scale(1.1);
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
-}
-
-/* Notification badge */
-.whatsapp-float .badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 4px 6px;
-}
 
 .footer-logo {
   height: 24px;       /* slightly smaller */
@@ -349,3 +166,56 @@ a:hover i {
   margin-right: 4px;  /* very small spacing */
   vertical-align: middle;
 }
+
+/* Force Glassmorphism Effect */
+.nav-glass {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(15px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1) !important;
+    z-index: 9999 !important;
+    position: sticky !important;
+    top: 0 !important;
+}
+
+/* Hero Section Visibility Enhancements */
+.hero-overlay-dark {
+    background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.5) 100%);
+    position: absolute;
+    inset: 0;
+}
+
+.hero-text-shadow {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* Elegant Scroll Reveal Base */
+.reveal {
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-up { transform: translateY(40px); }
+.reveal-left { transform: translateX(-40px); }
+.reveal-scale { transform: scale(0.95); }
+
+.reveal.active {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+}
+
+/* Delays for staggered animations */
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-450 { transition-delay: 450ms; }
+
+/* Staggered children (Services grid) */
+.grid > .service-card:nth-child(1) { transition-delay: 100ms; }
+.grid > .service-card:nth-child(2) { transition-delay: 200ms; }
+.grid > .service-card:nth-child(3) { transition-delay: 300ms; }
+.grid > .service-card:nth-child(4) { transition-delay: 400ms; }
+.grid > .service-card:nth-child(5) { transition-delay: 500ms; }

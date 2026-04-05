@@ -9,31 +9,25 @@ on:
 jobs:
   lint-test-security:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 black isort pytest pytest-mock
+          pip install -r dev-requirements.txt
 
-      - name: Run black check
-        run: black --check .
-
-      - name: Run isort check
-        run: isort . --check-only
-
-      - name: Run flake8
-        run: flake8 .
-
-      - name: Run tests
-        run: pytest
-
+      - name: Run Ruff Check
+        run: ruff check .
+      - name: Run Ruff Format Check
+        run: ruff format --check .
+      - name: Run Mypy
+        run: mypy .
+      - name: Run Tests with Coverage
+        run: pytest --cov=app --cov-report=xml
+      - name: Run pre-commit
+        run: pre-commit run --all-files

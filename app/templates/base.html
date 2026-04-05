@@ -40,152 +40,195 @@
   
   <link rel="icon" href="https://ilikeitproperties.co.ke/static/images/logo.jpg" type="image/x-icon">
 
+  <!-- Preconnect to Cloudflare R2 to speed up image loading -->
+  <link rel="preconnect" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev">
+  {# Preload the page's critical hero image(s) to improve LCP on mobile #}
+  {% if request.endpoint == 'main.home' %}
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_1.jpg">
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_2.jpg">
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_3.jpg">
+  {% elif request.endpoint in ['main.listings'] %}
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_4.jpg">
+  {% elif request.endpoint in ['main.blog', 'main.blog_detail'] %}
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_4.jpg">
+  {% elif request.endpoint == 'main.about' %}
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_3.jpg">
+  {% elif request.endpoint == 'main.contact' %}
+    <link rel="preload" as="image" href="https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_5.jpg">
+  {% endif %}
+
   <!--Quill editor-->
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-  <!-- Bootstrap & Font Awesome -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   
-  <!-- Custom Styles -->
+  <!-- Tailwind CSS Output -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+  <!-- Custom Styles (for things Tailwind can't do, like the background image) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Turbo: Makes navigations and form redirects feel like a Single Page App -->
+  <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.0/dist/turbo.es2017-umd.js"></script>
   <style>
-    .bg-image {
-      background-color: white;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-    .overlay {
-      background-color: transparent; /* improves text contrast */
-      min-height: 100vh;
-      width: 100%;
+    /* Make Turbo progress bar match site accent color */
+    .turbo-progress-bar {
+      background-color: #7cbd1e !important;
     }
   </style>
+  <!-- Prefer and enforce a light color scheme to avoid UA/browser forced dark modes -->
+  <meta name="theme-color" content="#ffffff">
+  <style>
+    :root { color-scheme: light; }
+    html, body {
+      background-color: #ffffff !important;
+      color: #111827 !important;
+    }
+    img, picture, video, svg {
+      -webkit-filter: none !important;
+      filter: none !important;
+      background-color: transparent !important;
+    }
+    /* Opt out of forced color adjustments (Windows high-contrast / UA forced dark) */
+    * { forced-color-adjust: none; }
+  </style>
+  <!-- instant.page: Prefetches pages on hover for near-instant navigation -->
+  <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipSbmS9vA9o9V9O881/aWfI16zZc4WqY734D+u1f1+82X5+lW6267D+d" crossorigin="anonymous"></script>
 </head>
-<body class="{% if not no_background %}bg-image{% endif %} d-flex flex-column min-vh-100">
-  <div class="overlay d-flex flex-column flex-grow-1">
+<body class="flex flex-col min-h-screen font-sans antialiased text-gray-900 bg-gray-50">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="{{ url_for('static',filename='images/logo.jpg') }}" alt="I Like It Properties" height="100">
-        </a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="navbar-nav ms-auto">
-            {% if current_user.is_authenticated and current_user.is_admin %}
-            <li class="nav-item"><a class="nav-link text-link" href="{{ url_for('main.new_blog') }}">Write a New Blog</a></li>
-            <li class="nav-item"><a class="nav-link text-link" href="{{ url_for('main.new_listing') }}">Add a Listing</a></li>
-            <li class="nav-item"><a class="nav-link text-link" href="{{ url_for('main.admin_blogs') }}">Blogs</a></li>
-            <li class="nav-item"><a class="nav-link text-link" href="{{ url_for('main.admin_listings') }}">Listings</a></li>
-            <li class="nav-item"><a class="nav-link text-danger" href="{{ url_for('main.logout') }}">Logout</a></li>
-            {% else %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.about') }}">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.blog') }}">Blogs</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.listings') }}">Listings</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a></li>
-            {% endif %}
+  {% include 'user/navbar.html' %}
 
-          </ul>
-
-        </div>
-      </div>
-    </nav>
-    <!-- Flash Messages -->
+  <!-- Flash Messages (Redesigned Toast System) -->
+  <div id="flash-container" class="fixed top-24 right-5 z-[9999] flex flex-col items-end pointer-events-none w-full max-w-sm px-6">
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="container mt-3">
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% set cfg = {
+              'success': {'bg': 'bg-emerald-50', 'text': 'text-emerald-900', 'border': 'border-emerald-200', 'icon': 'fa-circle-check', 'accent': 'bg-emerald-500'},
+              'danger':  {'bg': 'bg-rose-50', 'text': 'text-rose-900', 'border': 'border-rose-200', 'icon': 'fa-circle-xmark', 'accent': 'bg-rose-500'},
+                'warning': {'bg': 'bg-amber-50', 'text': 'text-amber-900', 'border': 'border-amber-200', 'icon': 'fa-triangle-exclamation', 'accent': 'bg-amber-500'},
+                'info':    {'bg': 'bg-sky-50', 'text': 'text-sky-900', 'border': 'border-sky-200', 'icon': 'fa-circle-info', 'accent': 'bg-sky-500'}
+          }.get(category, {'bg': 'bg-gray-50', 'text': 'text-gray-900', 'border': 'border-gray-200', 'icon': 'fa-bell', 'accent': 'bg-gray-500'}) %}
 
-
-    <!-- Page Content -->
-    <main class="flex-grow-1">
-      {% block content %}{% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white pt-5 pb-4">
-      <div class="container">
-        <div class="row gx-5 gy-4"> <!-- gx-5 = horizontal spacing, gy-4 = vertical spacing -->
-          
-          <!-- Company -->
-           <div class="col-md-2 footer-column">
-            <h4 class="mb-3">Company</h4>
-            <ul class="list-unstyled">
-              <li class="mb-2"><a href="{{ url_for('main.about') }}" class="text-white text-decoration-none">About Us</a></li>
-              <li class="mb-2"><a href="{{ url_for('main.home') }}#services" class="text-white text-decoration-none">Our Services</a></li>
-              <li class="mb-2"><a href="{{ url_for('main.listings') }}" class="text-white text-decoration-none">Listings</a></li>
-              <li class="mb-2"><a href="{{ url_for('main.blog') }}" class="text-white text-decoration-none">Blogs</a></li>
-            </ul>
-           </div>
-          
-          <!-- Reach Us -->
-           <div class="col-md-2 footer-column">
-            <h4 class="mb-3">Reach Us</h4>
-            <ul class="list-unstyled">
-              <li class="mb-2 d-flex align-items-center">
-                <i class="fas fa-phone text-primary me-2"></i>
-                <a href="tel:+254720663769" class="text-white text-decoration-none">+254 720 663 769</a>
-              </li>
-              <li class="mb-2 d-flex align-items-center">
-                <i class="fas fa-envelope text-primary me-2"></i>
-                <a href="mailto:info@ilikeitproperties.co.ke" class="text-white text-decoration-none">
-                  info@ilikeitproperties.co.ke
-                </a>
-              </li>
-            </ul>
-           </div>
-          
-          <!-- Location -->
-           <div class="col-md-4 footer-column">
-            <h4 class="mb-3">Location</h4>
-            <p class="fs-6 d-flex align-items-center mb-0">
-              <i class="fas fa-map-marker-alt text-primary me-2"></i>
-              Gibcon House, Kijabe Row, off Kenyatta Avenue, Nakuru City
-            </p>
-           </div>
-           
-          <!-- Social Media -->
-           <div class="col-md-4 footer-column">
-            <h4 class="mb-3">Our social media platforms</h4>
-            <div class="d-flex gap-3">
-              <a href="https://www.facebook.com/Ilikeitproperties" class="text-white fs-5"><i class="fab fa-facebook-f"></i></a>
-              <a href="https://www.instagram.com/i_like_it_properties" class="text-white fs-5"><i class="fab fa-instagram"></i></a>
-              <a href="https://www.linkedin.com/in/Jacobmburuwainaina" class="text-white fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <div class="flash-message pointer-events-auto flex items-center w-full p-4 mb-4 rounded-xl border {{ cfg.bg }} {{ cfg.border }} {{ cfg.text }} shadow-2xl animate__animated animate__fadeInRight transition-all duration-700 transform translate-x-0 opacity-100" role="alert">
+            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full {{ cfg.accent }} text-white mr-4 shadow-sm">
+              <i class="fas {{ cfg.icon }} text-lg"></i>
             </div>
-           </div>
+            <div class="flex-grow font-bold text-sm leading-tight pr-2">
+              {{ message }}
+            </div>
+            <button type="button" class="flex-shrink-0 text-current opacity-40 hover:opacity-100 transition-opacity" onclick="dismissFlash(this.closest('.flash-message'))">
+              <i class="fas fa-xmark text-lg"></i>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Page Content -->
+  <main class="flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  {% cache 3600, 'global_footer' %}
+  <footer class="bg-black text-gray-400 py-16 border-t border-gray-900 font-sans">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+        <div class="md:col-span-1">
+          <div class="mb-6">
+            <img src="{{ url_for('static',filename='images/logo.jpg') }}" alt="I Like It Properties" class="h-16 w-auto mb-4 ">
+            <h2 class="text-white text-2xl font-black tracking-tighter uppercase">
+              I LIKE IT <span class="text-[#7cbd1e]">PROPERTIES</span>
+            </h2>
+            <p class="text-[10px] tracking-[3px] text-gray-500 uppercase mt-1">Real Estate Agency</p>
+          </div>
+          <p class="text-sm leading-relaxed">
+            Your trusted partner in finding the perfect property.
+          </p>
         </div>
 
-    <!-- Copyright -->
-    <div class="row mt-4">
-      <div class="col text-center">
-        <p class="mb-0">&copy; 2026 I Like It Properties. All rights reserved.</p>
+        <div>
+          <h4 class="text-lg font-bold text-white mb-8 uppercase tracking-widest text-sm">Quick Links</h4>
+          <ul class="space-y-4 text-sm">
+            <li>
+              <a href="{{ url_for('main.home') }}" class="hover:text-[#7cbd1e] flex items-center transition duration-300">
+                <i class="fas fa-chevron-right text-[10px] mr-3 text-gray-600"></i> Home
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('main.about') }}" class="hover:text-[#7cbd1e] flex items-center transition duration-300">
+                <i class="fas fa-chevron-right text-[10px] mr-3 text-gray-600"></i> About Us
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('main.listings') }}" class="hover:text-[#7cbd1e] flex items-center transition duration-300">
+                <i class="fas fa-chevron-right text-[10px] mr-3 text-gray-600"></i> Listings
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('main.blog') }}" class="hover:text-[#7cbd1e] flex items-center transition duration-300">
+                <i class="fas fa-chevron-right text-[10px] mr-3 text-gray-600"></i> Blogs
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-white mb-8 uppercase tracking-widest text-sm">Reach Us</h4>
+          <ul class="space-y-5 text-sm">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt text-[#7cbd1e] mr-4 mt-1"></i>
+              <span class="leading-relaxed">Gibcon House, Kijabe Row, off Kenyatta Avenue, Nakuru City</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone text-[#7cbd1e] mr-4"></i>
+              <a href="tel:+254720663769" class="hover:text-white transition duration-300">+254 720 663 769</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope text-[#7cbd1e] mr-4"></i>
+              <a href="mailto:info@ilikeitproperties.co.ke" class="hover:text-white transition duration-300">info@ilikeitproperties.co.ke</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-white mb-8 uppercase tracking-widest text-sm">Follow Us</h4>
+          <div class="flex space-x-3">
+            <a href="https://www.facebook.com/Ilikeitproperties" class="w-11 h-11 bg-[#7cbd1e] text-white rounded-full flex items-center justify-center hover:bg-white hover:text-[#7cbd1e] transition-all duration-300">
+              <i class="fab fa-facebook-f text-lg"></i>
+            </a>
+            <a href="https://www.instagram.com/i_like_it_properties" class="w-11 h-11 bg-[#7cbd1e] text-white rounded-full flex items-center justify-center hover:bg-white hover:text-[#7cbd1e] transition-all duration-300">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/Jacobmburuwainaina" class="w-11 h-11 bg-[#7cbd1e] text-white rounded-full flex items-center justify-center hover:bg-white hover:text-[#7cbd1e] transition-all duration-300">
+              <i class="fab fa-linkedin-in text-lg"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-20 border-t border-gray-900 pt-8 text-center">
+        <p class="text-gray-600 text-xs tracking-widest uppercase">
+          &copy; 2026 I Like It Properties. All rights reserved.
+        </p>
       </div>
     </div>
-  </div>
-</footer>
-  </div>
+  </footer>
+  {% endcache %}
 
   <!-- Scripts -->
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script src="{{ url_for('static', filename='js/slideshow.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     function initializeQuill(editorId, hiddenInputId) {
       var quill = new Quill(editorId, {
@@ -205,17 +248,58 @@
       });
     }
   </script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
-  AOS.init();
+    // Use turbo:load instead of DOMContentLoaded so scripts re-run
+    // when Turbo swaps the page content.
+    document.addEventListener('turbo:load', () => {
+      AOS.init();
+
+      const flashes = document.querySelectorAll('.flash-message');
+      flashes.forEach((flash, index) => {
+        // Automatically dismiss each message after 6 seconds, slightly staggered
+        setTimeout(() => {
+          dismissFlash(flash);
+        }, 6000 + (index * 600));
+      });
+
+      // Re-initialize mobile menu logic for the new body content
+      const menuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+
+      // Re-initialize Swipers and Slideshows if they exist on the current page
+      if (typeof initSwipers === 'function') initSwipers();
+      if (typeof initSlideshow === 'function') initSlideshow();
+      if (typeof initAnimations === 'function') initAnimations();
+    });
+
+    function dismissFlash(el) {
+      if (!el) return;
+      el.classList.add('opacity-0', 'translate-x-full', 'scale-90');
+      setTimeout(() => el.remove(), 700);
+    }
+
+    // Mobile menu toggle script
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
   </script>
   <!-- WhatsApp Chat Button -->
   <a href="https://wa.me/254720663769"
-   class="whatsapp-float" target="_blank">
-   <i class="fab fa-whatsapp"></i>
-   <span class="badge">1</span>
+     class="fixed bottom-5 right-5 w-14 h-14 bg-[#25d366] text-white rounded-full flex items-center justify-center text-3xl shadow-lg z-50 hover:scale-110 hover:shadow-xl transition-transform duration-300" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+    <span class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 py-0.5">1</span>
   </a>
 </body>
 </html>

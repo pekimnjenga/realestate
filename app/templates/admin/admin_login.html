@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Admin Login | I Like It Properties</title>{% endblock %}
+
+{% block meta_description %}
+  <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+            <h2 class="mt-6 text-4xl font-extrabold text-gray-900 tracking-tighter uppercase">
+                I LIKE IT <span class="text-[#7cbd1e]">PROPERTIES</span>
+            </h2>
+            <p class="mt-2 text-sm text-gray-500 font-bold uppercase tracking-widest">
+                Internal Access Only
+            </p>
+        </div>
+
+        <div class="bg-white py-10 px-8 shadow-2xl rounded-sm border border-gray-100">
+            <form class="space-y-6" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div>
+                    <label for="username" class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Username</label>
+                    <input id="username" name="username" type="text" required 
+                           class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#7cbd1e] focus:border-transparent transition-all sm:text-sm" 
+                           placeholder="Enter admin username">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Password</label>
+                    <input id="password" name="password" type="password" required 
+                           class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#7cbd1e] focus:border-transparent transition-all sm:text-sm" 
+                           placeholder="••••••••">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember" name="remember" type="checkbox" 
+                               class="h-4 w-4 text-[#7cbd1e] focus:ring-[#7cbd1e] border-gray-300 rounded-sm cursor-pointer">
+                        <label for="remember" class="ml-2 block text-sm text-gray-600 cursor-pointer">
+                            Keep me logged in
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" 
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-black uppercase tracking-widest text-white bg-[#7cbd1e] hover:bg-[#6aa31a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7cbd1e] transition-all shadow-lg">
+                        Sign In to Dashboard
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                <a href="{{ url_for('main.home') }}" class="inline-flex items-center text-xs font-bold text-gray-400 hover:text-gray-800 transition-colors uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Return to Home
+                </a>
+            </div>
+        </div>
+
+        <p class="mt-4 text-center text-xs text-gray-400">
+            Having trouble? Contact your system administrator.
+        </p>
+    </div>
+</div>
+{% endblock %}

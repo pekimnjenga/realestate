@@ -1,19 +1,32 @@
 repos:
-  - repo: https://github.com/psf/black
-    rev: 23.9.1
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
     hooks:
-      - id: black
-        args: [--quiet]
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format
 
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.0
     hooks:
-      - id: isort
-        args: ["--profile=black"]
+      - id: mypy
+        additional_dependencies:
+          - flask-sqlalchemy
+          - sqlalchemy
+          - types-requests
+          - types-bleach
+          - types-itsdangerous
+          - pytest
+        args: [--ignore-missing-imports]
 
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+  - repo: local
     hooks:
-      - id: flake8
-
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+        args: ["--cov=app"]
  

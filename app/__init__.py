@@ -1,8 +1,9 @@
+import hashlib
 import secrets
 
 from flask import Flask
 
-from app.extensions import db, login_manager, migrate
+from app.extensions import cache, csrf, db, limiter, login_manager, mail, migrate
 from app.routes import main
 from config import Config
 
@@ -28,9 +29,18 @@ def create_app(config=None):
 
     # Init extensions AFTER config is finalized
     db.init_app(app)
+    mail.init_app(app)
+    cache.init_app(app)
     migrate.init_app(app, db)
+    csrf.init_app(app)
+    limiter.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "main.login"
+
+    # Register custom Jinja2 filters
+    @app.template_filter("md5")
+    def md5_filter(s):
+        return hashlib.md5(s.encode("utf-8")).hexdigest()
 
     # Register blueprints
     app.register_blueprint(main)
@@ -43,3 +53,7 @@ def create_app(config=None):
         return User.query.get(int(user_id))
 
     return app
+
+
+def high(return_value):
+    return return_value
