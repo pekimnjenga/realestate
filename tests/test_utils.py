@@ -59,9 +59,9 @@ class TestUploadToR2:
 
     def test_upload_successful(self, mocker, mock_file, env_vars):
         """Test successful file upload to R2."""
-        # Mock boto3 S3 client
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        # Mock MinIO client
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         # Mock logger
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
@@ -75,10 +75,10 @@ class TestUploadToR2:
         assert "ilikeitproperties" in result
 
         # Verify boto3 was called correctly
-        mock_s3_client.upload_fileobj.assert_called_once()
-        call_args = mock_s3_client.upload_fileobj.call_args
-        assert call_args[0][1] == "test-bucket"  # bucket name
-        assert call_args[0][2] == "test_image.jpg"  # object key
+        mock_minio_client.put_object.assert_called_once()
+        call_args = mock_minio_client.put_object.call_args
+        assert call_args[0][0] == "test-bucket"  # bucket name
+        assert call_args[0][1] == "test_image.jpg"  # object key
 
         # Verify logging
         mock_logger.info.assert_called_once()
@@ -86,8 +86,8 @@ class TestUploadToR2:
 
     def test_upload_with_special_characters(self, mocker, mock_file_with_special_chars, env_vars):
         """Test upload with special characters in filename (sanitization)."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         result = upload_to_r2(mock_file_with_special_chars)
@@ -106,8 +106,8 @@ class TestUploadToR2:
         for key in ["R2_ENDPOINT", "R2_ACCESS_KEY", "R2_SECRET_KEY", "R2_BUCKET", "PUBLIC_BASE_URL"]:
             os.environ.pop(key, None)
 
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         # Mock logger to capture error
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
@@ -123,10 +123,11 @@ class TestUploadToR2:
 
     def test_upload_boto3_connection_error(self, mocker, mock_file, env_vars):
         """Test upload handles boto3 connection errors."""
-        mock_s3_client = MagicMock()
+
+        mock_minio_client = MagicMock()
         # Simulate upload failure
-        mock_s3_client.upload_fileobj.side_effect = Exception("Connection refused")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client.put_object.side_effect = Exception("Connection refused")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -137,9 +138,9 @@ class TestUploadToR2:
 
     def test_upload_boto3_permission_error(self, mocker, mock_file, env_vars):
         """Test upload handles permission errors."""
-        mock_s3_client = MagicMock()
-        mock_s3_client.upload_fileobj.side_effect = PermissionError("Access Denied")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mock_minio_client.put_object.side_effect = PermissionError("Access Denied")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -154,8 +155,8 @@ class TestUploadToR2:
         stream = io.BytesIO(b"fake image data")
         file = FileStorage(stream=stream, filename="")
 
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         result = upload_to_r2(file)
@@ -165,8 +166,8 @@ class TestUploadToR2:
 
     def test_upload_returns_correct_url_format(self, mocker, mock_file, env_vars):
         """Test upload returns URL in expected format."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         result = upload_to_r2(mock_file)
@@ -186,8 +187,8 @@ class TestDeleteFromR2:
 
     def test_delete_successful(self, mocker, env_vars):
         """Test successful file deletion from R2."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -196,12 +197,12 @@ class TestDeleteFromR2:
 
         assert result is True
 
-        # Verify boto3 was called
-        mock_s3_client.delete_object.assert_called_once()
-        call_args = mock_s3_client.delete_object.call_args
-        assert call_args[1]["Bucket"] == "test-bucket"
+        # Verify MinIO was called
+        mock_minio_client.remove_object.assert_called_once()
+        call_args = mock_minio_client.remove_object.call_args
+        assert call_args[0][0] == "test-bucket"
         # Key should be the path part of URL
-        assert "ilikeitproperties/test_image.jpg" in call_args[1]["Key"]
+        assert "ilikeitproperties/test_image.jpg" in call_args[0][1]
 
         # Verify logging
         mock_logger.info.assert_called_once()
@@ -228,8 +229,8 @@ class TestDeleteFromR2:
 
     def test_delete_malformed_url(self, mocker, env_vars):
         """Test delete with malformed URL."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         # Malformed URL (no valid path)
@@ -241,8 +242,8 @@ class TestDeleteFromR2:
 
     def test_delete_complex_url_path(self, mocker, env_vars):
         """Test delete extracts correct key from complex URL."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         url = "https://cdn.example.com/ilikeitproperties/folder/subfolder/image.jpg?v=1"
@@ -251,16 +252,16 @@ class TestDeleteFromR2:
         assert result is True
 
         # Verify the key extracted from URL
-        call_args = mock_s3_client.delete_object.call_args
-        key = call_args[1]["Key"]
+        call_args = mock_minio_client.remove_object.call_args
+        key = call_args[0][1]
         # Path should be properly extracted
         assert "image.jpg" in key or "subfolder" in key
 
     def test_delete_boto3_error(self, mocker, env_vars):
         """Test delete handles boto3 errors gracefully."""
-        mock_s3_client = MagicMock()
-        mock_s3_client.delete_object.side_effect = Exception("Service unavailable")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mock_minio_client.remove_object.side_effect = Exception("Service unavailable")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -277,10 +278,10 @@ class TestDeleteFromR2:
         for key in ["R2_ENDPOINT", "R2_ACCESS_KEY", "R2_SECRET_KEY", "R2_BUCKET"]:
             os.environ.pop(key, None)
 
-        # Mock boto3.client to raise an error when called with None values
-        mock_s3_client = MagicMock()
-        mock_s3_client.delete_object.side_effect = Exception("Failed to create S3 client")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        # Mock MinIO client to raise an error when called with None values
+        mock_minio_client = MagicMock()
+        mock_minio_client.remove_object.side_effect = Exception("Failed to create MinIO client")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -293,15 +294,15 @@ class TestDeleteFromR2:
 
     def test_delete_with_special_characters_in_path(self, mocker, env_vars):
         """Test delete URL with special characters in filename."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         url = "https://cdn.example.com/ilikeitproperties/image%20with%20spaces.jpg"
         result = delete_from_r2(url)
 
         assert result is True
-        mock_s3_client.delete_object.assert_called_once()
+        mock_minio_client.remove_object.assert_called_once()
 
 
 # =============================================================================
@@ -314,8 +315,8 @@ class TestR2Logging:
 
     def test_upload_success_logging(self, mocker, mock_file, env_vars):
         """Test successful upload logs correct message."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -329,9 +330,9 @@ class TestR2Logging:
 
     def test_upload_error_logging(self, mocker, mock_file, env_vars):
         """Test upload error is logged with filename."""
-        mock_s3_client = MagicMock()
-        mock_s3_client.upload_fileobj.side_effect = Exception("Upload failed")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mock_minio_client.put_object.side_effect = Exception("Upload failed")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -345,8 +346,8 @@ class TestR2Logging:
 
     def test_delete_success_logging(self, mocker, env_vars):
         """Test successful delete logs correct message."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -369,9 +370,9 @@ class TestR2Logging:
 
     def test_delete_error_logging(self, mocker, env_vars):
         """Test delete error is logged with URL reference."""
-        mock_s3_client = MagicMock()
-        mock_s3_client.delete_object.side_effect = Exception("Deletion failed")
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mock_minio_client.remove_object.side_effect = Exception("Deletion failed")
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
 
         mock_logger = mocker.patch("app.utils.r2_upload.logger")
 
@@ -393,8 +394,8 @@ class TestR2Integration:
 
     def test_upload_then_delete_workflow(self, mocker, mock_file, env_vars):
         """Test complete workflow: upload file, then delete it."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         # Step 1: Upload file
@@ -405,14 +406,14 @@ class TestR2Integration:
         delete_result = delete_from_r2(upload_result)
         assert delete_result is True
 
-        # Verify both operations called boto3
-        assert mock_s3_client.upload_fileobj.called
-        assert mock_s3_client.delete_object.called
+        # Verify both operations called
+        assert mock_minio_client.put_object.called
+        assert mock_minio_client.remove_object.called
 
     def test_multiple_uploads_and_deletes(self, mocker, env_vars):
         """Test multiple upload/delete cycles."""
-        mock_s3_client = MagicMock()
-        mocker.patch("boto3.client", return_value=mock_s3_client)
+        mock_minio_client = MagicMock()
+        mocker.patch("app.utils.r2_upload.Minio", return_value=mock_minio_client)
         mocker.patch("app.utils.r2_upload.logger")
 
         files = ["image1.jpg", "image2.png", "image3.gif"]
@@ -432,5 +433,5 @@ class TestR2Integration:
             assert result is True
 
         # Verify correct number of calls
-        assert mock_s3_client.upload_fileobj.call_count == len(files)
-        assert mock_s3_client.delete_object.call_count == len(files)
+        assert mock_minio_client.put_object.call_count == len(files)
+        assert mock_minio_client.remove_object.call_count == len(files)

@@ -21,6 +21,7 @@
         <h2 class="text-3xl font-bold text-gray-800 mb-8 border-b pb-4">Create New Blog Post</h2>
         
         <form method="POST" enctype="multipart/form-data" id="blog-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-6">
                 <label class="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wider">Blog Title</label>
                 <input type="text" name="title" 
@@ -60,32 +61,18 @@
     </div>
 </div>
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
 <script>
+    // Use the shared initializer from base.html to create the editor and sync content
+    document.addEventListener('turbo:load', function () {
+        if (typeof initializeQuill === 'function') {
+            initializeQuill('#editor', '#content-input');
+        }
+    });
+    // Fallback for non-Turbo navigations
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Quill Editor
-        var quill = new Quill('#editor', {
-            theme: 'snow',
-            placeholder: 'Write your story here...',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['link', 'blockquote', 'code-block'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['clean']
-                ]
-            }
-        });
-
-        // Sync Quill content to hidden input before form submit
-        var form = document.getElementById('blog-form');
-        form.onsubmit = function() {
-            var content = document.querySelector('input[name=content]');
-            content.value = quill.root.innerHTML;
-        };
+        if (typeof initializeQuill === 'function') {
+            initializeQuill('#editor', '#content-input');
+        }
     });
 </script>
 

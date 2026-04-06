@@ -3,7 +3,8 @@ import os
 import sys
 from urllib.parse import urlparse
 
-import boto3
+from minio import Minio
+from minio.error import S3Error
 from werkzeug.utils import secure_filename
 
 # -- Setting up a logger for my Cloudfare's r2 actions
@@ -72,14 +73,52 @@ def upload_to_r2(file):
     try:
         object_key = filename  # Let Cloudflare apply its prefix
 
-        s3 = boto3.client(
-            "s3",
-            endpoint_url=os.environ.get("R2_ENDPOINT"),
-            aws_access_key_id=os.environ.get("R2_ACCESS_KEY"),
-            aws_secret_access_key=os.environ.get("R2_SECRET_KEY"),
+        # Build a MinIO client. Parse the endpoint to handle scheme and host.
+        endpoint = os.environ.get("R2_ENDPOINT")
+        parsed = urlparse(endpoint)
+        host = parsed.netloc or parsed.path  # fallback if no scheme
+        secure = parsed.scheme != "http"
+
+        client = Minio(
+            host,
+            access_key=os.environ.get("R2_ACCESS_KEY"),
+            secret_key=os.environ.get("R2_SECRET_KEY"),
+            secure=secure,
         )
 
-        s3.upload_fileobj(file, os.environ.get("R2_BUCKET"), object_key)
+        # FileStorage provides a stream; ensure we can compute length safely
+        stream = getattr(file, "stream", None)
+        read_method = getattr(file, "read", None)
+
+        size = None
+        # If stream exists and supports seek/tell, use it to determine size
+        if stream is not None and hasattr(stream, "seek") and hasattr(stream, "tell"):
+            try:
+                stream.seek(0, os.SEEK_END)
+                size = stream.tell()
+                stream.seek(0)
+            except Exception:
+                size = None
+
+        # Fallback: read from file.read() if available
+        if size is None:
+            try:
+                data = read_method() if callable(read_method) else b""
+            except Exception:
+                data = b""
+            size = len(data)
+            from io import BytesIO
+
+            stream = BytesIO(data)
+
+        # Put object to bucket
+        client.put_object(
+            os.environ.get("R2_BUCKET"),
+            object_key,
+            stream,
+            size,
+            content_type=getattr(file, "mimetype", "application/octet-stream"),
+        )
 
         public_base_url = os.environ.get("PUBLIC_BASE_URL")
         public_url = f"{public_base_url}/ilikeitproperties/{filename}"
@@ -105,17 +144,28 @@ def delete_from_r2(public_url):
         parsed_url = urlparse(public_url)
         key = parsed_url.path.lstrip("/")
 
-        s3 = boto3.client(
-            "s3",
-            endpoint_url=os.environ.get("R2_ENDPOINT"),
-            aws_access_key_id=os.environ.get("R2_ACCESS_KEY"),
-            aws_secret_access_key=os.environ.get("R2_SECRET_KEY"),
+        endpoint = os.environ.get("R2_ENDPOINT")
+        parsed = urlparse(endpoint)
+        host = parsed.netloc or parsed.path
+        secure = parsed.scheme != "http"
+
+        client = Minio(
+            host,
+            access_key=os.environ.get("R2_ACCESS_KEY"),
+            secret_key=os.environ.get("R2_SECRET_KEY"),
+            secure=secure,
         )
 
-        s3.delete_object(Bucket=os.environ.get("R2_BUCKET"), Key=key)
+        # Remove object
+        client.remove_object(os.environ.get("R2_BUCKET"), key)
         logger.info(f"Deleted from R2: {key}")
         return True
 
+    except S3Error as e:
+        logger.error(f"R2 delete error for {public_url}: {e}")
+        return False
     except Exception as e:
+        # Log all delete failures under a consistent message so tests and
+        # monitoring tools can reliably detect delete errors.
         logger.error(f"R2 delete error for {public_url}: {e}")
         return False

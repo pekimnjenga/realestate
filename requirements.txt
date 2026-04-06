@@ -8,6 +8,10 @@
 
 alembic==1.16.5
     # via flask-migrate
+argon2-cffi==25.1.0
+    # via minio
+argon2-cffi-bindings==25.1.0
+    # via argon2-cffi
 better-profanity==0.7.0
     # via -r requirements.in
 bleach==6.3.0
@@ -16,16 +20,14 @@ blinker==1.9.0
     # via
     #   flask
     #   flask-mail
-boto3==1.40.37
-    # via -r requirements.in
-botocore==1.40.37
-    # via
-    #   boto3
-    #   s3transfer
 cachelib==0.13.0
     # via flask-caching
 certifi==2025.8.3
-    # via requests
+    # via
+    #   minio
+    #   requests
+cffi==2.0.0
+    # via argon2-cffi-bindings
 charset-normalizer==3.4.3
     # via requests
 click==8.2.1
@@ -70,10 +72,6 @@ itsdangerous==2.2.0
     #   flask-wtf
 jinja2==3.1.6
     # via flask
-jmespath==1.0.1
-    # via
-    #   boto3
-    #   botocore
 limits==5.8.0
     # via flask-limiter
 mako==1.3.10
@@ -85,6 +83,8 @@ markupsafe==3.0.2
     #   mako
     #   werkzeug
     #   wtforms
+minio==7.2.20
+    # via -r requirements.in
 ordered-set==4.1.0
     # via flask-limiter
 packaging==25.0
@@ -93,16 +93,14 @@ packaging==25.0
     #   limits
 psycopg2-binary==2.9.10
     # via -r requirements.in
-python-dateutil==2.9.0.post0
-    # via botocore
+pycparser==3.0
+    # via cffi
+pycryptodome==3.23.0
+    # via minio
 python-dotenv==1.1.1
     # via -r requirements.in
 requests==2.32.5
     # via -r requirements.in
-s3transfer==0.14.0
-    # via boto3
-six==1.17.0
-    # via python-dateutil
 sqlalchemy==2.0.43
     # via
     #   alembic
@@ -112,10 +110,11 @@ typing-extensions==4.15.0
     #   alembic
     #   flask-limiter
     #   limits
+    #   minio
     #   sqlalchemy
 urllib3==2.5.0
     # via
-    #   botocore
+    #   minio
     #   requests
 webencodings==0.5.1
     # via bleach

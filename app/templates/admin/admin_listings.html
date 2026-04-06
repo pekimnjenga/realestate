@@ -75,6 +75,7 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <form action="{{ url_for('main.toggle_listing_sold', id=listing.id) }}" method="POST">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <button type="submit" 
                                             class="px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter transition-all border
                                             {{ 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100' if listing.is_sold else 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100' }}">
@@ -91,9 +92,10 @@
                                        class="text-blue-600 hover:text-blue-900 text-xs font-bold uppercase tracking-widest transition-colors">
                                         Edit
                                     </a>
-                                    <form method="POST" action="{{ url_for('main.delete_listing', id=listing.id) }}" 
-                                          onsubmit="return confirm('Warning: This will permanently remove the property and its images from R2. Proceed?');">
-                                        <button type="submit" 
+                                                                        <form method="POST" action="{{ url_for('main.delete_listing', id=listing.id) }}" 
+                                                                                    onsubmit="return confirm('Warning: This will permanently remove the property and its images from R2. Proceed?');">
+                                                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                                                <button type="submit" 
                                                 class="text-red-400 hover:text-red-700 text-xs font-bold uppercase tracking-widest transition-colors">
                                             Delete
                                         </button>

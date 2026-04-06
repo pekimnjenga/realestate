@@ -114,7 +114,7 @@ Secure backend for:
 #### Cloud Storage
 - Cloudflare R2 — hosts public assets including images and static files
   
-- `boto3` is used in `app/utils/r2_upload.py` to upload and delete objects from R2.
+- `minio` is used in `app/utils/r2_upload.py` to upload and delete objects from R2.
 
 #### Database
 - PostgreSQL hosted on Truehost — stores listings, blog content, and admin data
@@ -206,6 +206,37 @@ Notes:
 - To avoid committing the binary, add `tailwindcss` / `tailwindcss.exe` to `.gitignore` and rely on CI downloads.
 - If you need PostCSS plugins (autoprefixer, cssnano), switch to an npm/PostCSS workflow.
 
+### Committing the built CSS for Truehost (`output.css`)
+
+If building `output.css` on Truehost is failing and you need the built file to be deployed immediately, you can add the built `app/static/css/output.css` to the repo. Two common approaches:
+
+- 1) Permanently track the built file (recommended when you want the built asset in source control):
+
+```bash
+# Remove the ignore rule (if present) and add the file to the repo
+git rm --cached app/static/css/output.css || true
+# Edit .gitignore and remove the line that contains app/static/css/output.css
+git add .gitignore app/static/css/output.css
+git commit -m "chore: add built app/static/css/output.css for production deploy"
+git push
+```
+
+Also consider removing `app/static/css/output.css` from `.dockerignore` if you want it included inside Docker images.
+
+- 2) One-time force-add (keep `.gitignore` but push this build once):
+
+```bash
+# Force-add the generated file for this single commit
+git add -f app/static/css/output.css
+git commit -m "chore: add built output.css for immediate deploy"
+git push
+```
+
+Notes and best practices:
+- Commit only the minified `output.css` (no source maps) to keep repo size small.
+- Do NOT commit the `tailwindcss` binary; it can exceed GitHub size limits. If you accidentally committed large files, use the cleanup options described earlier (BFG, git-lfs, or history rewrite).
+- Update `README.md` (this file) to document that `output.css` is intentionally tracked so future contributors understand why the built asset exists in source control.
+
 If you plan to commit the `tailwindcss` binary to this repository (recommended only if you want deterministic local builds):
 
 - Add the binary to the repository root (e.g. `tailwindcss` or `tailwindcss.exe`).
@@ -268,7 +299,7 @@ The site is strategically optimized for search engine visibility and brand autho
 - [pre-commit](https://pre-commit.com/)
 - [Github](https://github.com)
 - [Quill.js](https://quilljs.com)
- - [boto3 (Cloud SDK)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+ - [MinIO Python Client](https://docs.min.io/docs/python-client-quickstart.html)
  - [Flask-Limiter](https://flask-limiter.readthedocs.io/)
  - [better_profanity](https://pypi.org/project/better-profanity/)
  - [Swiper](https://swiperjs.com/)

@@ -11,6 +11,7 @@ types-itsdangerous
 # Testing
 pytest-flask
 pytest-cov
+pytest-mock
 
 # Workflow Automation
 pre-commit
