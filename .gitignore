@@ -45,8 +45,8 @@ secret_key.py
 
 # Node / build artifacts
 node_modules/
+
 # Tailwind build output
-app/static/css/output.css
 tailwindcss/dist/
 
 tailwindcss
