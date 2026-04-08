@@ -1,3 +1,0 @@
-[flake8]
-exclude = venv, __pycache__, migrations, static, media
-max-line-length = 200

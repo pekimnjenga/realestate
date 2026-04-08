@@ -70,9 +70,7 @@ ilikeitproperties
 main(Production)
 
 ### PROJECT'S BRIEF DESCRIPTION
-A dynamic, SEO-optimized real estate website built with Flask, Javascript, HTML, CSS, and Tailwind CSS, designed to showcase property listings and blog posts and also for users to make inquiries about the listings, while enabling users to make inquiries directly via WhatsApp or a contact form.
-
-Upon submitting an inquiry through the contact form, users automatically receive a confirmation email — ensuring a seamless and professional communication experience.
+A dynamic, SEO-optimized real estate website built with Flask, Javascript, HTML, CSS, and Tailwind CSS, designed to showcase property listings and blog posts.
 
 ### Live website
 [I Like It Properties](https://ilikeitproperties.co.ke)
@@ -84,11 +82,13 @@ Public-facing pages for:
   - Reading blog posts and adding comments
   - Learning about the company
   - Making inquiries via WhatsApp or contact form
+  - Subscribing to receive new blogs and listings notifications
 
 ##### Admin Interface
 Secure backend for:
   - Managing property listings and blogs
   - Streamlining content workflows
+
 
 
 ### Tech stack

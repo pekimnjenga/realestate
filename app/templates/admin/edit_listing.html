@@ -139,12 +139,14 @@
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+function initFeatureTags_editListing() {
     const input = document.getElementById('feature-input');
     const container = document.getElementById('tag-container');
     const hiddenInput = document.getElementById('features-hidden');
     const addBtn = document.getElementById('add-feature-btn');
-    
+
+    if (!container || !hiddenInput) return;
+
     let features = [];
 
     function updateHiddenInput() {
@@ -152,33 +154,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addTag(text) {
-        text = text.trim();
+        if (!text || !container) return;
+        text = String(text).trim();
         if (text === "" || features.includes(text)) return;
+
         features.push(text);
-        const tag = document.createElement('span');
-        tag.className = "bg-[#7cbd1e] text-white px-3 py-1 rounded-full text-sm flex items-center gap-2 shadow-sm animate-fade-in";
-        tag.innerHTML = `${text} <button type="button" class="hover:text-black font-bold focus:outline-none">&times;</button>`;
-        tag.querySelector('button').onclick = () => {
+
+        const tag = document.createElement('div');
+        tag.className = "relative inline-flex items-center bg-[#7cbd1e] text-white px-3 py-1 rounded-full text-sm gap-2 shadow-sm mr-2 mb-2 animate-fade-in";
+
+        const span = document.createElement('span');
+        span.textContent = text;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'absolute -top-2 -right-2 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs shadow';
+        btn.innerHTML = '&times;';
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
             features = features.filter(f => f !== text);
             tag.remove();
             updateHiddenInput();
-        };
+        });
+
+        tag.appendChild(span);
+        tag.appendChild(btn);
+
         container.appendChild(tag);
         updateHiddenInput();
-        input.value = "";
+        if (input) input.value = "";
+        if (input) input.focus();
     }
 
     // --- HYDRATION: LOAD EXISTING FEATURES ---
-    existingFeatures.forEach(feature => addTag(feature));
+    if (typeof existingFeatures !== 'undefined' && Array.isArray(existingFeatures)) {
+        existingFeatures.forEach(feature => addTag(feature));
+    }
 
-    input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
+    if (input) {
+        input.removeEventListener && input.removeEventListener('keydown', this);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addTag(input.value);
+            }
+        });
+    }
+
+    if (addBtn) {
+        addBtn.removeEventListener && addBtn.removeEventListener('click', this);
+        addBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            addTag(input.value);
-        }
-    });
+            addTag(input ? input.value : '');
+        });
+    }
+}
 
-    addBtn.onclick = () => addTag(input.value);
-});
+document.addEventListener('DOMContentLoaded', initFeatureTags_editListing);
+document.addEventListener('turbo:load', initFeatureTags_editListing);
 </script>
 {% endblock %}

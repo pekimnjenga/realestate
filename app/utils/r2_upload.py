@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+from typing import BinaryIO, cast
 from urllib.parse import urlparse
 
 from minio import Minio
@@ -74,15 +75,21 @@ def upload_to_r2(file):
         object_key = filename  # Let Cloudflare apply its prefix
 
         # Build a MinIO client. Parse the endpoint to handle scheme and host.
-        endpoint = os.environ.get("R2_ENDPOINT")
+        # Use direct env access (KeyError is acceptable here because we
+        # validated presence earlier) so mypy treats these as `str`.
+        endpoint = os.environ["R2_ENDPOINT"]
+        access_key = os.environ["R2_ACCESS_KEY"]
+        secret_key = os.environ["R2_SECRET_KEY"]
+        bucket = os.environ["R2_BUCKET"]
+
         parsed = urlparse(endpoint)
         host = parsed.netloc or parsed.path  # fallback if no scheme
         secure = parsed.scheme != "http"
 
         client = Minio(
-            host,
-            access_key=os.environ.get("R2_ACCESS_KEY"),
-            secret_key=os.environ.get("R2_SECRET_KEY"),
+            cast(str, host),
+            access_key=access_key,
+            secret_key=secret_key,
             secure=secure,
         )
 
@@ -113,14 +120,14 @@ def upload_to_r2(file):
 
         # Put object to bucket
         client.put_object(
-            os.environ.get("R2_BUCKET"),
+            cast(str, bucket),
             object_key,
-            stream,
+            cast(BinaryIO, stream),
             size,
             content_type=getattr(file, "mimetype", "application/octet-stream"),
         )
 
-        public_base_url = os.environ.get("PUBLIC_BASE_URL")
+        public_base_url = os.environ["PUBLIC_BASE_URL"]
         public_url = f"{public_base_url}/ilikeitproperties/{filename}"
         logger.info(f"Uploaded to R2: {public_url}")
         return public_url
@@ -144,20 +151,25 @@ def delete_from_r2(public_url):
         parsed_url = urlparse(public_url)
         key = parsed_url.path.lstrip("/")
 
-        endpoint = os.environ.get("R2_ENDPOINT")
+        # Use direct env access for proper typing guarantees.
+        endpoint = os.environ["R2_ENDPOINT"]
+        access_key = os.environ["R2_ACCESS_KEY"]
+        secret_key = os.environ["R2_SECRET_KEY"]
+        bucket = os.environ["R2_BUCKET"]
+
         parsed = urlparse(endpoint)
         host = parsed.netloc or parsed.path
         secure = parsed.scheme != "http"
 
         client = Minio(
-            host,
-            access_key=os.environ.get("R2_ACCESS_KEY"),
-            secret_key=os.environ.get("R2_SECRET_KEY"),
+            cast(str, host),
+            access_key=access_key,
+            secret_key=secret_key,
             secure=secure,
         )
 
         # Remove object
-        client.remove_object(os.environ.get("R2_BUCKET"), key)
+        client.remove_object(cast(str, bucket), key)
         logger.info(f"Deleted from R2: {key}")
         return True
 
