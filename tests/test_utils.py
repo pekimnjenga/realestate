@@ -78,7 +78,9 @@ class TestUploadToR2:
         mock_minio_client.put_object.assert_called_once()
         call_args = mock_minio_client.put_object.call_args
         assert call_args[0][0] == "test-bucket"  # bucket name
-        assert call_args[0][1] == "test_image.jpg"  # object key
+        # object key may include a prefix path (e.g. ilikeitproperties/...),
+        # ensure it ends with the filename
+        assert call_args[0][1].endswith("test_image.jpg")  # object key
 
         # Verify logging
         mock_logger.info.assert_called_once()

@@ -70,20 +70,18 @@ def upload_to_r2(file):
     if missing:
         logger.error(f"R2 upload error: missing environment variables: {', '.join(missing)}")
         return None
-
     try:
-        object_key = filename  # Let Cloudflare apply its prefix
+        # FIX: Explicitly add the folder prefix to the object key
+        prefix = "ilikeitproperties/"
+        object_key = f"{prefix}{filename}"
 
-        # Build a MinIO client. Parse the endpoint to handle scheme and host.
-        # Use direct env access (KeyError is acceptable here because we
-        # validated presence earlier) so mypy treats these as `str`.
         endpoint = os.environ["R2_ENDPOINT"]
         access_key = os.environ["R2_ACCESS_KEY"]
         secret_key = os.environ["R2_SECRET_KEY"]
         bucket = os.environ["R2_BUCKET"]
 
         parsed = urlparse(endpoint)
-        host = parsed.netloc or parsed.path  # fallback if no scheme
+        host = parsed.netloc or parsed.path
         secure = parsed.scheme != "http"
 
         client = Minio(
@@ -93,12 +91,10 @@ def upload_to_r2(file):
             secure=secure,
         )
 
-        # FileStorage provides a stream; ensure we can compute length safely
         stream = getattr(file, "stream", None)
         read_method = getattr(file, "read", None)
 
         size = None
-        # If stream exists and supports seek/tell, use it to determine size
         if stream is not None and hasattr(stream, "seek") and hasattr(stream, "tell"):
             try:
                 stream.seek(0, os.SEEK_END)
@@ -107,7 +103,6 @@ def upload_to_r2(file):
             except Exception:
                 size = None
 
-        # Fallback: read from file.read() if available
         if size is None:
             try:
                 data = read_method() if callable(read_method) else b""
@@ -118,7 +113,7 @@ def upload_to_r2(file):
 
             stream = BytesIO(data)
 
-        # Put object to bucket
+        # Upload using the full object_key (folder + filename)
         client.put_object(
             cast(str, bucket),
             object_key,
@@ -128,7 +123,9 @@ def upload_to_r2(file):
         )
 
         public_base_url = os.environ["PUBLIC_BASE_URL"]
-        public_url = f"{public_base_url}/ilikeitproperties/{filename}"
+        # FIX: Ensure the public URL matches the actual uploaded path
+        public_url = f"{public_base_url}/{object_key}"
+
         logger.info(f"Uploaded to R2: {public_url}")
         return public_url
 

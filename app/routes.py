@@ -252,17 +252,17 @@ def home():
     # We define the slide data here or directly in the HTML
     slides = [
         {
-            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_1.jpg",
+            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/hero_1.jpg",
             "title": "I Like It Properties",
             "sub": "At I Like It Properties, we believe deeply in People, Purpose and Properties",
         },
         {
-            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_2.jpg",
+            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/hero_2.jpg",
             "title": "Real Estate solutions",
             "sub": "Your trusted partner for seamless real estate solutions",
         },
         {
-            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/ilikeitproperties/hero_3.jpg",
+            "image": "https://pub-950077afaafe4cfc92639111581ed1ac.r2.dev/hero_3.jpg",
             "title": "Trusted Agency",
             "sub": "Partner with a team that champions informed choices, lasting relationships and property that truly delivers.",
         },
