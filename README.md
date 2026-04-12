@@ -32,7 +32,6 @@
 - [Acknowledgements](#acknowledgements)
 - [Developer Contact](#developer-contact)
 
-**This branch mirrors the master branch in functionality, with two key differences: it uses a different deployment method and includes SEO enhancements. In this branch, the website and database are hosted on Truehost for production.**
 
 ### NAME OF THE WEBSITE 
 ilikeitproperties
@@ -67,7 +66,7 @@ ilikeitproperties
 
 
 ### BRANCH 
-main(Production)
+main
 
 ### PROJECT'S BRIEF DESCRIPTION
 A dynamic, SEO-optimized real estate website built with Flask, Javascript, HTML, CSS, and Tailwind CSS, designed to showcase property listings and blog posts.
@@ -144,17 +143,6 @@ Secure backend for:
 
 #### Version Control
 - GitHub — source code management and collaboration
-
-### SETUP AND INSTALLATION INSTRUCTIONS
-Setup and installation instructions are maintained in the [master branch README](https://github.com/pekimnjenga/realestate/blob/master/README.md#setup-and-installation-instructions).
-
-Please refer to it for:
-
-- Local and Docker-based setup steps  
-- Environment configuration  
-- Database migration commands  
-- Quill.js integration  
-- Automated tests and pre-commit hook setup
 
 
 ### DEPLOYMENT STRATEGY
